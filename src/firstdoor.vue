@@ -1,0 +1,172 @@
+<template>
+    <div id="mapPage">
+        <div id="map"></div>
+        <input type="text" @keyup="search()" id="name">
+        <input type="button" @click="getHomeAddress()" value="받을 주소 불러오기">
+    </div>
+</template>
+<style scoped>
+#map {
+  width: 400px;
+  height: 400px;
+}
+</style>
+<script>
+import * as modules from './jslib';
+export default {
+   name :'firstdoor',
+    data() {
+    return {
+      map: null,//카카오지도 객체
+      destinationFlag:true,//받을 주소를 선택했는지 판별하는 플래그
+      destinationX:0,
+      destinationY:0,
+      maketX:0,
+      maketY:0,
+    };
+  },
+  created() {
+    //카카오 api head에넣기
+    const script = document.createElement("script");
+    /* global kakao */
+    script.onload = () => kakao.maps.load(this.initMap);
+    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
+    document.head.appendChild(script);
+    this.destinationFlag=sessionStorage.getItem("destinationFlag");
+    this.destinationX=sessionStorage.getItem("destinationX");
+    this.destinationY=sessionStorage.getItem("destinationY");
+  },
+  mounted(){
+    //기기 판별해서 지도 사이즈 조절
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = '650px';
+    mapContainer.style.height = '650px'; 
+  },
+  methods: {
+    getHomeAddress(){
+      var num=2;
+      var address=null;
+      if(num==1){
+        address='서울특별시 동작구 흑석동 서달로 2길';
+      }else{
+        address='서울특별시 동작구 흑석동 서달로 2길 29';
+      }
+      //카카오 위도경도로 주문 받을 주소 마커로 표사
+      var geocoder = new kakao.maps.services.Geocoder();
+      geocoder.addressSearch(address, (result, status)=> {
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) { 
+            this.destinationX=result[0].x;
+            this.destinationY=result[0].y
+            //배달받을 주소표사
+            this.showHomePlace(new kakao.maps.LatLng(this.destinationY, this.destinationX));
+            sessionStorage.setItem("destinationX",this.destinationX);
+            sessionStorage.setItem("destinationY",this.destinationY);
+            sessionStorage.setItem("destinationFlag",this.destinationFlag);
+        } 
+      });    
+    },
+    showHomePlace(place){
+      // 결과값으로 받은 위치를 마커로 표시합니다
+      var marker = this.getMarker(place);
+      // 인포윈도우로 장소에 대한 설명을 표시합니다
+      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">배달 받으실 주소</div>');
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+      this.map.setCenter(place);
+      this.destinationFlag=false;
+    },
+    initMap() {
+      const container = document.getElementById("map");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 5,
+      };
+      this.map = new kakao.maps.Map(container, options);
+      console.log(this.destinationFlag);
+      if(!this.destinationFlag==false){//false문자열로 저장되기 때문에 !로 형식변환
+          //배달받을 주소 표시
+          this.showHomePlace(new kakao.maps.LatLng(this.destinationY, this.destinationX));
+          //동적 사이즈 부여시(플랫폼별) 지도가 깨질수도있다고 하니 추가
+          this.map.relayout();
+      }
+    },
+    getMarker(place){
+      return new kakao.maps.Marker({
+                map: this.map,
+                position: place
+      });
+    },
+    showTextOnMaker(marker,text){
+       var infowindow =  new kakao.maps.InfoWindow({
+                content: text
+        }); //new kakao.maps.InfoWindow({zIndex:1});
+        //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        infowindow.open(this.map, marker);
+    },
+    search(){
+        var n=document.getElementById('name').value;
+        if(this.destinationFlag){
+          alert('배달 받으실 주소를 먼저 선택해주세요');
+          document.getElementById('name').value="";
+          return;
+        }
+        console.log("검색한 마트 키워드"+n);
+        // 장소 검색 객체를 생성합니다
+        var ps = new kakao.maps.services.Places();
+        // 키워드로 장소를 검색합니다
+        ps.keywordSearch(n, (result,status)=>{
+            if (status === kakao.maps.services.Status.OK) {
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                // LatLngBounds 객체에 좌표를 추가합니다
+                var bounds = new kakao.maps.LatLngBounds();
+                for (var i=0; i<result.length; i++) {
+                    console.log(result[i]);
+                    //상점혹은건물 사업종류를 꺼냄
+                    var category_name=result[i].category_name;
+                    var category_group_code=result[i].category_group_code;
+                    //MT1=대형마트,CS2=편의점, 일반 마트 슈퍼는 카테고리가 비어있음 그래서 카테코리 name으로 검출해야함
+                    if(category_group_code=='CS2'||category_group_code=='MT1'||category_name.includes('가정,생활 > 생활용품점')||category_name.includes('가정,생활 > 슈퍼마켓')||category_name.includes('가정,생활 > 식품판매 >')){
+                      this.displayMarker(result[i]);    
+                      bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
+                    }
+                }       
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                this.map.setBounds(bounds);
+            } 
+
+        });
+        
+    },
+    displayMarker(place) {
+        // 마커를 생성하고 지도에 표시합니다
+        var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
+        // 마커위에 상호명 표시
+        this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        //배열에 상점별 위도경도 저장합니다
+        //var obj = { name : 'jaehee', x : place.x,y:place.y };
+        var x=place.x;
+        var y=place.y;
+        var address=place.address_name;
+        var name=place.place_name;
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click',()=>{
+          console.log(x+" "+this.destinationX);
+          modules.requestGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).then(result=>{
+              console.log(result);
+              var re=result.data;
+              if(re.flag==false){
+                alert(re.message)
+                return;
+              }
+              if(confirm(re.message)){
+                location.href="/showLeaflet";
+              }
+          });          
+        });
+    } 
+  },
+ 
+   
+}
+
+</script>
