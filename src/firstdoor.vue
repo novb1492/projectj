@@ -2,15 +2,8 @@
     <div id="mapPage">
         <div id="map"></div>
         <input type="text" @keyup="search()" id="name">
-        <input type="button" @click="getHomeAddress()" value="받을 주소 불러오기">
     </div>
 </template>
-<style scoped>
-#map {
-  width: 400px;
-  height: 400px;
-}
-</style>
 <script>
 import * as modules from './jslib';
 export default {
@@ -23,9 +16,11 @@ export default {
       destinationY:0,
       maketX:0,
       maketY:0,
+      address:null,
     };
   },
   created() {
+    document.body.style.overflow = "hidden";
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -36,24 +31,23 @@ export default {
     this.destinationX=sessionStorage.getItem("destinationX");
     this.destinationY=sessionStorage.getItem("destinationY");
   },
-  mounted(){
+ /* mounted(){
     //기기 판별해서 지도 사이즈 조절
     var mapContainer = document.getElementById('map');
     mapContainer.style.width = '650px';
     mapContainer.style.height = '650px'; 
-  },
+  },*/
   methods: {
     getHomeAddress(){
-      var num=2;
-      var address=null;
-      if(num==1){
-        address='서울특별시 동작구 흑석동 서달로 2길';
+      this.address=sessionStorage.getItem("homeAddress");
+     /* if(num==1){
+        this.address='서울특별시 동작구 흑석동 서달로 2길';
       }else{
-        address='서울특별시 동작구 흑석동 서달로 2길 29';
-      }
+        this.address='서울특별시 동작구 흑석동 서달로 2길 29';
+      }*/
       //카카오 위도경도로 주문 받을 주소 마커로 표사
       var geocoder = new kakao.maps.services.Geocoder();
-      geocoder.addressSearch(address, (result, status)=> {
+      geocoder.addressSearch(this.address, (result, status)=> {
         // 정상적으로 검색이 완료됐으면 
         if (status === kakao.maps.services.Status.OK) { 
             this.destinationX=result[0].x;
@@ -87,8 +81,10 @@ export default {
           //배달받을 주소 표시
           this.showHomePlace(new kakao.maps.LatLng(this.destinationY, this.destinationX));
           //동적 사이즈 부여시(플랫폼별) 지도가 깨질수도있다고 하니 추가
-          this.map.relayout();
       }
+      container.style.width = window.innerWidth+'px';
+      container.style.height = window.innerHeight+'px';
+      this.map.relayout();
     },
     getMarker(place){
       return new kakao.maps.Marker({
