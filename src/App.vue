@@ -1,15 +1,20 @@
 <template>
   <div id="app">
+    <he />
     <router-view></router-view>
+    <foot />
   </div>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-
+import he from './components/layout/header.vue';
+import foot from './components/layout/footer.vue';
 export default {
   name: 'App',
   components: {
+    he,
+    foot
     //HelloWorld
   }
 }
@@ -22,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
