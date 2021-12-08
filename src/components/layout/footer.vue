@@ -8,6 +8,6 @@
 </style>
 <script>
 export default {
-  name: 'footer',
+  name: 'foot',
 }
 </script>
