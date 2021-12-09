@@ -1,7 +1,7 @@
 <template>
     <div id="mapPage">
         <div id="map"></div>
-        <input type="text" @keyup="search(null)" id="name">
+        <!--<input type="text" @keyup="search(null)" id="name">-->
     </div>
 </template>
 <script>
@@ -17,6 +17,8 @@ export default {
       maketX:0,
       maketY:0,
       address:null,
+      width:0,
+      height:0,
     };
   },
   created() {
@@ -34,6 +36,16 @@ export default {
     }
     this.destinationX=sessionStorage.getItem("destinationX");
     this.destinationY=sessionStorage.getItem("destinationY");
+   // window.addEventListener('resize', this.handleResize());
+  },
+  mounted(){
+    //리사이즈 될때 감지
+    window.onresize = ()=> {
+      const container = document.getElementById("map");
+      container.style.width = window.innerWidth+'px';
+      container.style.height = (window.innerHeight-150)+'px';
+      this.map.relayout();
+    };
   },
   methods: {
     showHomePlace(place){
@@ -54,7 +66,7 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       container.style.width = window.innerWidth+'px';
-      container.style.height = 300+'px';
+      container.style.height = (window.innerHeight-150)+'px';
       this.map.relayout();
       if(this.destinationFlag){//false문자열로 저장되기 때문에 !로 형식변환
         console.log('주소 검색기록 존재');

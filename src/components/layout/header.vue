@@ -1,8 +1,9 @@
 <template>
+  <div v-if="useHeader()">
   <div class="he">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">JangBoGo</a>
+    <a class="navbar-brand "  href="/"><p class="pinkText">JangBoGo</p></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -21,7 +22,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
@@ -39,12 +40,9 @@
   </div>
 </nav>
 {{loginFlag}}
-    <input type="button" @click="showHomeAddress()" value="받을 주소 불러오기">
   </div>
+</div>
 </template>
-<style>
- .he{margin-bottom: 60px;}
-</style>
 <script>
 import * as modules from '../../jslib';
 export default {
@@ -66,14 +64,23 @@ export default {
     recaptchaScript.setAttribute('integrity','sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC');
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
-    modules.requestGet('http://localhost:8080/loginCheck').then(result=>{
-    var res=result.data;
-      if(res.flag){
-          this.loginFlag=true;
-      }
-    });
   },
   methods : {
+    useHeader(){
+        var showOrNot=true;
+        var uri=location.pathname;
+        if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'){
+           showOrNot= false;
+        }else{
+          modules.requestGet('http://localhost:8080/loginCheck').then(result=>{
+            var res=result.data;
+              if(res.flag){
+                  this.loginFlag=true;
+              }
+          });
+        }
+        return showOrNot;
+    },
     showHomeAddress(){
       if(!this.loginFlag){
         alert('로그인후 주소를 불러와주세요');
