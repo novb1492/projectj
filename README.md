@@ -49,5 +49,6 @@ merge완료
 2.네비바 로그인 여부 구분  
 3.window.onresize를 이용해 리사이즈 감지  
 4.메인 링크는 분홍색  
-firstdoor와 병합완료
+병합완료
 >>>>>>> firstdoor
+
