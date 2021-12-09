@@ -4,7 +4,6 @@
   </div>
 </template>
 <style>
- .foot{margin-top: 60px;}
 </style>
 <script>
 export default {

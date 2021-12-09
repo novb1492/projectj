@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style>
+.pinkText{color: pink;}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
