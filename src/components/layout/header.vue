@@ -2,7 +2,7 @@
   <div class="he">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">JangBoGo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -14,6 +14,7 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
+          <div v-if="loginFlag">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown
@@ -25,6 +26,7 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        </div>
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
@@ -36,6 +38,7 @@
     </div>
   </div>
 </nav>
+{{loginFlag}}
     <input type="button" @click="showHomeAddress()" value="받을 주소 불러오기">
   </div>
 </template>
@@ -43,10 +46,12 @@
  .he{margin-bottom: 60px;}
 </style>
 <script>
+import * as modules from '../../jslib';
 export default {
   name: 'he',
   data() {
     return {
+      loginFlag:false
     }
   },
   created() {
@@ -61,14 +66,24 @@ export default {
     recaptchaScript.setAttribute('integrity','sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC');
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
+    modules.requestGet('http://localhost:8080/loginCheck').then(result=>{
+    var res=result.data;
+      if(res.flag){
+          this.loginFlag=true;
+      }
+    });
   },
   methods : {
     showHomeAddress(){
-        console.log('주소부여');
-        sessionStorage.setItem("homeAddress","서울특별시 동작구 흑석동 서달로 2길 29");
-        sessionStorage.setItem("destinationFlag",true);
-        console.log(sessionStorage.getItem("homeAddress"));   
-        location.reload();
+      if(!this.loginFlag){
+        alert('로그인후 주소를 불러와주세요');
+        return;
+      }
+      console.log('주소부여');
+      sessionStorage.setItem("homeAddress","서울특별시 동작구 흑석동 서달로 2길 29");
+      sessionStorage.setItem("destinationFlag",true);
+      console.log(sessionStorage.getItem("homeAddress"));   
+      location.reload();
     },
   }
 }
