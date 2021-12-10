@@ -6,3 +6,6 @@ export function requestGet(url){
 export function a(){
     alert('a');
 }
+export function getValueById(id){
+    return document.getElementById(id).value;
+}
