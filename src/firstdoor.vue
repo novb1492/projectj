@@ -33,10 +33,14 @@ export default {
     //배달받을 주소를 검색하면 무조건 세션에 남음 없다면 null 대신 false 부여
     if(this.destinationFlag==null){
       this.destinationFlag=false;
+    }else{
+      this.destinationX=sessionStorage.getItem("destinationX");
+      this.destinationY=sessionStorage.getItem("destinationY");
+      //EventBus.$on('message', this.onReceive);
     }
-    this.destinationX=sessionStorage.getItem("destinationX");
-    this.destinationY=sessionStorage.getItem("destinationY");
-   // window.addEventListener('resize', this.handleResize());
+    this.$EventBus.$on('fetchData', function(text) {
+    console.log(text);
+});
   },
   mounted(){
     //리사이즈 될때 감지

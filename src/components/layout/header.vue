@@ -39,7 +39,7 @@
     </div>
   </div>
 </nav>
-{{loginFlag}}
+{{loginFlag}}<button v-on:click="clickBtn">HelloWorld</button>
   </div>
 </div>
 </template>
@@ -49,7 +49,8 @@ export default {
   name: 'he',
   data() {
     return {
-      loginFlag:false
+      loginFlag:false,
+      searchText:null,
     }
   },
   created() {
@@ -66,6 +67,10 @@ export default {
     document.head.appendChild(recaptchaScript);
   },
   methods : {
+    clickBtn(){
+      console.log('clikc');
+      this.$EventBus.$emit('fetchData', 'testtest');
+    },
     useHeader(){
         var showOrNot=true;
         var uri=location.pathname;
