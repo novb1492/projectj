@@ -33,10 +33,16 @@ export default {
     //배달받을 주소를 검색하면 무조건 세션에 남음 없다면 null 대신 false 부여
     if(this.destinationFlag==null){
       this.destinationFlag=false;
+    }else{
+      this.destinationX=sessionStorage.getItem("destinationX");
+      this.destinationY=sessionStorage.getItem("destinationY");
+      //EventBus.$on('message', this.onReceive);
     }
-    this.destinationX=sessionStorage.getItem("destinationX");
-    this.destinationY=sessionStorage.getItem("destinationY");
-   // window.addEventListener('resize', this.handleResize());
+    this.$EventBus.$on('searchStore',text=>{
+      console.log(text);
+      sessionStorage.setItem('findStore',text);
+      this.search(text);
+    });
   },
   mounted(){
     //리사이즈 될때 감지
@@ -108,20 +114,20 @@ export default {
     },
     search(va){
         var n=va;
-        if(n==null){
+        /*if(n==null){
           console.log("마트검색 기록 미존재");
           n= document.getElementById('name').value;
         }else{
           console.log('마트 검색 기록 존재');
           document.getElementById('name').value=n;
           n=va;
-        }
+        }*/
         console.log("배달 받을 주소 선택 여부 "+this.destinationFlag);
-        if(this.destinationFlag==false){
+       /* if(this.destinationFlag==false){
           alert('배달 받으실 주소를 먼저 선택해주세요');
           document.getElementById('name').value="";
           return;
-        }
+        }*/
         console.log("검색한 마트 키워드"+n);
         // 장소 검색 객체를 생성합니다
         var ps = new kakao.maps.services.Places();

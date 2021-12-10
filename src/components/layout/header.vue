@@ -33,7 +33,7 @@
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" id="search" type="search" placeholder="Search" @keyup="callFirstDoor(null)" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
@@ -49,7 +49,8 @@ export default {
   name: 'he',
   data() {
     return {
-      loginFlag:false
+      loginFlag:false,
+      searchText:null,
     }
   },
   created() {
@@ -64,8 +65,22 @@ export default {
     recaptchaScript.setAttribute('integrity','sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC');
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
+    var storeKeyword=sessionStorage.getItem('findStore');
+    if(storeKeyword!=null){
+       this.$EventBus.$emit('searchStore',storeKeyword);
+    }
   },
   methods : {
+    callFirstDoor(store){
+      console.log(store);
+      var storeKeyword=null;
+      if(store!=null){
+        storeKeyword=store;
+      }else{
+        storeKeyword=modules.getValueById('search');
+      }
+      this.$EventBus.$emit('searchStore',storeKeyword);
+    },
     useHeader(){
         var showOrNot=true;
         var uri=location.pathname;
