@@ -21,6 +21,10 @@ export default {
 </script>
 
 <style>
+.ml135{margin-left: 135px;}
+.ml105{margin-left: 105px;}
+.ml45{margin-left: 45px;}
+.ml120{margin-left: 120px;}
 ul{list-style:none;}
 .pinkText{color: pink; margin: 0px;}
 .giveCenter {

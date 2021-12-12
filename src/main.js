@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+import VueDaumPostcode from "vue-daum-postcode"
 
+Vue.use(VueDaumPostcode)
 Vue.config.productionTip = false;
 Vue.prototype.$EventBus = new Vue();
 //import he from './components/layout/header.vue';

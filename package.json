@@ -10,7 +10,9 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "react-daum-postcode": "^3.0.1",
     "vue": "^2.6.11",
+    "vue-daum-postcode": "^0.10.0",
     "vue-router": "^3.5.3"
   },
   "devDependencies": {

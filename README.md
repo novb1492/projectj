@@ -64,4 +64,9 @@ merge완료
 2021-12-12  
 1.회원가입 구현시작  
 2.ul태그 점 제거/app 가운데 정렬 분할  
-  
+3.카카오 우편번호 npm  
+-npm install vue-daum-postcode --save  
+import VueDaumPostcode from "vue-daum-postcode"    
+Vue.use(VueDaumPostcode) 까먹지 말고  
+4.회원가입 창크기 고정  
+-window.resizeTo(500,900)  

@@ -1,5 +1,5 @@
 <template>
-  <div class="foot">
+  <div class="foot giveCenter">
       풋터
   </div>
 </template>
