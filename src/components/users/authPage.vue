@@ -17,13 +17,16 @@ export default {
   data(){
       return{
         scope:null,
+        detail:null,
         phone:'phone',
         email:'email',
       };
   },
   created(){
     this.scope=modules.getParam('scope');
+    this.detail=modules.getParam('detail');
     console.log('인증수단: '+this.scope);
+    console.log('사용 분류: '+this.detail);
     if(this.scope!=this.phone&&this.scope!=this.email){
         modules.wrongAccese();
     }
@@ -41,25 +44,12 @@ export default {
         let data=JSON.stringify({
             "type":this.scope,
             "val":val,
+            "detail":this.detail
         });
-        close('tt',true);
         modules.requestPost('http://localhost:8080/sns',data).then(result=>{
             var res=result.data;
-            if(res.message=='newToken'){
-                modules.requestPost().then(result=>{
-                    res=result.data;
-                    close(res.message,res.flag);
-                });
-                return;
-            }
-            close(res.message,res.flag);
+            alert(res.message);
         });
-      },
-      close(message,flag){
-           alert(message);
-            if(flag){
-                document.getElementById('sendnum').disabled=true;
-            }
       },
   },
 }

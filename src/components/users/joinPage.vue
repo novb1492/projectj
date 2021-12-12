@@ -68,7 +68,7 @@
     </div>
     <div class="mb-2">
       <input type="button" @click="showAuthPage('phone')" value="전화인증" />
-      <input type="button" value="이메일인증" />
+      <input type="button" @click="showAuthPage('email')" value="이메일인증" />
     </div>
   </div>
 </template>
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
       showAuthPage(type){
-        modules.openPOPup('/authPage?scope='+type,'authPage',300,300);
+        modules.openPOPup('/authPage?scope='+type+'&detail=auth','authPage',300,300);
       },
       initMap() {
       //불러오기
