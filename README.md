@@ -70,3 +70,6 @@ import VueDaumPostcode from "vue-daum-postcode"
 Vue.use(VueDaumPostcode) 까먹지 말고  
 4.회원가입 창크기 고정  
 -window.resizeTo(500,900)  
+5.회원가입 전 회원 분류  
+-생각해보니 회원가입전 기업구매,판매자/개인회원을 나눠서 받아야한다  
+6.기업회원가입시 주소검색후 지도 까지 표시  

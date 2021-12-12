@@ -151,6 +151,8 @@ export default {
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                 this.map.setBounds(bounds);
                 sessionStorage.setItem("searchStore",n);
+            }else{
+              alert('검색 내역이 없습니다');
             } 
 
         });

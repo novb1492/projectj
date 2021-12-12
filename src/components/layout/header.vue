@@ -31,7 +31,7 @@
             </div>
             <div v-else>
               <li><a class="dropdown-item" href="#">로그인</a></li>
-              <li><a class="dropdown-item" href="#" @click="openPopUP('/joinPage','userpopup',500,900)">회원가입</a></li>
+              <li><a class="dropdown-item" href="#" @click="openPopUP('/beforeJoinPage','userpopup',500,900)">회원가입</a></li>
             </div>
           </ul>
         </li>
@@ -79,7 +79,7 @@ export default {
   },
   methods : {
     openPopUP(uri,popName,width,height){
-      window.open(uri,popName, 'width='+width+', height='+height+'','resizable=no');
+      modules.openPOPup(uri,popName,width,height);
     },
     callFirstDoor(store){
       console.log(store);
