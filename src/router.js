@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import firstdoor from './firstdoor.vue';
-import showLeafletPage from './components/storeViews/showLeafletPage.vue'
-
+import showLeafletPage from './components/storeViews/showLeafletPage.vue';
+import loginPage from './components/users/loginPage.vue';
+import joinPage from './components/users/joinPage.vue';
+import beforeJoinPage from './components/users/beforeJoinPage.vue';
+import authPage from './components/users/authPage.vue';
 Vue.use(VueRouter);
 const router =new VueRouter({
     mode:'history',
@@ -10,6 +13,10 @@ const router =new VueRouter({
     routes: [
       {path:'/',component: firstdoor},  
       {path:'/showLeaflet',component: showLeafletPage}, 
+      {path:'/loginPage',component:loginPage},
+      { path: '/joinPage', component: joinPage },
+      {path:'/beforeJoinPage',component:beforeJoinPage},
+      {path: '/authPage',component:authPage},
     ]
 });
 export default router;

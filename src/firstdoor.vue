@@ -19,10 +19,14 @@ export default {
       address:null,
       width:0,
       height:0,
+      marker:null,
+      infowindowFlag:false,
+      makers:[],
+      inforWindows:[],
     };
   },
   created() {
-    document.body.style.overflow = "hidden";
+
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -39,8 +43,6 @@ export default {
       //EventBus.$on('message', this.onReceive);
     }
     this.$EventBus.$on('searchStore',text=>{
-      console.log(text);
-      sessionStorage.setItem('findStore',text);
       this.search(text);
     });
   },
@@ -100,10 +102,11 @@ export default {
       }
     },
     getMarker(place){
-      return new kakao.maps.Marker({
+      this.marker= new kakao.maps.Marker({
                 map: this.map,
                 position: place
       });
+      return this.marker;
     },
     showTextOnMaker(marker,text){
        var infowindow =  new kakao.maps.InfoWindow({
@@ -111,29 +114,24 @@ export default {
         }); //new kakao.maps.InfoWindow({zIndex:1});
         //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
         infowindow.open(this.map, marker);
+        return infowindow;
     },
     search(va){
         var n=va;
-        /*if(n==null){
-          console.log("마트검색 기록 미존재");
-          n= document.getElementById('name').value;
-        }else{
-          console.log('마트 검색 기록 존재');
-          document.getElementById('name').value=n;
-          n=va;
-        }*/
-        console.log("배달 받을 주소 선택 여부 "+this.destinationFlag);
-       /* if(this.destinationFlag==false){
-          alert('배달 받으실 주소를 먼저 선택해주세요');
-          document.getElementById('name').value="";
-          return;
-        }*/
         console.log("검색한 마트 키워드"+n);
         // 장소 검색 객체를 생성합니다
         var ps = new kakao.maps.services.Places();
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(n, (result,status)=>{
             if (status === kakao.maps.services.Status.OK) {
+              var size=this.makers.length;
+              console.log(this.inforWindows);
+              for(var ii=0;ii<size;ii++){
+                  this.makers[ii].setMap(null);
+                  this.inforWindows[ii].close();
+              }
+              this.makers=[];
+              this.inforWindows=[];
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 var bounds = new kakao.maps.LatLngBounds();
@@ -151,6 +149,8 @@ export default {
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                 this.map.setBounds(bounds);
                 sessionStorage.setItem("searchStore",n);
+            }else{
+              alert('검색 내역이 없습니다');
             } 
 
         });
@@ -158,8 +158,10 @@ export default {
     displayMarker(place) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
+        this.makers.push(this.marker);
         // 마커위에 상호명 표시
-        this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        var infor=this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        this.inforWindows.push(infor);
         //배열에 상점별 위도경도 저장합니다
         //var obj = { name : 'jaehee', x : place.x,y:place.y };
         var x=place.x;

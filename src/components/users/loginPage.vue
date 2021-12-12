@@ -1,12 +1,12 @@
 <template>
-  <div class="foot giveCenter">
-      풋터
+  <div class="loginPage">
+      
   </div>
 </template>
 <style>
 </style>
 <script>
 export default {
-  name: 'foot',
+  name: 'loginPage',
 }
 </script>

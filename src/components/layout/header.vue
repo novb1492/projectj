@@ -15,26 +15,33 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
-          <div v-if="loginFlag">
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+            User
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
+            <div v-if="loginFlag">
+            <li><a class="dropdown-item" href="#">장바구니가기</a></li>
             <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">마이페이지</a></li>
+            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">주문내역 보기</a></li>
+            <!--<li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+            </div>
+            <div v-else>
+              <li><a class="dropdown-item" href="#">로그인</a></li>
+              <li><a class="dropdown-item" href="#" @click="openPopUP('/beforeJoinPage','userpopup',500,900)">회원가입</a></li>
+            </div>
           </ul>
         </li>
-        </div>
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" id="search" type="search" placeholder="Search" @keyup="callFirstDoor(null)" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" id="search" type="search" placeholder="매장을 검색해주세요" aria-label="Search">
+        <button class="btn btn-outline-success" @click="callFirstDoor()" type="button">Search</button>
       </form>
     </div>
   </div>
@@ -50,7 +57,7 @@ export default {
   data() {
     return {
       loginFlag:false,
-      searchText:null,
+
     }
   },
   created() {
@@ -71,20 +78,17 @@ export default {
     }
   },
   methods : {
-    callFirstDoor(store){
-      console.log(store);
-      var storeKeyword=null;
-      if(store!=null){
-        storeKeyword=store;
-      }else{
-        storeKeyword=modules.getValueById('search');
-      }
+    openPopUP(uri,popName,width,height){
+      modules.openPOPup(uri,popName,width,height);
+    },
+    callFirstDoor(){
+      var storeKeyword=modules.getValueById('search');
       this.$EventBus.$emit('searchStore',storeKeyword);
     },
     useHeader(){
         var showOrNot=true;
         var uri=location.pathname;
-        if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'){
+        if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'||uri=='/beforeJoinPage'||uri=='/authPage'){
            showOrNot= false;
         }else{
           modules.requestGet('http://localhost:8080/loginCheck').then(result=>{

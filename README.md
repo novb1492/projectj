@@ -61,6 +61,30 @@ merge완료
 2021-12-10  
 1.다른컴포넌트간 통신성공  
 -eventbus를 이용했다  
+<<<<<<< HEAD
 병합시도
 >>>>>>> firstdoor
+=======
+병합시도/병합성공
+>>>>>>> firstdoor
 
+2021-12-11  
+1.로그인 구현시작  
+-회원가입 부터 구현시작  
+
+2021-12-12  
+1.회원가입 구현시작  
+2.ul태그 점 제거/app 가운데 정렬 분할  
+3.카카오 우편번호 npm  
+-npm install vue-daum-postcode --save  
+import VueDaumPostcode from "vue-daum-postcode"    
+Vue.use(VueDaumPostcode) 까먹지 말고  
+4.회원가입 창크기 고정  
+-window.resizeTo(500,900)  
+5.회원가입 전 회원 분류  
+-생각해보니 회원가입전 기업구매,판매자/개인회원을 나눠서 받아야한다  
+6.기업회원가입시 주소검색후 지도 까지 표시 
+7.지도 검색이 달라 졌을때 마커/인포윈도우 제어중  
+-배열에 넣고 제어하자   
+8.인증페이지 제작  
+병합시도/
