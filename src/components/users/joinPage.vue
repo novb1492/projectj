@@ -87,6 +87,9 @@ export default {
       storex:0,
       storey:0,
       map:null,
+      marker:null,
+      markers:[],
+      infowindows:[],
     };
   },
   created(){
@@ -125,10 +128,15 @@ export default {
       this.map.relayout();
     },
      getMarker(place){
-      return new kakao.maps.Marker({
+      if(this.markerFlag){
+        this.marker.setMap(null);
+      }
+      this.markerFlag=true;
+      this.marker= new kakao.maps.Marker({
                 map: this.map,
                 position: place
       });
+      return this.marker;
   },
     onComplete(result) {
       console.log(result);
@@ -154,6 +162,10 @@ export default {
       } 
     },
      showTextOnMaker(marker,text){
+       if(this.infowindowFlag){
+          infowindow.open(this.map, null);
+       }
+       this.infowindowFlag=true;
        var infowindow =  new kakao.maps.InfoWindow({
                 content: text
         }); //new kakao.maps.InfoWindow({zIndex:1});
@@ -166,7 +178,8 @@ export default {
       // 결과값으로 받은 위치를 마커로 표시합니다
       var marker = this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">기업의 위치입니다</div>');
+      var inforWindow=this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">기업의 위치입니다</div>');
+      this.infowindows.push(inforWindow);
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },

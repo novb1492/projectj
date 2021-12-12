@@ -41,7 +41,7 @@
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" id="search" type="search" placeholder="매장을 검색해주세요" aria-label="Search">
-        <button class="btn btn-outline-success" @click="callFirstDoor(null)" type="button">Search</button>
+        <button class="btn btn-outline-success" @click="callFirstDoor()" type="button">Search</button>
       </form>
     </div>
   </div>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       loginFlag:false,
-      searchText:null,
+
     }
   },
   created() {
@@ -81,14 +81,8 @@ export default {
     openPopUP(uri,popName,width,height){
       modules.openPOPup(uri,popName,width,height);
     },
-    callFirstDoor(store){
-      console.log(store);
-      var storeKeyword=null;
-      if(store!=null){
-        storeKeyword=store;
-      }else{
-        storeKeyword=modules.getValueById('search');
-      }
+    callFirstDoor(){
+      var storeKeyword=modules.getValueById('search');
       this.$EventBus.$emit('searchStore',storeKeyword);
     },
     useHeader(){
