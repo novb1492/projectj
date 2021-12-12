@@ -22,6 +22,7 @@ export default {
       marker:null,
       infowindowFlag:false,
       makers:[],
+      inforWindows:[],
     };
   },
   created() {
@@ -124,10 +125,13 @@ export default {
         ps.keywordSearch(n, (result,status)=>{
             if (status === kakao.maps.services.Status.OK) {
               var size=this.makers.length;
+              console.log(this.inforWindows);
               for(var ii=0;ii<size;ii++){
                   this.makers[ii].setMap(null);
+                  this.inforWindows[ii].close();
               }
-            this.makers=[];
+              this.makers=[];
+              this.inforWindows=[];
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 var bounds = new kakao.maps.LatLngBounds();
@@ -156,7 +160,8 @@ export default {
         var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
         this.makers.push(this.marker);
         // 마커위에 상호명 표시
-        this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        var infor=this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        this.inforWindows.push(infor);
         //배열에 상점별 위도경도 저장합니다
         //var obj = { name : 'jaehee', x : place.x,y:place.y };
         var x=place.x;

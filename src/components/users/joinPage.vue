@@ -4,7 +4,7 @@
     <hr />
     <div class="mb-2">
       <span>이메일</span
-      ><input type="email" class="ml120" placeholder="이메일을 입력해주세요" />
+      ><input type="email" id="email" class="ml120" placeholder="이메일을 입력해주세요" />
     </div>
     <div class="mb-2">
       <span>비밀번호</span
@@ -67,7 +67,7 @@
       />
     </div>
     <div class="mb-2">
-      <input type="button" value="전화인증" />
+      <input type="button" @click="showAuthPage('phone')" value="전화인증" />
       <input type="button" value="이메일인증" />
     </div>
   </div>
@@ -88,13 +88,16 @@ export default {
       storey:0,
       map:null,
       marker:null,
-      markers:[],
-      infowindows:[],
+      infowindow:null,
     };
   },
   created(){
     this.scope=modules.getParam('scope');
     console.log('회원가입 유형: '+this.scope);
+    if(this.scope!=this.buyer&&this.scope!=this.seller&&this.scope!=this.persnal){
+      alert('잘못된 접근');
+      location.href='/';
+    }
     //기업회원만지도표시
     if(this.scope!=this.persnal){
       //카카오 api head에넣기
@@ -112,6 +115,9 @@ export default {
     };
   },
   methods: {
+      showAuthPage(type){
+        modules.openPOPup('/authPage?scope='+type,'authPage',300,300);
+      },
       initMap() {
       //불러오기
       const container = document.getElementById("map");
@@ -128,10 +134,11 @@ export default {
       this.map.relayout();
     },
      getMarker(place){
-      if(this.markerFlag){
-        this.marker.setMap(null);
-      }
-      this.markerFlag=true;
+       //이전 마커가 존재 한다면 null아니다
+       if(this.marker!=null){
+          this.marker.setMap(null);//이전 마커 지우기
+       }
+       //새마커 설정
       this.marker= new kakao.maps.Marker({
                 map: this.map,
                 position: place
@@ -162,24 +169,24 @@ export default {
       } 
     },
      showTextOnMaker(marker,text){
-       if(this.infowindowFlag){
-          infowindow.open(this.map, null);
+       //이미 인포 윈도우가 존재 한다면 지워줘야한다
+       if(this.infowindow!=null){
+         this.infowindow.close();
        }
-       this.infowindowFlag=true;
-       var infowindow =  new kakao.maps.InfoWindow({
+       //새로 그릴 정보 만들기
+        this.infowindow =  new kakao.maps.InfoWindow({
                 content: text
         }); //new kakao.maps.InfoWindow({zIndex:1});
         //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-        infowindow.open(this.map, marker);
+        //마커위치에 표시
+        this.infowindow.open(this.map, marker);
     },
     showCompanyPlace(place){
       console.log(place);
-
       // 결과값으로 받은 위치를 마커로 표시합니다
       var marker = this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      var inforWindow=this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">기업의 위치입니다</div>');
-      this.infowindows.push(inforWindow);
+      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">기업의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },

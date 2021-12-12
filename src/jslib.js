@@ -22,3 +22,11 @@ export function getParam(sname) {
     }
     return sval;
 }
+export function requestPost(url,data){
+    return  axios.post(url,data,{
+      headers: {
+          "Content-Type": `application/json`,
+      },
+      withCredentials: true ,
+  });
+}
