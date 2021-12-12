@@ -31,7 +31,7 @@
             </div>
             <div v-else>
               <li><a class="dropdown-item" href="#">로그인</a></li>
-              <li><a class="dropdown-item" href="#" @click="showHomeAddress()">회원가입</a></li>
+              <li><a class="dropdown-item" href="#" @click="openPopUP('/joinPage','userpopup',500,900)">회원가입</a></li>
             </div>
           </ul>
         </li>
@@ -40,8 +40,8 @@
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" id="search" type="search" placeholder="Search" @keyup="callFirstDoor(null)" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" id="search" type="search" placeholder="매장을 검색해주세요" aria-label="Search">
+        <button class="btn btn-outline-success" @click="callFirstDoor(null)" type="button">Search</button>
       </form>
     </div>
   </div>
@@ -78,6 +78,9 @@ export default {
     }
   },
   methods : {
+    openPopUP(uri,popName,width,height){
+      window.open(uri,popName, 'width='+width+', height='+height+'','resizable=no');
+    },
     callFirstDoor(store){
       console.log(store);
       var storeKeyword=null;
