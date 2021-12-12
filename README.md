@@ -77,3 +77,4 @@ Vue.use(VueDaumPostcode) 까먹지 말고
 -배열에 넣고 제어하자   
 8.인증페이지 제작  
 병합시도/병합성공  
+join branch만듬  
