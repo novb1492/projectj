@@ -30,3 +30,7 @@ export function requestPost(url,data){
       withCredentials: true ,
   });
 }
+export function wrongAccese(){
+    alert('잘못된 접근입니다');
+    location.href='/';
+}

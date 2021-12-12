@@ -95,8 +95,7 @@ export default {
     this.scope=modules.getParam('scope');
     console.log('회원가입 유형: '+this.scope);
     if(this.scope!=this.buyer&&this.scope!=this.seller&&this.scope!=this.persnal){
-      alert('잘못된 접근');
-      location.href='/';
+      modules.wrongAccese();
     }
     //기업회원만지도표시
     if(this.scope!=this.persnal){
