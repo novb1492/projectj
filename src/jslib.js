@@ -39,3 +39,6 @@ export function checkNull(val){
         return true;
     }
 }
+export function disabledById(id,flag){
+    document.getElementById(id).disabled=flag;
+}

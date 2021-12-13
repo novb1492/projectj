@@ -16,11 +16,11 @@ const router =new VueRouter({
       {path:'/',component: firstdoor},  
       {path:'/showLeaflet',component: showLeafletPage}, 
       {path:'/loginPage',component:loginPage},
-      { path: '/joinPage', component: joinPage },
+      {path: '/joinPage', component: joinPage },
       {path:'/beforeJoinPage',component:beforeJoinPage},
       {path: '/authPage',component:authPage},
-      {path:'./loginPage',component:loginPage},
-      {path:'./findAccountPage',component:findAccountPage},
+      {path:'/loginPage',component:loginPage},
+      {path:'/findAccountPage',component:findAccountPage},
     ]
 });
 export default router;
