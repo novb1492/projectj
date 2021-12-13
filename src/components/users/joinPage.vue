@@ -115,6 +115,16 @@ export default {
   },
   methods: {
       showAuthPage(type){
+        var message='휴대폰을 입력해주세요';
+        var vl=document.getElementById('phone').value;
+        if(type=='email'){  
+          message='이메일을 입력해주세요';
+          vl=document.getElementById('email').value;
+        }
+        if(modules.checkNull(vl)){
+          alert(message);
+          return;
+        }
         modules.openPOPup('/authPage?scope='+type+'&detail=auth','authPage',300,300);
       },
       initMap() {

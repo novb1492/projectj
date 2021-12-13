@@ -26,7 +26,6 @@ export default {
     };
   },
   created() {
-
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */

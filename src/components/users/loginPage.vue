@@ -8,5 +8,11 @@
 <script>
 export default {
   name: 'loginPage',
+  data(){
+    return{
+
+    };
+  },
+  
 }
 </script>
