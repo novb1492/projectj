@@ -72,9 +72,11 @@ export default {
     recaptchaScript.setAttribute('integrity','sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC');
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
+  },
+  mounted(){
     var storeKeyword=sessionStorage.getItem('findStore');
     if(storeKeyword!=null){
-       this.$EventBus.$emit('searchStore',storeKeyword);
+      this.$EventBus.$emit('searchStore',storeKeyword);
     }
   },
   methods : {
@@ -83,6 +85,7 @@ export default {
     },
     callFirstDoor(){
       var storeKeyword=modules.getValueById('search');
+      sessionStorage.setItem('findStore',storeKeyword);
       this.$EventBus.$emit('searchStore',storeKeyword);
     },
     useHeader(){

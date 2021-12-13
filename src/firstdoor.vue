@@ -32,16 +32,10 @@ export default {
     script.onload = () => kakao.maps.load(this.initMap);
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
-    this.destinationFlag=sessionStorage.getItem("destinationFlag");
-    //배달받을 주소를 검색하면 무조건 세션에 남음 없다면 null 대신 false 부여
-    if(this.destinationFlag==null){
-      this.destinationFlag=false;
-    }else{
-      this.destinationX=sessionStorage.getItem("destinationX");
-      this.destinationY=sessionStorage.getItem("destinationY");
-      //EventBus.$on('message', this.onReceive);
-    }
     this.$EventBus.$on('searchStore',text=>{
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
+      document.head.appendChild(script);
       this.search(text);
     });
   },
