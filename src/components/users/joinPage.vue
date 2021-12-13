@@ -1,7 +1,6 @@
 <template>
   <div class="joinPage giveCenter">
-    <h1><p class="pinkText mt-3">JangBoGo</p></h1>
-    <hr />
+    <short-logo/>
     <div class="mb-2">
       <span>이메일</span
       ><input type="email" id="email" class="ml120" placeholder="이메일을 입력해주세요" />

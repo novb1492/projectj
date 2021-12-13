@@ -1,7 +1,6 @@
 <template>
   <div class="authPage giveCenter">
-    <h1><p class="pinkText mt-3">JangBoGo</p></h1>
-    <hr>
+    <short-logo/>
     <input type="button" @click="sendnum" id="sendnum" value="인증번호 전송">
     <div>인증번호를 입력해주세요</div>
     <input type="text" placeholder="인증번호를 입력해주세요" id="authnum">
@@ -12,7 +11,9 @@
 </style>
 <script>
 import * as modules from '../../jslib';
+import shortLogo from '../layout/shortLogo.vue';
 export default {
+  components: { shortLogo },
   name: 'authPage',
   data(){
       return{
