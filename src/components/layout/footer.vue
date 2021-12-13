@@ -1,5 +1,6 @@
 <template>
   <div class="foot giveCenter">
+    <hr>
       풋터
   </div>
 </template>
