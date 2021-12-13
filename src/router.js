@@ -6,7 +6,7 @@ import loginPage from './components/users/loginPage.vue';
 import joinPage from './components/users/joinPage.vue';
 import beforeJoinPage from './components/users/beforeJoinPage.vue';
 import authPage from './components/users/authPage.vue';
-
+import findAccountPage from './components/users/findAccountPage.vue';
 
 Vue.use(VueRouter);
 const router =new VueRouter({
@@ -20,6 +20,7 @@ const router =new VueRouter({
       {path:'/beforeJoinPage',component:beforeJoinPage},
       {path: '/authPage',component:authPage},
       {path:'./loginPage',component:loginPage},
+      {path:'./findAccountPage',component:findAccountPage},
     ]
 });
 export default router;

@@ -7,8 +7,9 @@
       <input type="password">
       <input type="button" value="로그인">
       <br>
-      <input type="button" class="mt-3" value="네이버로그인"><input type="button" value="카카오로그인">
-
+      <input type="button" class="mb-3 mt-3 mr20" value="네이버로그인"><input type="button" value="카카오로그인">
+      <br>
+      <a href="/findAccountPage?scope=email" class="mr20">이메일 찾기</a><a href="/findAccountPage?scope=pwd">비밀번호 찾기</a>
   </div>
 </template>
 <style>

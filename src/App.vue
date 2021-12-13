@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style>
+.mr20{margin-right: 20px;}
 a{ text-decoration:none }
 .ml135{margin-left: 135px;}
 .ml105{margin-left: 105px;}
