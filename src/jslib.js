@@ -34,3 +34,8 @@ export function wrongAccese(){
     alert('잘못된 접근입니다');
     location.href='/';
 }
+export function checkNull(val){
+    if(val==null||val==undefined||val==''){
+        return true;
+    }
+}

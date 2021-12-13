@@ -20,6 +20,7 @@ export default {
         detail:null,
         phone:'phone',
         email:'email',
+        val:null,
       };
   },
   created(){
@@ -30,20 +31,19 @@ export default {
     if(this.scope!=this.phone&&this.scope!=this.email){
         modules.wrongAccese();
     }
+    if(this.scope=='phone'){
+      this.val=opener.document.getElementById("phone").value;
+    }else if(this.scope=='email'){
+      this.val=opener.document.getElementById("email").value;
+    }else{
+      modules.wrongAccese();
+    }
   },
   methods:{
       sendnum(){
-        var val=null;
-        if(this.scope=='phone'){
-            val=opener.document.getElementById("phone").value;
-        }else if(this.scope=='email'){
-            val=opener.document.getElementById("email").value;
-        }else{
-            modules.wrongAccese();
-        }
         let data=JSON.stringify({
             "type":this.scope,
-            "val":val,
+            "val":this.val,
             "detail":this.detail
         });
         modules.requestPost('http://localhost:8080/sns',data).then(result=>{
