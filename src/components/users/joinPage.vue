@@ -57,13 +57,24 @@
       />
     </div>
     <div class="mb-2">
-      <span>전화번호</span
+      <span>휴대폰번호</span
       ><input
         type="text"
         class="ml105"
         id="phone"
         placeholder="-기호 없이 전화번호를 입력해주세요"
       />
+    </div>
+    <div v-if="scope!='persnal'">
+        <div class="mb-2">
+      <span>회사번호</span
+      ><input
+        type="text"
+        class="ml105"
+        id="phone"
+        placeholder="-기호 없이 전화번호를 입력해주세요"
+      />
+    </div>
     </div>
     <div class="mb-2">
       <input type="button" @click="showAuthPage('phone')" value="전화인증" />
@@ -124,7 +135,7 @@ export default {
           alert(message);
           return;
         }
-        modules.openPOPup('/authPage?scope='+type+'&detail=auth','authPage',300,300);
+        modules.openPOPup('/authPage?scope='+type+'&detail=auth&kind='+modules.getParam('scope'),'authPage',300,300);
       },
       initMap() {
       //불러오기
