@@ -62,23 +62,34 @@
         type="text"
         class="ml105"
         id="phone"
-        placeholder="-기호 없이 전화번호를 입력해주세요"
+        placeholder="-기호 없이 입력해주세요"
       />
     </div>
     <div v-if="scope!='persnal'">
-        <div class="mb-2">
+      <div class="mb-2">
       <span>회사번호</span
       ><input
         type="text"
         class="ml105"
-        id="phone"
-        placeholder="-기호 없이 전화번호를 입력해주세요"
+        id="tel"
+        placeholder="-기호 없이 입력해주세요"
+      />
+    </div>
+     <div class="mb-2">
+      <span>사업자 번호 입력(숫자만)</span
+      ><input
+        type="text"
+        id="company_num"
+        placeholder="-기호 없이 입력해주세요"
       />
     </div>
     </div>
     <div class="mb-2">
-      <input type="button" @click="showAuthPage('phone')" value="전화인증" />
-      <input type="button" @click="showAuthPage('email')" value="이메일인증" />
+      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
+      <input type="button" @click="showAuthPage('email')" id="check_email_button" value="이메일인증" />
+    </div>
+    <div class="mb-2">
+      <input type="button" @click="tryJoin()" id="try_join_button" value="회원가입" />   
     </div>
   </div>
 </template>
