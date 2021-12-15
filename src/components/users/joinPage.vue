@@ -11,6 +11,7 @@
         type="password"
         class="ml105"
         placeholder="최소 4자 최대 10자입니다"
+        id="pwd"
       />
     </div>
     <div class="mb-2">
@@ -19,6 +20,7 @@
         type="password"
         class="ml45"
         placeholder="최소 4자 최대 10자입니다"
+        id="pwd2"
       />
     </div>
     <div class="mb-2">
@@ -135,6 +137,28 @@ export default {
     };
   },
   methods: {
+      tryJoin(){
+        var email=modules.getValueById('email');
+        var pwd=modules.getValueById('pwd');
+        var pwd2=modules.getValueById('pwd2');
+        var phone=modules.getValueById('phone');
+        var post_code=modules.getValueById('postcode');
+        var address=modules.getValueById('address');
+        var detail_address=modules.getValueById('detailaddress');
+        let data=JSON.stringify({
+          "scope":this.scope,
+          "email":email,
+          "pwd":pwd,
+          "pwd2":pwd2,
+          "phone":phone,
+          "post_code":post_code,
+          "address":address,
+          "detail_address":detail_address,
+        });
+        modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
+          console.log(result);
+        });
+      },
       showAuthPage(type){
         var message='휴대폰을 입력해주세요';
         var vl=document.getElementById('phone').value;
