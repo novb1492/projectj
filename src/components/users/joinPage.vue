@@ -91,7 +91,7 @@
       <input type="button" @click="showAuthPage('email')" id="check_email_button" value="이메일인증" />
     </div>
     <div class="mb-2">
-      <input type="button" @click="tryJoin()" id="try_join_button" value="회원가입" />   
+      <input type="button" @click="tryJoin" id="try_join_button" value="회원가입" />   
     </div>
   </div>
 </template>
@@ -144,7 +144,7 @@ export default {
         var phone=modules.getValueById('phone');
         var post_code=modules.getValueById('postcode');
         var address=modules.getValueById('address');
-        var detail_address=modules.getValueById('detailaddress');
+        var detail_address=modules.getValueById('detailAddress');
         let data=JSON.stringify({
           "scope":this.scope,
           "email":email,
@@ -157,6 +157,8 @@ export default {
         });
         modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
           console.log(result);
+          var res=result.data;
+          alert(res.message);
         });
       },
       showAuthPage(type){
