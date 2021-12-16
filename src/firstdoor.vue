@@ -33,9 +33,6 @@ export default {
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
     this.$EventBus.$on('searchStore',text=>{
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-      document.head.appendChild(script);
       this.search(text);
     });
   },

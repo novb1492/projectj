@@ -73,12 +73,6 @@ export default {
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
   },
-  mounted(){
-    var storeKeyword=sessionStorage.getItem('findStore');
-    if(storeKeyword!=null){
-      this.$EventBus.$emit('searchStore',storeKeyword);
-    }
-  },
   methods : {
     openPopUP(uri,popName,width,height){
       modules.openPOPup(uri,popName,width,height);
