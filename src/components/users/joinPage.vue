@@ -145,6 +145,7 @@ export default {
         var post_code=modules.getValueById('postcode');
         var address=modules.getValueById('address');
         var detail_address=modules.getValueById('detailAddress');
+        var company_num=modules.getValueById('company_num');
         let data=JSON.stringify({
           "scope":this.scope,
           "email":email,
@@ -154,6 +155,7 @@ export default {
           "post_code":post_code,
           "address":address,
           "detail_address":detail_address,
+          "company_num":company_num,
         });
         modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
           console.log(result);
