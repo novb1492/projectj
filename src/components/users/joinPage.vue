@@ -78,11 +78,28 @@
       />
     </div>
      <div class="mb-2">
-      <span>사업자 번호 입력(숫자만)</span
+      <span>사업자번호</span
       ><input
         type="text"
         id="company_num"
         placeholder="-기호 없이 입력해주세요"
+        class="ml105"
+      />
+    </div>
+    <div class="mb-2">
+      <span>영업시작시간</span
+      ><input
+        type="time"
+        id="open_time"
+        class="ml180"
+      />
+    </div>
+      <div class="mb-2">
+      <span>영업종료시간</span
+      ><input
+        type="time"
+        id="close_time"
+        class="ml180"
       />
     </div>
     </div>
@@ -145,8 +162,13 @@ export default {
         var post_code=modules.getValueById('postcode');
         var address=modules.getValueById('address');
         var detail_address=modules.getValueById('detailAddress');
-        var company_num=modules.getValueById('company_num');
-        let data=JSON.stringify({
+        let data=null;
+        if(this.scope!=this.persnal){
+          var company_num=modules.getValueById('company_num');
+          var open_time=modules.getValueById('open_time');
+          var close_time=modules.getValueById('close_time');
+          var tel=modules.getValueById('tel');
+          data=JSON.stringify({
           "scope":this.scope,
           "email":email,
           "pwd":pwd,
@@ -156,7 +178,22 @@ export default {
           "address":address,
           "detail_address":detail_address,
           "company_num":company_num,
-        });
+          "open_time":open_time,
+          "close_time":close_time,
+          "tel":tel,
+          });
+        }else{
+          data=JSON.stringify({
+          "scope":this.scope,
+          "email":email,
+          "pwd":pwd,
+          "pwd2":pwd2,
+          "phone":phone,
+          "post_code":post_code,
+          "address":address,
+          "detail_address":detail_address,
+          });
+        }
         modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
           console.log(result);
           var res=result.data;

@@ -23,10 +23,12 @@ export default {
 <style>
 .mr20{margin-right: 20px;}
 a{ text-decoration:none }
+.ml80{margin-left: 80px;}
 .ml135{margin-left: 135px;}
 .ml105{margin-left: 105px;}
 .ml45{margin-left: 45px;}
 .ml120{margin-left: 120px;}
+.ml180{margin-left: 180px;}
 ul{list-style:none;}
 .pinkText{color: pink; margin: 0px;}
 .giveCenter {
