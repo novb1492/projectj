@@ -161,6 +161,9 @@ export default {
           console.log(result);
           var res=result.data;
           alert(res.message);
+          if(res.flag){
+            location.href="/loginPage";
+          }
         });
       },
       showAuthPage(type){
