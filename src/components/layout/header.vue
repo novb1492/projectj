@@ -52,6 +52,7 @@
 </template>
 <script>
 import * as modules from '../../jslib';
+//import axios from 'axios';
 export default {
   name: 'he',
   data() {
@@ -73,6 +74,15 @@ export default {
     recaptchaScript.setAttribute('crossorigin','anonymous');
     document.head.appendChild(recaptchaScript);
   },
+  mounted(){
+      modules.requestPost('http://localhost:8080/login/check/email',null).then(result=>{
+        console.log(result);
+        var res=result.data;
+        if(res.flag){
+          this.loginFlag=true;
+        }
+      });
+  },
   methods : {
     openPopUP(uri,popName,width,height){
       modules.openPOPup(uri,popName,width,height);
@@ -87,13 +97,6 @@ export default {
         var uri=location.pathname;
         if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'||uri=='/beforeJoinPage'||uri=='/authPage'||uri=='/findAccountPage'){
            showOrNot= false;
-        }else{
-          modules.requestPost('http://localhost:8080/login/check/email').then(result=>{
-            var res=result.data;
-              if(res.flag){
-                  this.loginFlag=true;
-              }
-          });
         }
         return showOrNot;
     },

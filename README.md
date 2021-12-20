@@ -116,3 +116,5 @@ join branch만듬
 1.백엔드 http->https
 -세션이슈로 인해 http로 다시 전환  
 2.로그인 후처리 작업중  
+3.이중요청해결 어차피 이제 eventbus로  
+mount단에 넣어서 네비바가 있던없던 줄수있음  
