@@ -47,7 +47,7 @@ export default {
             "val":this.val,
             "detail":this.detail
         });
-        modules.requestPost('http://localhost:8080/sns',data).then(result=>{
+        modules.requestPost('https://localhost:8080/sns',data).then(result=>{
             var res=result.data;
             alert(res.message);
             if(res.flag){
@@ -62,7 +62,7 @@ export default {
           "type":this.scope,
           "detail":this.detail
         });
-        modules.requestPost('http://localhost:8080/confrim',data).then(result=>{
+        modules.requestPost('https://localhost:8080/confrim',data).then(result=>{
             var res=result.data;
             alert(res.message);
             if(res.flag){

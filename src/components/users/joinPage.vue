@@ -194,7 +194,7 @@ export default {
           "detail_address":detail_address,
           });
         }
-        modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
+        modules.requestPost('https://localhost:8080/user/insert',data).then(result=>{
           console.log(result);
           var res=result.data;
           alert(res.message);

@@ -31,7 +31,7 @@ export default {
         "email":email,
         "pwd":pwd,
       });
-      modules.requestPost("http://localhost:8080/login",data).then(result=>{
+      modules.requestPost("https://localhost:8080/login",data).then(result=>{
         console.log(result);
       });
     }
