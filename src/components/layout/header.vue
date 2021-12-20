@@ -88,7 +88,7 @@ export default {
         if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'||uri=='/beforeJoinPage'||uri=='/authPage'||uri=='/findAccountPage'){
            showOrNot= false;
         }else{
-          modules.requestGet('https://localhost:8080/loginCheck').then(result=>{
+          modules.requestGet('http://localhost:8080/loginCheck').then(result=>{
             var res=result.data;
               if(res.flag){
                   this.loginFlag=true;
