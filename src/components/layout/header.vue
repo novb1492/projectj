@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       loginFlag:false,
-
+      uri:location.pathname,
     }
   },
   created() {
@@ -75,11 +75,17 @@ export default {
     document.head.appendChild(recaptchaScript);
   },
   mounted(){
-      modules.requestPost('http://localhost:8080/login/check/email',null).then(result=>{
+    console.log(this.uri);
+    var scope='email';
+    if(this.uri=='/myPage'){
+      scope='all';
+    }
+      modules.requestPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
         console.log(result);
         var res=result.data;
         if(res.flag){
           this.loginFlag=true;
+          console.log(res.message);
         }
       });
   },
@@ -94,8 +100,7 @@ export default {
     },
     useHeader(){
         var showOrNot=true;
-        var uri=location.pathname;
-        if(uri=='/joinPage'||uri=='/loginPage'||uri=='/myPage'||uri=='/findPwdPage'||uri=='/findEmailPage'||uri=='/changePhonePage'||uri=='/showItemPage'||uri=='/showSucBuyPage'||uri=='/popUpClose'||uri=='/beforeJoinPage'||uri=='/authPage'||uri=='/findAccountPage'){
+        if(this.uri=='/joinPage'||this.uri=='/loginPage'||this.uri=='/myPage'||this.uri=='/findPwdPage'||this.uri=='/findEmailPage'||this.uri=='/changePhonePage'||this.uri=='/showItemPage'||this.uri=='/showSucBuyPage'||this.uri=='/popUpClose'||this.uri=='/beforeJoinPage'||this.uri=='/authPage'||this.uri=='/findAccountPage'){
            showOrNot= false;
         }
         return showOrNot;
