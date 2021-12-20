@@ -33,6 +33,13 @@ export default {
       });
       modules.requestPost("http://localhost:8080/login",data).then(result=>{
         console.log(result);
+        var res=result.data;
+        if(res.flag){
+          opener.location.reload();
+          self.close();
+        }else{
+          alert(res.message);
+        }
       });
     }
   },
