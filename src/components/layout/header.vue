@@ -80,14 +80,11 @@ export default {
     if(this.uri=='/myPage'){
       scope='all';
     }
-      modules.requestAsyncToPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
-        console.log(result);
-        var res=result.data;
-          if(res.flag){
-          this.loginFlag=true;
-          console.log(res.message);
-          }
-      });
+    modules.requestAsyncToPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
+      if(result.flag){
+        this.loginFlag=true;
+      }
+    });
   },
   methods : {
     openPopUP(uri,popName,width,height){
