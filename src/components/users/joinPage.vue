@@ -128,6 +128,14 @@
     </div>
     </div>
     <div v-else>
+      <div class="mb-2">
+      <span>이름</span
+      ><input
+        type="text"
+        id="name"
+        class="ml135"
+      />
+    </div>
     </div>
     <div class="mb-2">
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
@@ -195,6 +203,8 @@ export default {
           var open_time=modules.getValueById('open_time');
           var close_time=modules.getValueById('close_time');
           var tel=modules.getValueById('tel');
+          var store_name=modules.getValueById('store_name');
+          var start_dt=modules.getValueById('start_dt');
           data=JSON.stringify({
           "scope":this.scope,
           "email":email,
@@ -209,6 +219,8 @@ export default {
           "close_time":close_time,
           "tel":tel,
           "name":name,
+          "store_name":store_name,
+          "start_dt":start_dt,
           });
         }else{
           data=JSON.stringify({
