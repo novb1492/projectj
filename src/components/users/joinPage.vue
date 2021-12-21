@@ -102,6 +102,32 @@
         class="ml180"
       />
     </div>
+    <div class="mb-2">
+      <span>상호</span
+      ><input
+        type="text"
+        id="store_name"
+        class="ml135"
+      />
+    </div>
+    <div class="mb-2">
+      <span>대표자성명</span
+      ><input
+        type="text"
+        id="name"
+        class="ml135"
+      />
+    </div>
+    <div class="mb-2">
+      <span>개업일자</span
+      ><input
+        type="number"
+        id="start_dt"
+        class="ml135"
+      />
+    </div>
+    </div>
+    <div v-else>
     </div>
     <div class="mb-2">
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
@@ -162,6 +188,7 @@ export default {
         var post_code=modules.getValueById('postcode');
         var address=modules.getValueById('address');
         var detail_address=modules.getValueById('detailAddress');
+        var name=modules.getValueById('name');
         let data=null;
         if(this.scope!=this.persnal){
           var company_num=modules.getValueById('company_num');
@@ -181,6 +208,7 @@ export default {
           "open_time":open_time,
           "close_time":close_time,
           "tel":tel,
+          "name":name,
           });
         }else{
           data=JSON.stringify({
@@ -192,6 +220,7 @@ export default {
           "post_code":post_code,
           "address":address,
           "detail_address":detail_address,
+          "name":name,
           });
         }
         modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
