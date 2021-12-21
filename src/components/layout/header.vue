@@ -80,13 +80,13 @@ export default {
     if(this.uri=='/myPage'){
       scope='all';
     }
-      modules.requestPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
+      modules.requestAsyncToPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
         console.log(result);
         var res=result.data;
-        if(res.flag){
+          if(res.flag){
           this.loginFlag=true;
           console.log(res.message);
-        }
+          }
       });
   },
   methods : {
