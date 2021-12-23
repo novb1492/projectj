@@ -62,7 +62,7 @@ export default {
           "type":this.scope,
           "detail":this.detail
         });
-        modules.requestPost('http://localhost:8080/confrim',data).then(result=>{
+        modules.requestPost('http://localhost:8080/confrim/auth',data).then(result=>{
             var res=result.data;
             alert(res.message);
             if(res.flag){
