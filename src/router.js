@@ -7,6 +7,7 @@ import joinPage from './components/users/joinPage.vue';
 import beforeJoinPage from './components/users/beforeJoinPage.vue';
 import authPage from './components/users/authPage.vue';
 import findAccountPage from './components/users/findAccountPage.vue';
+import changePwdPage from './components/users/changePwdPage.vue';
 
 Vue.use(VueRouter);
 const router =new VueRouter({
@@ -21,6 +22,7 @@ const router =new VueRouter({
       {path: '/authPage',component:authPage},
       {path:'/loginPage',component:loginPage},
       {path:'/findAccountPage',component:findAccountPage},
+      {path:'/changePwdPage',component:changePwdPage},
     ]
 });
 export default router;
