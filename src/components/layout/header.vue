@@ -13,7 +13,7 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="#">{{loginFlag}}</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -42,14 +42,13 @@
       </ul>
       <div v-if="searchflag">
       <form class="d-flex">
-        <input class="form-control me-2" id="search" type="search" placeholder="매장을 검색해주세요" aria-label="Search">
-        <button class="btn btn-outline-success" @click="callFirstDoor()" type="button">Search</button>
+        <input class="form-control me-2" id="search" type="search" placeholder="00슈퍼,00마트등 검색" @keyup.enter="callFirstDoor" aria-label="Search">
+        <button class="btn btn-outline-success" @click="callFirstDoor" type="button">Search</button>
       </form>
       </div>
     </div>
   </div>
 </nav>
-{{loginFlag}}
   </div>
 </div>
 </template>
