@@ -3,7 +3,7 @@
     <short-logo/>
     <div class="mb-2">
       <span>이메일</span
-      ><input type="email" id="email" class="ml120" placeholder="이메일을 입력해주세요" />
+      ><input type="email" id="email" @keyup="checkEmail" class="ml120" placeholder="이메일을 입력해주세요" />
     </div>
     <div class="mb-2">
       <span>비밀번호</span
@@ -188,6 +188,17 @@ export default {
     };
   },
   methods: {
+      checkEmail(){
+      var email=modules.getValueById('email');
+      modules.requestGet('http://localhost:8080/user/checkEmail?email='+email).then(result=>{
+        var res=result.data;
+        if(!res.flag){
+          document.getElementById('email').style.backgroundColor='blue';
+        }else{
+          document.getElementById('email').style.backgroundColor='red';
+        }
+      });
+    },
       tryJoin(){
         var email=modules.getValueById('email');
         var pwd=modules.getValueById('pwd');
