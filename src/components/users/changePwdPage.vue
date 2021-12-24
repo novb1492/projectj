@@ -23,7 +23,6 @@ export default {
       console.log(result);
       var res=result.data;
       if(!res.flag){
-        alert(res.message)
         location.href="/";
       }
     });
