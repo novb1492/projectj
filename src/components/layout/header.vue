@@ -26,6 +26,7 @@
             <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
             <li><a class="dropdown-item" href="#" @click="showHomeAddress()">마이페이지</a></li>
             <li><a class="dropdown-item" href="#" @click="showHomeAddress()">주문내역 보기</a></li>
+            <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
             <!--<li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>-->
             </div>
@@ -39,10 +40,12 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
+      <div v-if="searchflag">
       <form class="d-flex">
         <input class="form-control me-2" id="search" type="search" placeholder="매장을 검색해주세요" aria-label="Search">
         <button class="btn btn-outline-success" @click="callFirstDoor()" type="button">Search</button>
       </form>
+      </div>
     </div>
   </div>
 </nav>
@@ -59,9 +62,11 @@ export default {
     return {
       loginFlag:false,
       uri:location.pathname,
+      searchflag:false,
     }
   },
   created() {
+    //부트스트랩
     var recaptchaScript = document.createElement('script');
     recaptchaScript.setAttribute('src', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js');
     recaptchaScript.setAttribute('integrity', 'sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM');
@@ -76,17 +81,33 @@ export default {
   },
   mounted(){
     console.log(this.uri);
-    var scope='email';
+    var detail='email';
     if(this.uri=='/myPage'){
-      scope='all';
+      detail='all';
     }
-    modules.requestAsyncToPost('http://localhost:8080/login/check/'+scope,null).then(result=>{
+    modules.requestAsyncToGet('http://localhost:8080/auth/user/check?detail='+detail).then(result=>{
       if(result.flag){
         this.loginFlag=true;
+      }else{
+        this.loginFlag=false;
       }
     });
+    if(this.uri=='/'){
+      this.searchflag=true;
+    }
   },
   methods : {
+    logout(){
+      modules.requestAsyncToGet('http://localhost:8080/auth/user/logout').then(result=>{
+        var res=result.data;
+        if(res.flag){
+          this.loginFlag=false;
+          location.reload();
+        }else{
+          alert(res.message);
+        }
+      });
+    },
     openPopUP(uri,popName,width,height){
       modules.openPOPup(uri,popName,width,height);
     },

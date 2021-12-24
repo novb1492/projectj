@@ -42,6 +42,18 @@ export function checkNull(val){
 export function disabledById(id,flag){
     document.getElementById(id).disabled=flag;
 }
+export async function requestAsyncToGet(url){
+    return  await axios.get(url,{withCredentials: true}).then(function(response){
+      var result=response.data;
+      console.log(result);
+      console.log('통신직후');
+      if(result.message=='new'){
+          console.log('새토큰으로 요청');
+          return requestAsyncToGet(url);
+      }
+      return result;
+   })
+}
 export async function requestAsyncToPost(url,data){
     return  await axios.post(url,data,{
       headers: {
@@ -73,6 +85,18 @@ export async function requestPutToServer(url,data){
         console.log('새토큰으로 요청');
         return requestPutToServer(url,data);
     }
+      return result;
+   })
+}
+export async function requestDelete(url){
+    return  await axios.delete(url,{withCredentials: true}).then(function(response){
+      var result=response.data;
+      console.log(result);
+      console.log('통신직후');
+      if(result.message=='new'){
+          console.log('새토큰으로 요청');
+          return requestDelete(url);
+      }
       return result;
    })
 }
