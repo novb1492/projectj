@@ -19,7 +19,7 @@ export default {
     if(modules.checkNull(check)){
       modules.wrongAccese();
     }
-    modules.requestGet('http://localhost:8080/user/checkPage?token='+check).then(result=>{
+    modules.requestGet('http://localhost:8080/checkPage/redis?val='+check).then(result=>{
       console.log(result);
       var res=result.data;
       if(!res.flag){
