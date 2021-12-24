@@ -99,12 +99,11 @@ export default {
   methods : {
     logout(){
       modules.requestAsyncToGet('http://localhost:8080/auth/user/logout').then(result=>{
-        var res=result.data;
-        if(res.flag){
+        if(result.flag){
           this.loginFlag=false;
           location.reload();
         }else{
-          alert(res.message);
+          alert(result.message);
         }
       });
     },
