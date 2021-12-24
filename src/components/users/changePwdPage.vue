@@ -4,6 +4,7 @@
       <input type="password" class="mt-3" id="pwd" placeholder="비밀번호는 4~10자입니다">
       <h5 class="mt-3">재입력</h5>
       <input type="password" class="mt-2" id="pwd2" placeholder="비밀번호는 4~10자입니다">
+      <br>
       <input type="button" @click="trychange" value="변경">
   </div>
 </template>
@@ -18,16 +19,33 @@ export default {
     if(modules.checkNull(check)){
       modules.wrongAccese();
     }
-    let data=JSON.stringify({
-       "val":check,
-    });
-    modules.requestPost('http://localhost:8080/confrim/change',data).then(result=>{
+    modules.requestGet('http://localhost:8080/user/checkPage?token='+check).then(result=>{
+      console.log(result);
       var res=result.data;
-      console.log(res);
+      if(!res.flag){
+        alert(res.message)
+        location.href="/";
+      }
     });
   },
-  methods(){
-
+  methods:{
+    trychange(){
+      var pwd=modules.getValueById('pwd');
+      var pwd2=modules.getValueById('pwd2');
+      var token=modules.getParam('token');
+      let data=JSON.stringify({
+        "pwd":pwd,
+        "pwd2":pwd2,
+        "token":token
+      });
+      modules.requestPutToServer('http://localhost:8080/user/newpwd',data).then(res=>{
+        console.log(res);
+        alert(res.message);
+        if(res.flag){
+          location.href='/';
+        }
+      });
+    }
   },
 }
 </script>
