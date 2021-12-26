@@ -136,6 +136,14 @@
         class="ml135"
       />
     </div>
+    <div class="mb-2">
+      <span>생년월일</span
+      ><input
+        type="date"
+        id="birth"
+        class="ml135"
+      />
+    </div>
     </div>
     <div class="mb-2">
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
@@ -234,6 +242,7 @@ export default {
           "start_dt":start_dt,
           });
         }else{
+          var birth=modules.getValueById('birth');
           data=JSON.stringify({
           "scope":this.scope,
           "email":email,
@@ -244,6 +253,7 @@ export default {
           "address":address,
           "detail_address":detail_address,
           "name":name,
+          "birth":birth,
           });
         }
         modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
