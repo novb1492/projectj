@@ -29,9 +29,6 @@
         @complete="onComplete"
         style="overflow: scroll; margin-left: 50px; width: 400px; height: 500px"
       />
-      <div v-if="scope!='persnal'">
-        <div id="map"></div>
-      </div>
       <span>우편번호</span
       ><input
         type="text"
@@ -87,22 +84,6 @@
       />
     </div>
     <div class="mb-2">
-      <span>영업시작시간</span
-      ><input
-        type="time"
-        id="open_time"
-        class="ml180"
-      />
-    </div>
-      <div class="mb-2">
-      <span>영업종료시간</span
-      ><input
-        type="time"
-        id="close_time"
-        class="ml180"
-      />
-    </div>
-    <div class="mb-2">
       <span>상호</span
       ><input
         type="text"
@@ -119,7 +100,7 @@
       />
     </div>
     <div class="mb-2">
-      <span>개업일자</span
+      <span>개업연월일</span
       ><input
         type="number"
         id="start_dt"
@@ -309,7 +290,7 @@ export default {
       console.log(result);
       document.getElementById("postcode").value = result.zonecode;
       document.getElementById("address").value = result.address;
-      if(this.scope==this.persnal){
+      if(this.scope==this.persnal){ 
         alert("주소 선택 완료");
       }else{
         alert("주소 선택완료 지도를 확인해 주세요");
