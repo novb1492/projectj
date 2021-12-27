@@ -102,7 +102,7 @@
     <div class="mb-2">
       <span>개업연월일</span
       ><input
-        type="number"
+        type="date"
         id="start_dt"
         class="ml135"
       />
@@ -200,8 +200,6 @@ export default {
         let data=null;
         if(this.scope!=this.persnal){
           var company_num=modules.getValueById('company_num');
-          var open_time=modules.getValueById('open_time');
-          var close_time=modules.getValueById('close_time');
           var tel=modules.getValueById('tel');
           var store_name=modules.getValueById('store_name');
           var start_dt=modules.getValueById('start_dt');
@@ -215,8 +213,6 @@ export default {
           "address":address,
           "detail_address":detail_address,
           "company_num":company_num,
-          "open_time":open_time,
-          "close_time":close_time,
           "tel":tel,
           "name":name,
           "store_name":store_name,
