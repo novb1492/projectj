@@ -22,13 +22,22 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div v-if="loginFlag">
-            <li><a class="dropdown-item" href="#">장바구니가기</a></li>
-            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
-            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">마이페이지</a></li>
-            <li><a class="dropdown-item" href="#" @click="showHomeAddress()">주문내역 보기</a></li>
-            <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
-            <!--<li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
+              <div v-if="role=='role_user'">
+                <!--일반회원 목록-->
+                <li><a class="dropdown-item" href="#">장바구니가기</a></li>
+                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
+                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">마이페이지</a></li>
+                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">주문내역 보기</a></li>
+                <!--<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+              </div>
+              <div v-else>
+                <!--기업회원 목록-->
+                <li><a class="dropdown-item" href="/registStorePage">가게등록하기</a></li>
+                <li><a class="dropdown-item" href="/showStoresPage">가게관리하기</a></li>
+                <li><a class="dropdown-item" href="/showStoresPage">주문현황</a></li>
+              </div>
             </div>
             <div v-else>
               <li><a class="dropdown-item" href="#" @click="openPopUP('/loginPage','userpopup',500,500)">로그인</a></li>
@@ -62,6 +71,9 @@ export default {
       loginFlag:false,
       uri:location.pathname,
       searchflag:false,
+      role:"noLogin",
+      loginInfor:[],
+      email:null,
     }
   },
   created() {
@@ -86,21 +98,33 @@ export default {
     }
     modules.requestAsyncToGet(this.$serverDomain+'/auth/user/check?detail='+detail).then(result=>{
       if(result.flag){
+        var message=result.message.split(",");
         this.loginFlag=true;
+        this.email=message[0];
+        this.role=message[1];
       }else{
         this.loginFlag=false;
       }
       //로그인여부
-      this.$EventBus.$emit('loginFlag',this.loginFlag);  
+      this.loginInfor=this.getUserInfor();
+      this.$EventBus.$emit('loginInfor',this.loginInfor);  
     },error=>{
       console.log(error);
-      this.$EventBus.$emit('loginFlag',this.loginFlag);  
+      this.loginInfor=this.getUserInfor();
+      this.$EventBus.$emit('loginInfor',this.loginInfor);  
     });
     if(this.uri=='/'){
       this.searchflag=true;
     }
   },
   methods : {
+    getUserInfor(){
+      var arr=[];
+      arr[0]=this.loginFlag;
+      arr[1]=this.email;
+      arr[2]=this.role;
+      return arr;
+    },
     logout(){
       modules.requestAsyncToGet(this.$serverDomain+'/auth/user/logout').then(result=>{
         if(result.flag){
