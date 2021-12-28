@@ -38,4 +38,5 @@ ul{list-style:none;}
   text-align: center;
   color: #2c3e50;
 }
+.storeThumnail{width: 200px; height: 200px;}
 </style>

@@ -1,5 +1,12 @@
 <template>
   <div class="registStorePage giveCenter">
+      <span>썸네일을 업로드해주세요</span>
+      <br>
+      <img :src=thumnail id="thumnail" class="storeThumnail">
+      <form id="form">
+         <input type="file" name="img" accept=".gif, .jpg, .png">
+          <input type="button" value="업로드"  @click="uploadThumNail">
+      </form>
      <vue-daum-postcode
         id="kpost"
         @complete="onComplete"
@@ -38,6 +45,7 @@ export default {
       map:null,
       marker:null,
       infowindow:null,
+      thumnail:this.$s3Path+'/jangbogo/스크린샷 2021-12-28 오후 10.31.41.png',
     }
   },
   created(){
@@ -49,6 +57,7 @@ export default {
             return;
         }
     });
+
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -57,6 +66,14 @@ export default {
     document.head.appendChild(script);
   },
   methods:{
+    uploadThumNail(){
+      const frm = new FormData();
+      frm.append("upload",document.getElementById('img'));
+      console.log(frm);
+      modules.requestFormAsyncToPost(this.$serverDomain+'/file/upload',frm).then(result=>{
+        console.log(result);
+      });
+    },
     initMap() {
       //불러오기
       const container = document.getElementById("map");
