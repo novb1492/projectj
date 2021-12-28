@@ -90,6 +90,11 @@ export default {
       }else{
         this.loginFlag=false;
       }
+      //로그인여부
+      this.$EventBus.$emit('loginFlag',this.loginFlag);  
+    },error=>{
+      console.log(error);
+      this.$EventBus.$emit('loginFlag',this.loginFlag);  
     });
     if(this.uri=='/'){
       this.searchflag=true;
