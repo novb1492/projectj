@@ -46,7 +46,7 @@ export default {
             "val":val,
             "detail":"find"
         });
-        modules.requestPost('http://localhost:8080/sns',data).then(result=>{
+        modules.requestPost(this.$serverDomain+'/sns',data).then(result=>{
             var res=result.data;
             alert(res.message);
              if(res.flag){

@@ -19,7 +19,7 @@ export default {
     if(modules.checkNull(check)){
       modules.wrongAccese();
     }
-    modules.requestGet('http://localhost:8080/checkPage/redis?val='+check).then(result=>{
+    modules.requestGet(this.$serverDomain+'/checkPage/redis?val='+check).then(result=>{
       console.log(result);
       var res=result.data;
       if(!res.flag){
@@ -37,7 +37,7 @@ export default {
         "pwd2":pwd2,
         "token":token
       });
-      modules.requestPutToServer('http://localhost:8080/user/newpwd',data).then(res=>{
+      modules.requestPutToServer(this.$serverDomain+'/user/newpwd',data).then(res=>{
         console.log(res);
         alert(res.message);
         if(res.flag){

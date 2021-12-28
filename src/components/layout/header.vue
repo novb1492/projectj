@@ -84,7 +84,7 @@ export default {
     if(this.uri=='/myPage'){
       detail='all';
     }
-    modules.requestAsyncToGet('http://localhost:8080/auth/user/check?detail='+detail).then(result=>{
+    modules.requestAsyncToGet(this.$serverDomain+'/auth/user/check?detail='+detail).then(result=>{
       if(result.flag){
         this.loginFlag=true;
       }else{
@@ -102,7 +102,7 @@ export default {
   },
   methods : {
     logout(){
-      modules.requestAsyncToGet('http://localhost:8080/auth/user/logout').then(result=>{
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/user/logout').then(result=>{
         if(result.flag){
           this.loginFlag=false;
           location.reload();

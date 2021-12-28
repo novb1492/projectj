@@ -25,7 +25,7 @@ export default {
   },
   methods:{
     soLogin(kind){
-      modules.requestGet('http://localhost:8080/social/'+kind+'/login').then(result=>{
+      modules.requestGet(this.$serverDomain+'/social/'+kind+'/login').then(result=>{
         var res=result.data;
         if(res.flag){
           modules.openPOPup(res.message,'soLoginPage',800,800);
@@ -41,7 +41,7 @@ export default {
         "email":email,
         "pwd":pwd,
       });
-      modules.requestPost("http://localhost:8080/login",data).then(result=>{
+      modules.requestPost(this.$serverDomain+"/login",data).then(result=>{
         console.log(result);
         var res=result.data;
         if(res.flag){

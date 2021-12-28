@@ -179,7 +179,7 @@ export default {
   methods: {
       checkEmail(){
       var email=modules.getValueById('email');
-      modules.requestGet('http://localhost:8080/user/checkEmail?email='+email).then(result=>{
+      modules.requestGet(this.$serverDomain+'/user/checkEmail?email='+email).then(result=>{
         var res=result.data;
         if(!res.flag){
           document.getElementById('email').style.backgroundColor='blue';
@@ -233,7 +233,7 @@ export default {
           "birth":birth,
           });
         }
-        modules.requestPost('http://localhost:8080/user/insert',data).then(result=>{
+        modules.requestPost(this.$serverDomain+'/user/insert',data).then(result=>{
           console.log(result);
           var res=result.data;
           alert(res.message);
