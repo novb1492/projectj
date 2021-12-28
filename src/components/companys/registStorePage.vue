@@ -21,7 +21,7 @@ export default {
         modules.requestAsyncToGet(this.$serverDomain+"/auth/user/check?detail=role").then(result=>{
             console.log(result);
             var role=result.message;
-            if(role!='role_company'||role.flag!=true){
+            if(role!='role_company'){
                 modules.wrongAccese();
                 return;
             }
