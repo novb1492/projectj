@@ -70,7 +70,7 @@ export default {
       const frm = new FormData();
       frm.append("upload",document.getElementById('img'));
       console.log(frm);
-      modules.requestFormAsyncToPost(this.$serverDomain+'/file/upload',frm).then(result=>{
+      modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
       });
     },
