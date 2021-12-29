@@ -4,10 +4,9 @@
       <span>썸네일을 업로드해주세요</span>
       <br>
       <img :src=thumnail id="thumnail" class="storeThumnail">
-      <form id="form">
-         <input type="file" name="img" accept=".gif, .jpg, .png">
-          <input type="button" value="업로드"  @click="uploadThumNail">
-      </form>
+      <br>
+      <input type="file" id="img" name="img" accept=".gif, .jpg, .png">
+      <input type="button" value="업로드"  @click="uploadThumNail">
      <vue-daum-postcode
         id="kpost"
         @complete="onComplete"
@@ -82,7 +81,8 @@ export default {
     },
     uploadThumNail(){
       const frm = new FormData();
-      frm.append("upload",document.getElementById('img'));
+      console.log(document.getElementById('img').files[0]);
+      frm.append("upload",document.getElementById('img').files[0]);
       console.log(frm);
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
