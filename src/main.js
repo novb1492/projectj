@@ -3,6 +3,8 @@ import App from './App.vue';
 import router from './router';
 import VueDaumPostcode from "vue-daum-postcode"
 import shortHeader from './components/layout/shortLogo.vue';
+import CKEditor from '@ckeditor/ckeditor5-vue2';
+Vue.use( CKEditor );
 Vue.use(VueDaumPostcode)
 Vue.config.productionTip = false;
 Vue.prototype.$EventBus = new Vue();//컴포넌트간 통신위해

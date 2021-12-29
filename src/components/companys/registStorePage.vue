@@ -1,5 +1,6 @@
 <template>
   <div class="registStorePage giveCenter">
+    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
       <span>썸네일을 업로드해주세요</span>
       <br>
       <img :src=thumnail id="thumnail" class="storeThumnail">
@@ -35,6 +36,8 @@
 <style>
 </style>
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import MyUploadAdapter from '../../MyUploadAdapter';
 import * as modules from '../../jslib';
 export default {
   name: 'registStorePage',
@@ -46,6 +49,11 @@ export default {
       marker:null,
       infowindow:null,
       thumnail:this.$s3Path+'/jangbogo/스크린샷 2021-12-28 오후 10.31.41.png',
+         editor: ClassicEditor,
+                editorData: '<p>.</p>',
+                editorConfig: {
+                    extraPlugins: [this.MyCustomUploadAdapterPlugin],
+                }
     }
   },
   created(){
@@ -66,6 +74,12 @@ export default {
     document.head.appendChild(script);
   },
   methods:{
+    MyCustomUploadAdapterPlugin( editor ) {
+            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+            // Configure the URL to the upload script in your back-end here!
+            return new MyUploadAdapter( loader );
+            };
+    },
     uploadThumNail(){
       const frm = new FormData();
       frm.append("upload",document.getElementById('img'));
