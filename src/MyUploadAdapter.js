@@ -3,7 +3,7 @@ export default  class MyUploadAdapter {
         // CKEditor 5's FileLoader instance.
       this.loader = props;
       // URL where to send files.
-      this.url = 'http://localhost:8080/file/upload';
+      this.url = 'http://localhost:8080/auth/file/upload';
     }
 
     // Starts the upload process.
@@ -27,6 +27,7 @@ export default  class MyUploadAdapter {
         const xhr = this.xhr = new XMLHttpRequest();
 
         xhr.open('POST', this.url, true);
+        xhr.withCredentials = true;
         xhr.responseType = 'json';
 
     }
