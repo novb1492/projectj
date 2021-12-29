@@ -179,3 +179,5 @@ git pull까먹지 말고하자
 vue2=npm install —save @ckeditor/ckeditor5-vue2 이다  
 jwt방식이므로 요청시 쿠키 추가 + 만료시 재요청 로직추가  
 자스크립트는 .files[n]으로 가져올 수 있다  
+2.올린 파일별로 썸네일 자동 동적할당 성공  
+

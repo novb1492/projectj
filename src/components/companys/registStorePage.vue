@@ -86,6 +86,12 @@ export default {
       console.log(frm);
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
+        if(result.uploaded){
+          this.thumnail=result.url;
+          return;
+        }
+        alert('파일 업로드에 실패했습니다');
+
       });
     },
     initMap() {
