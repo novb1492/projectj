@@ -177,3 +177,4 @@ git pull까먹지 말고하자
 2021-12-29  
 1.사진업로드 테스트겸 에터 연동  
 vue2=npm install —save @ckeditor/ckeditor5-vue2 이다  
+jwt방식이므로 요청시 쿠키 추가 + 만료시 재요청 로직추가  
