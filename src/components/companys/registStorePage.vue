@@ -131,7 +131,6 @@ export default {
   methods:{
     showCircle(){
       var num=modules.getValueById('deliverRadius');
-      
       //숫자인지검사
       if(isNaN(num)){
         alert('배달거리는 숫자만 입력해주세요');
@@ -178,10 +177,7 @@ export default {
     drawCircle(radius){
       //이전원이 있다면 지워줘야함
       if(this.deliverRadiusFlag){
-        console.log('bb');
-        var a=null;
-        console.log(a);
-        this.circle.setMap(a); // 지도에서 제거한다.
+        this.circle.setMap(null); // 지도에서 제거한다.
       }
        // 지도에 표시할 원을 생성합니다
       this.circle = new kakao.maps.Circle({
