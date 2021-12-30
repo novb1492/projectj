@@ -78,8 +78,9 @@
       <span>최대배달반경(km)</span>
       <input type="number"
         class="ml80"
-        id="deliver"
+        id="deliverRadius"
         placeholder="최대배달반경"
+        @keyup="showCircle"
       />
       <br>
       <input type="button" value="가맹점 등록">
@@ -105,7 +106,9 @@ export default {
                 editorData: '<p>.</p>',
                 editorConfig: {
                     extraPlugins: [this.MyCustomUploadAdapterPlugin],
-                }
+                },
+      deliverRadiusFlag:false,
+      circle:null,
     }
   },
   created(){
@@ -126,6 +129,16 @@ export default {
     document.head.appendChild(script);
   },
   methods:{
+    showCircle(){
+      var num=modules.getValueById('deliverRadius');
+      
+      //숫자인지검사
+      if(isNaN(num)){
+        alert('배달거리는 숫자만 입력해주세요');
+        return;
+      }
+      this.drawCircle(num);
+    },
     MyCustomUploadAdapterPlugin( editor ) {
             editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
             // Configure the URL to the upload script in your back-end here!
@@ -162,6 +175,29 @@ export default {
       //container.style.marginLeft = '40px';
       this.map.relayout();
     },
+    drawCircle(radius){
+      //이전원이 있다면 지워줘야함
+      if(this.deliverRadiusFlag){
+        console.log('bb');
+        var a=null;
+        console.log(a);
+        this.circle.setMap(a); // 지도에서 제거한다.
+      }
+       // 지도에 표시할 원을 생성합니다
+      this.circle = new kakao.maps.Circle({
+          center : new kakao.maps.LatLng(this.storey,this.storex),  // 원의 중심좌표 입니다 
+          radius: radius*1000, // 미터 단위의 원의 반지름입니다 
+          strokeWeight: 5, // 선의 두께입니다 
+          strokeColor: '#75B8FA', // 선의 색깔입니다
+          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'dashed', // 선의 스타일 입니다
+          fillColor: '#CFE7FF', // 채우기 색깔입니다
+          fillOpacity: 0.7  // 채우기 불투명도 입니다   
+      }); 
+      // 지도에 원을 표시합니다 
+      this.circle.setMap(this.map); 
+      this.deliverRadiusFlag=true;
+    },
      getMarker(place){
        //이전 마커가 존재 한다면 null아니다
        if(this.marker!=null){
@@ -188,6 +224,9 @@ export default {
           console.log(this.storex);
           //배달받을 주소표사
           this.showCompanyPlace(new kakao.maps.LatLng(this.storey, this.storex));
+          if(this.deliverRadiusFlag){
+            this.showCircle();
+          }
         }else{
           alert('검색 내역이 없습니다');
         } 
