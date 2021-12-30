@@ -216,14 +216,15 @@ export default {
       document.getElementById("address").value = result.address;
         var geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch(result.address, (result, status)=> {
-        // 정상적으로 검색이 완료됐으면 
-        alert("주소 선택완료 지도를 확인해 주세요");
         if (status === kakao.maps.services.Status.OK) { 
+          // 정상적으로 검색이 완료됐으면 
+          alert("주소 선택완료 지도를 확인해 주세요");
           this.storex=result[0].x;
           this.storey=result[0].y
           console.log(this.storex);
-          //배달받을 주소표사
+          //배달받을 주소표시
           this.showCompanyPlace(new kakao.maps.LatLng(this.storey, this.storex));
+          //이전에 이미 반경 표시까지 하고 수정했다면 재 탐색된 좌표로 원그려주기
           if(this.deliverRadiusFlag){
             this.showCircle();
           }
@@ -250,7 +251,7 @@ export default {
       // 결과값으로 받은 위치를 마커로 표시합니다
       var marker = this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">기업의 위치입니다</div>');
+      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },
