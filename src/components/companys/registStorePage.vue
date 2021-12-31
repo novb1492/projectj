@@ -1,7 +1,7 @@
 <template>
   <div class="registStorePage giveCenter">
       <h5 class="mt-3">썸네일을 업로드해주세요</h5>
-      <img :src=thumnail id="thumnail" class="storeThumnail">
+      <img  :src="thumnail"  id="thumnail" class="storeThumnail">
       <br>
       <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumNail">
       <br>
@@ -12,9 +12,9 @@
      <vue-daum-postcode
         id="kpost"
         @complete="onComplete"
-        style="overflow: scroll; width: 400px; height: 500px; margin-left: 35%"
+        style="overflow: scroll; width: 400px; height: 500px; margin-left: 40%"
       />
-      <div id="map" style="margin-left: 35%"></div>
+      <div id="map" style="margin-left: 40%"></div>
       <span>우편번호</span
       ><input
         type="text"
@@ -83,7 +83,11 @@
         @keyup="showCircle"
       />
       <br>
-      <input type="button" value="가맹점 등록">
+      <span>휴대폰번호</span>
+      <input type="tel" class="ml80" id="phone">
+      <br>
+      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
+      <input type="button" value="가맹점 등록" @click="tryInsertStore" >
   </div>
 </template>
 <style>
@@ -101,7 +105,7 @@ export default {
       map:null,
       marker:null,
       infowindow:null,
-      thumnail:this.$s3Path+'/jangbogo/스크린샷 2021-12-28 오후 10.31.41.png',
+      thumnail:null,
          editor: ClassicEditor,
                 editorData: '<p>.</p>',
                 editorConfig: {
@@ -120,7 +124,7 @@ export default {
             return;
         }
     });
-
+    this.thumnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -129,6 +133,23 @@ export default {
     document.head.appendChild(script);
   },
   methods:{
+    tryInsertStore(){
+      var thumNail=document.getElementById('thumnail').src;
+      alert(thumNail);
+    },
+     showAuthPage(type){
+        var message='휴대폰을 입력해주세요';
+        var vl=document.getElementById('phone').value;
+        if(type=='email'){  
+          message='이메일을 입력해주세요';
+          vl=document.getElementById('email').value;
+        }
+        if(modules.checkNull(vl)){
+          alert(message);
+          return;
+        }
+        modules.openPOPup('/authPage?scope='+type+'&detail=auth&kind='+modules.getParam('scope'),'authPage',500,500);
+      },
     showCircle(){
       var num=modules.getValueById('deliverRadius');
       //숫자인지검사
