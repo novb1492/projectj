@@ -5,7 +5,6 @@
       <br>
       <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumbNail">
       <br>
-      <h5 class="mt-3">간단한 가게 설명을 입력해주세요</h5>
       <br>
       <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
       <br>
@@ -107,9 +106,10 @@ export default {
       infowindow:null,
       thumbnail:null,
          editor: ClassicEditor,
-                editorData: '<p>.</p>',
+                editorData: null,
                 editorConfig: {
-                    extraPlugins: [this.MyCustomUploadAdapterPlugin],
+                  placeholder:'간단한 가게 설명을 적어주세요',
+                  extraPlugins: [this.MyCustomUploadAdapterPlugin],
                 },
       deliverRadiusFlag:false,
       circle:null,
@@ -134,8 +134,12 @@ export default {
   },
   methods:{
     tryInsertStore(){
-      var thumNail=document.getElementById('thumbnail').src;
-      alert(thumNail);
+      var thumNail=decodeURI(document.getElementById('thumbnail').src);
+      var text=this.editorData;
+      var postcode=modules.getValueById('postcode');
+      var address=modules.getValueById('')
+      alert(thumNail+text);
+
     },
      showAuthPage(type){
         var message='휴대폰을 입력해주세요';
