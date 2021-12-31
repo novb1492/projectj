@@ -136,8 +136,8 @@ export default {
     tryInsertStore(){
       var thumNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.editorData;
-      var postcode=modules.getValueById('postcode');
-      var address=modules.getValueById('')
+      //var postcode=modules.getValueById('postcode');
+      //var address=modules.getValueById('')
       alert(thumNail+text);
 
     },

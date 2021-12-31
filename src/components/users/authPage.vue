@@ -47,10 +47,9 @@ export default {
             "val":this.val,
             "detail":this.detail
         });
-        modules.requestPost(this.$serverDomain+'/sns',data).then(result=>{
-            var res=result.data;
-            alert(res.message);
-            if(res.flag){
+        modules.requestAsyncToPost(this.$serverDomain+'/sns',data).then(result=>{
+            alert(result.message);
+            if(result.flag){
               modules.disabledById('authnum',false);
               modules.disabledById('checknum',false);
             }
@@ -62,10 +61,9 @@ export default {
           "type":this.scope,
           "detail":this.detail
         });
-        modules.requestPost(this.$serverDomain+'/confrim/auth',data).then(result=>{
-            var res=result.data;
-            alert(res.message);
-            if(res.flag){
+        modules.requestAsyncToPost(this.$serverDomain+'/confrim/auth',data).then(result=>{
+            alert(result.message);
+            if(result.flag){
               if(this.scope=='phone'){
                 opener.document.getElementById("check_phone_button").disabled=true;
               }else if(this.scope=='email'){
