@@ -83,7 +83,10 @@
       />
       <br>
       <span>휴대폰번호</span>
-      <input type="tel" class="ml80" id="phone">
+      <input type="text" class="ml80" id="phone">
+      <br>
+      <span>매장전화번호</span>
+      <input type="text" class="ml80" id="tel">
       <br>
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" value="전화인증" />
       <input type="button" value="가맹점 등록" @click="tryInsertStore" >
@@ -134,11 +137,38 @@ export default {
   },
   methods:{
     tryInsertStore(){
-      var thumNail=decodeURI(document.getElementById('thumbnail').src);
+      var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.editorData;
-      //var postcode=modules.getValueById('postcode');
-      //var address=modules.getValueById('')
-      alert(thumNail+text);
+      var postcode=modules.getValueById('postcode');
+      var address=modules.getValueById('address');
+      var storeName=modules.getValueById('storeName');
+      var detailAddress=modules.getValueById('detailAddress');
+      var num=modules.getValueById('num');
+      var openTime=modules.getValueById('openTime');
+      var closeTime=modules.getValueById('closeTime');
+      var minPrice=modules.getValueById('minPrice');
+      var deliverRadius=modules.getValueById('deliverRadius');
+      var tel=modules.getValueById('tel');
+      var phone=modules.getValueById('phone');
+      console.log(thumbNail+text);
+      let data=JSON.stringify({
+        "thumbNail":thumbNail,
+        "text":text,
+        "postcode":postcode,
+        "address":address,
+        "storeName":storeName,
+        "detailAddress":detailAddress,
+        "num":num,
+        "openTime":openTime,
+        "closeTime":closeTime,
+        "minPrice":minPrice,
+        "deliverRadius":deliverRadius,
+        "tel":tel,
+        "phone":phone,
+      });
+      modules.requestAsyncToPost(this.$serverDomain+"/auth/store/insert",data).then(result=>{
+        console.log(result);
+      });
 
     },
      showAuthPage(type){
