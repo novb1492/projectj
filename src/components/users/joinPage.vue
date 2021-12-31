@@ -219,7 +219,7 @@ export default {
           "birth":birth,
           });
         }
-        modules.requestPost(this.$serverDomain+'/user/insert',data).then(result=>{
+        modules.requestPost(this.$serverDomain+'/user/join',data).then(result=>{
           console.log(result);
           var res=result.data;
           alert(res.message);

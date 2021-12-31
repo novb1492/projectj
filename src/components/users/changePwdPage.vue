@@ -37,7 +37,7 @@ export default {
         "pwd2":pwd2,
         "token":token
       });
-      modules.requestPutToServer(this.$serverDomain+'/user/newpwd',data).then(res=>{
+      modules.requestPutToServer(this.$serverDomain+'/user/change/pwd',data).then(res=>{
         console.log(res);
         alert(res.message);
         if(res.flag){
