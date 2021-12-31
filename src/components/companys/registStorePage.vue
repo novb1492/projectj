@@ -1,9 +1,9 @@
 <template>
   <div class="registStorePage giveCenter">
       <h5 class="mt-3">썸네일을 업로드해주세요</h5>
-      <img  :src="thumnail"  id="thumnail" class="storeThumnail">
+      <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
       <br>
-      <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumNail">
+      <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumbNail">
       <br>
       <h5 class="mt-3">간단한 가게 설명을 입력해주세요</h5>
       <br>
@@ -105,7 +105,7 @@ export default {
       map:null,
       marker:null,
       infowindow:null,
-      thumnail:null,
+      thumbnail:null,
          editor: ClassicEditor,
                 editorData: '<p>.</p>',
                 editorConfig: {
@@ -124,7 +124,7 @@ export default {
             return;
         }
     });
-    this.thumnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
+    this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -134,7 +134,7 @@ export default {
   },
   methods:{
     tryInsertStore(){
-      var thumNail=document.getElementById('thumnail').src;
+      var thumNail=document.getElementById('thumbnail').src;
       alert(thumNail);
     },
      showAuthPage(type){
@@ -165,7 +165,7 @@ export default {
             return new MyUploadAdapter( loader );
             };
     },
-    uploadThumNail(){
+    uploadThumbNail(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
       frm.append("upload",document.getElementById('img').files[0]);
@@ -173,7 +173,7 @@ export default {
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
         if(result.uploaded){
-          this.thumnail=result.url;
+          this.thumbnail=result.url;
           return;
         }
         alert('파일 업로드에 실패했습니다');
