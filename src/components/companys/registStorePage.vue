@@ -166,8 +166,8 @@ export default {
         "tel":tel,
         "phone":phone,
       });
-      modules.requestAsyncToPost(this.$serverDomain+"/auth/store/insert",data).then(result=>{
-        console.log(result);
+      modules.requestAsyncToPost(this.$serverDomain+"/auth/store/join",data).then(result=>{
+        alert(result.message);
       });
 
     },
