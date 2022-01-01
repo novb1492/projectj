@@ -67,7 +67,7 @@
         placeholder="마감시간"
       />
       <br>
-      <span>최소배달금액</span>
+      <span>최소배달금액(원)</span>
       <input type="number"
         class="ml105"
         id="minPrice"
@@ -120,9 +120,10 @@ export default {
   },
   created(){
     this.$EventBus.$on('loginInfor',loginInfor=>{
+      loginInfor=JSON.parse(loginInfor);
         console.log(loginInfor);
-        //비로그인 팅겨내기
-        if(loginInfor[0]!=true){
+        //비로그인,권한이없는유저 팅겨내기
+        if(loginInfor.loginFlag!=true||loginInfor.role!=this.$ROLE_COMPANY||loginInfor.role!=this.$ROLE_ADMIN){
             modules.wrongAccese();
             return;
         }

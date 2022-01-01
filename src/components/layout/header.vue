@@ -23,7 +23,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div v-if="loginFlag">
                 <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
-              <div v-if="role=='role_user'">
+              <div v-if="!roleFlag">
                 <!--일반회원 목록-->
                 <li><a class="dropdown-item" href="#">장바구니가기</a></li>
                 <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
@@ -72,8 +72,8 @@ export default {
       uri:location.pathname,
       searchflag:false,
       role:"noLogin",
-      loginInfor:[],
       email:null,
+      roleFlag:false,
     }
   },
   created() {
@@ -106,12 +106,11 @@ export default {
         this.loginFlag=false;
       }
       //로그인여부
-      this.loginInfor=this.getUserInfor();
-      this.$EventBus.$emit('loginInfor',this.loginInfor);  
+
+      this.$EventBus.$emit('loginInfor',this.getUserInfor());  
     },error=>{
       console.log(error);
-      this.loginInfor=this.getUserInfor();
-      this.$EventBus.$emit('loginInfor',this.loginInfor);  
+      this.$EventBus.$emit('loginInfor',this.getUserInfor());  
     });
     if(this.uri=='/'){
       this.searchflag=true;
@@ -119,10 +118,14 @@ export default {
   },
   methods : {
     getUserInfor(){
-      var arr=[];
-      arr[0]=this.loginFlag;
-      arr[1]=this.email;
-      arr[2]=this.role;
+      var arr=JSON.stringify({
+        "loginFlag":this.loginFlag,
+        "email":this.email,
+        "role":this.role,
+      });
+      if(this.role==this.$ROLE_COMPANY){
+        this.roleFlag=true;
+      }
       return arr;
     },
     logout(){
