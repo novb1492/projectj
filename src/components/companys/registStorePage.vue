@@ -123,7 +123,7 @@ export default {
       loginInfor=JSON.parse(loginInfor);
         console.log(loginInfor);
         //비로그인,권한이없는유저 팅겨내기
-        if(loginInfor.loginFlag!=true||loginInfor.role!=this.$ROLE_COMPANY||loginInfor.role!=this.$ROLE_ADMIN){
+        if(loginInfor.loginFlag!=true||loginInfor.role==this.$ROLE_USER){
             modules.wrongAccese();
             return;
         }
