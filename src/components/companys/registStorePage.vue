@@ -183,7 +183,7 @@ export default {
           alert(message);
           return;
         }
-        modules.openPOPup('/authPage?scope='+type+'&detail=auth&kind='+modules.getParam('scope'),'authPage',500,500);
+        modules.openPOPup('/authPage?scope='+type+'&detail=auth2&kind='+modules.getParam('scope'),'authPage',500,500);
       },
     showCircle(){
       var num=modules.getValueById('deliverRadius');

@@ -35,7 +35,7 @@
               <div v-else>
                 <!--기업회원 목록-->
                 <li><a class="dropdown-item" href="/registStorePage">가게등록하기</a></li>
-                <li><a class="dropdown-item" href="/showStoresPage">가게관리하기</a></li>
+                <li><a class="dropdown-item" href="/showCompanyinforPage">가게관리하기</a></li>
                 <li><a class="dropdown-item" href="/showStoresPage">주문현황</a></li>
               </div>
             </div>
