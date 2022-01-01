@@ -1,6 +1,6 @@
 <template>
   <div class="showCompanyinforPage giveCenter">
-  
+  ㅓㅓ
   </div>
 </template>
 <style>
@@ -25,7 +25,7 @@ export default {
             return;
         }
         this.email=loginInfor.email;
-        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/getSmall/'+this.email).then(result=>{
+        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+this.email).then(result=>{
             console.log(result);
             
         });
