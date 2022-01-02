@@ -25,7 +25,8 @@ export default {
             return;
         }
         this.email=loginInfor.email;
-        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+this.email).then(result=>{
+        
+        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/all?page='+modules.getParam('page')).then(result=>{
             console.log(result);
             
         });
