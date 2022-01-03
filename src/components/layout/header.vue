@@ -64,6 +64,9 @@
 <script>
 import * as modules from '../../jslib';
 //import axios from 'axios';
+import Stomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
+
 export default {
   name: 'he',
   data() {
@@ -115,8 +118,20 @@ export default {
     if(this.uri=='/'){
       this.searchflag=true;
     }
+     this.connect()
   },
   methods : {
+        connect() {
+      const serverURL = "http://localhost:8080/recive"
+      let socket = new SockJS(serverURL);
+      var stompClient = Stomp.over(socket);
+      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      stompClient.connect({},re=>{
+        console.log('연결성공'+re);
+      });
+        
+             
+    },
     getUserInfor(){
       var arr=JSON.stringify({
         "loginFlag":this.loginFlag,

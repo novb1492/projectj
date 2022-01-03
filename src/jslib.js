@@ -117,3 +117,10 @@ export async function requestDelete(url){
       return result;
    })
 }
+export function changeUrl(url){
+    if (typeof (history.pushState) != "undefined"){ 
+        history.pushState(null, null, url); 
+        return true;
+    }
+    return false;
+}

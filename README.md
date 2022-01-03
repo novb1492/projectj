@@ -23,6 +23,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+websocket  
+npm i webstomp-client sockjs-client  
+
 firstdoor=메인페이지    
 기능  
 -지도표시/배달받을위치표시,변경/키워드 검색후 마트및가게 표시  
@@ -191,3 +194,8 @@ jwt방식이므로 요청시 쿠키 추가 + 만료시 재요청 로직추가
 2.유저권한 판별  
 3.oauth페이지 로그인 결과 구축  
 병합시도/병합성공  
+
+2021-01-03
+소캣연결성공
+-배달원위치표시위해  
+일단 너무 피곤해서 쉬자  
