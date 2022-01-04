@@ -59,13 +59,14 @@
   </div>
 </nav>
   </div>
+  <input type="button" @click="test">
 </div>
 </template>
 <script>
 import * as modules from '../../jslib';
 //import axios from 'axios';
-import Stomp from 'webstomp-client';
-import SockJS from 'sockjs-client';
+//import Stomp from 'webstomp-client';
+//import SockJS from 'sockjs-client';
 
 export default {
   name: 'he',
@@ -77,6 +78,7 @@ export default {
       role:"noLogin",
       email:null,
       roleFlag:false,
+      websocket:null,
     }
   },
   created() {
@@ -122,15 +124,11 @@ export default {
   },
   methods : {
         connect() {
-      const serverURL = "http://localhost:8080/recive"
-      let socket = new SockJS(serverURL);
-      var stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-      stompClient.connect({},re=>{
-        console.log('연결성공'+re);
-      });
-        
-             
+         this.websocket = new WebSocket("ws://localhost:8080/ws/chat");
+        console.log(this.websocket);       
+    },
+    test(){
+      this.websocket.send("My name is Bora");
     },
     getUserInfor(){
       var arr=JSON.stringify({
