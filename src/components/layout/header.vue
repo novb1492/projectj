@@ -133,10 +133,7 @@ export default {
         }*/
          this.websocket.onmessage = function(event) {
           console.log(event.data);
-          var m=JSON.parse(event.data);
-          if(m.id==this.websocket.se){
-            console.log('나:'+m.message);
-          }
+          JSON.parse(event.data);
         };
       
     },

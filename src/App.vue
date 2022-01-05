@@ -30,6 +30,7 @@ a{ text-decoration:none }
 .ml120{margin-left: 120px;}
 .ml180{margin-left: 180px;}
 ul{list-style:none;}
+li{list-style-type: none; }
 .pinkText{color: pink; margin: 0px;}
 .giveCenter {
   font-family: Avenir, Helvetica, Arial, sans-serif;
