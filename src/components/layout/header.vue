@@ -128,9 +128,12 @@ export default {
          this.websocket.onerror = function(error) {
            console.log(error);
          }
-        this.websocket.onclose = function (event) {
+        /*this.websocket.onclose = function (event) {
           console.log(event);
-        }
+        }*/
+         this.websocket.onmessage = function(event) {
+          alert(`[message] 서버로부터 전송받은 데이터: ${event.data}`);
+        };
       
     },
     test(){
