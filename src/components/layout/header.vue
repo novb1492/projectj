@@ -107,6 +107,7 @@ export default {
         this.loginFlag=true;
         this.email=message[0];
         this.role=message[1];
+         this.connect();
       }else{
         this.loginFlag=false;
       }
@@ -120,12 +121,17 @@ export default {
     if(this.uri=='/'){
       this.searchflag=true;
     }
-     this.connect()
   },
   methods : {
         connect() {
-         this.websocket = new WebSocket("ws://localhost:8080/ws/chat");
-        console.log(this.websocket);       
+         this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
+         this.websocket.onerror = function(error) {
+           console.log(error);
+         }
+        this.websocket.onclose = function (event) {
+          console.log(event);
+        }
+      
     },
     test(){
       this.websocket.send("My name is Bora");
