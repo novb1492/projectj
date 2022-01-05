@@ -132,12 +132,16 @@ export default {
           console.log(event);
         }*/
          this.websocket.onmessage = function(event) {
-          alert(`[message] 서버로부터 전송받은 데이터: ${event.data}`);
+          console.log(event.data);
+          var m=JSON.parse(event.data);
+          if(m.id==this.websocket.se){
+            console.log('나:'+m.message);
+          }
         };
       
     },
     test(){
-      this.websocket.send("My name is Bora");
+      this.websocket.send("helloMessage");
     },
     getUserInfor(){
       var arr=JSON.stringify({
