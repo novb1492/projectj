@@ -23,6 +23,7 @@
 
     </ul>
     <br>
+    <input type="text" id="searchinput">
     <input type="button" @click="changePage(1)" id="nextbutton" value="다음">
     <span>{{page}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
@@ -43,7 +44,7 @@ export default {
         page:null,
         totalPage:null,
         shops:[],
-        
+        keyword:null,
     }
   },
   created(){
@@ -55,7 +56,7 @@ export default {
             modules.wrongAccese();
             return;
         }
-        this.getShops(modules.getParam('page'));
+        this.getShops(modules.getParam('page'),modules.getParam('keyword'));
     });
     
   },
@@ -66,8 +67,9 @@ export default {
       }
       this.getShops(this.page*1+num);
     },
-    getShops(page){
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/all?page='+page).then(result=>{
+    getShops(page,keyword){
+      console.log(decodeURI(keyword));
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/all/'+page).then(result=>{
         console.log(result);
         //예외발생 혹은 검색결과없을때
         if(!result.flag){
@@ -87,6 +89,7 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
+        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page);
       });
     },
   },
