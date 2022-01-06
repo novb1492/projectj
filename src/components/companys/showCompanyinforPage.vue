@@ -23,7 +23,9 @@
 
     </ul>
     <br>
-    <input type="text" id="searchinput">
+    <input type="text" id="searchinput" @keyup.enter="search"> 
+    <input type="button" @click="search" value="매장이름으로 검색">
+    <br>
     <input type="button" @click="changePage(1)" id="nextbutton" value="다음">
     <span>{{page}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
@@ -61,6 +63,9 @@ export default {
     
   },
   methods:{
+    search(){
+      this.getShops(1,modules.getValueById('searchinput'));
+    },
     changePage(num){
       if(this.page==null){
         return;
@@ -68,8 +73,10 @@ export default {
       this.getShops(this.page*1+num);
     },
     getShops(page,keyword){
-      console.log(decodeURI(keyword));
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/all/'+page).then(result=>{
+      if(modules.checkNull(keyword)){
+        keyword=null;
+      }
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
         console.log(result);
         //예외발생 혹은 검색결과없을때
         if(!result.flag){
@@ -89,7 +96,7 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
-        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page);
+        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page+'&keyword='+keyword);
       });
     },
   },
