@@ -58,9 +58,10 @@ export default {
             modules.wrongAccese();
             return;
         }
-        this.getShops(modules.getParam('page'),modules.getParam('keyword'));
+        var key=modules.getParam('keyword');
+        this.getShops(modules.getParam('page'),key);
+        document.getElementById('searchinput').value=key;
     });
-    
   },
   methods:{
     search(){
@@ -70,7 +71,7 @@ export default {
       if(this.page==null){
         return;
       }
-      this.getShops(this.page*1+num);
+      this.getShops(this.page*1+num,this.keyword);
     },
     getShops(page,keyword){
       if(modules.checkNull(keyword)){
@@ -86,6 +87,7 @@ export default {
         this.page=page;
         this.shops=result.message.message;
         this.totalPage=result.message.totalPage;
+        this.keyword=keyword;
         if(this.page>=this.totalPage){
           modules.disabledById('nextbutton',true);
         }else{
@@ -96,7 +98,7 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
-        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page+'&keyword='+keyword);
+        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page+'&keyword='+this.keyword);
       });
     },
   },
