@@ -124,3 +124,15 @@ export function changeUrl(url){
     }
     return false;
 }
+export function checkRole(role,loginFlag,denideRole){
+    if(checkLoginFlag(loginFlag)||role==denideRole){
+        return true;
+    }
+    return false;
+}
+export function checkLoginFlag(loginFlag){
+    if(!loginFlag){
+        return true;
+    }
+    return false;
+}

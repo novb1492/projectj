@@ -10,6 +10,7 @@ import changePwdPage from './components/users/changePwdPage.vue';
 import resultPage from './components/resultPage.vue';
 import registStorePage from './components/companys/registStorePage.vue';
 import showCompanyinforPage from './components/companys/showCompanyinforPage.vue';
+import showStoreDetailPage from './components/companys/showStoreDetailPage.vue';
 
 Vue.use(VueRouter);
 const router =new VueRouter({
@@ -27,6 +28,7 @@ const router =new VueRouter({
       {path:'/resultPage',component:resultPage},
       {path:'/registStorePage',component:registStorePage},
       {path:'/showCompanyinforPage',component:showCompanyinforPage},
+      {path:'/showStoreDetailPage',component:showStoreDetailPage},
     ]
 });
 export default router;

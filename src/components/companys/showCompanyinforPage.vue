@@ -3,7 +3,7 @@
     <ul>
       <span v-for="shop in this.shops" :key="shop">
         <li>
-          <a href="#">
+          <a href="#" @click="showStore(shop.sid)">
             <img :src="shop.simg" alt="">
             <br>
             {{shop.sname}}
@@ -64,6 +64,9 @@ export default {
     });
   },
   methods:{
+    showStore(id){
+      location.href='/showStoreDetailPage?id='+id;
+    },
     search(){
       this.getShops(1,modules.getValueById('searchinput'));
     },
