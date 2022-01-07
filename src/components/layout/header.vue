@@ -112,9 +112,8 @@ export default {
         this.loginFlag=false;
       }
       //로그인여부
-
       this.$EventBus.$emit('loginInfor',this.getUserInfor());  
-    },error=>{
+      },error=>{
       console.log(error);
       this.$EventBus.$emit('loginInfor',this.getUserInfor());  
     });
