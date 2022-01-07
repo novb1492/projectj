@@ -6,7 +6,7 @@
       <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumbNail">
       <br>
       <br>
-      <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+      <editorComponent/>
       <br>
      <vue-daum-postcode
         id="kpost"
@@ -95,8 +95,6 @@
 <style>
 </style>
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import MyUploadAdapter from '../../MyUploadAdapter';
 import * as modules from '../../jslib';
 export default {
   name: 'registStorePage',
@@ -104,16 +102,11 @@ export default {
     return  {
       storex:0,
       storey:0,
+      text:null,
       map:null,
       marker:null,
       infowindow:null,
       thumbnail:null,
-         editor: ClassicEditor,
-                editorData: null,
-                editorConfig: {
-                  placeholder:'간단한 가게 설명을 적어주세요',
-                  extraPlugins: [this.MyCustomUploadAdapterPlugin],
-                },
       deliverRadiusFlag:false,
       circle:null,
     }
@@ -135,11 +128,15 @@ export default {
     script.onload = () => kakao.maps.load(this.initMap);
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
+    //에디터 컴포넌트 입력시 받아오기
+    this.$EventBus.$on('editorText',get=>{
+      this.text=get;
+    });
   },
   methods:{
     tryInsertStore(){
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
-      var text=this.editorData;
+      var text=this.text;
       var postcode=modules.getValueById('postcode');
       var address=modules.getValueById('address');
       var storeName=modules.getValueById('storeName');
@@ -193,12 +190,6 @@ export default {
         return;
       }
       this.drawCircle(num);
-    },
-    MyCustomUploadAdapterPlugin( editor ) {
-            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-            // Configure the URL to the upload script in your back-end here!
-            return new MyUploadAdapter( loader );
-            };
     },
     uploadThumbNail(){
       const frm = new FormData();
