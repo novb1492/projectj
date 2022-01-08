@@ -135,6 +135,7 @@ export default {
   },
   methods:{
     tryInsertStore(){
+      console.log(this.text);
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.text;
       var postcode=modules.getValueById('postcode');
