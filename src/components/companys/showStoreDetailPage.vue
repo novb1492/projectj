@@ -6,8 +6,7 @@
       <input type="file" id="img" name="img" accept=".gif, .jpg, .png"><input type="button"  value="업로드"  @click="uploadThumbNail">
       <br>
       <br>
-      <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
-
+      <editorComponent/>
       <br>
      <vue-daum-postcode
         id="kpost"
@@ -99,6 +98,11 @@
 import * as modules from '../../jslib';
 export default {
   name: 'showStoreDetailPage',
+  data(){
+    return  {
+      thumbnail:null,
+    }
+  },
   created(){
     this.$EventBus.$on('loginInfor',loginInfor=>{
       loginInfor=JSON.parse(loginInfor);
@@ -111,10 +115,17 @@ export default {
     });
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
+      if(!result.flag){
+        alert(result.message);
+        return;
+      }
+      this.thumbnail=result.message.simg;
     });
   },
   methods:{
-
+    tryUpdate(){
+      
+    },
   }
 }
 </script>

@@ -136,3 +136,6 @@ export function checkLoginFlag(loginFlag){
     }
     return false;
 }
+export function changeValueById(id,value){
+    document.getElementById(id).value=value;
+}
