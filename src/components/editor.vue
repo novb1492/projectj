@@ -1,6 +1,6 @@
 <template>
   <div >
-   <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @input="sendText"></ckeditor>
+    <textarea id="editor"></textarea>
   </div>
 </template>
 <style>
@@ -13,18 +13,27 @@ export default {
   name: 'editorComponent',
   data(){
     return  {
-    editor: ClassicEditor,
-    editorData: null,
+        editor:null,
         editorConfig: {
             placeholder:'간단한 가게 설명을 적어주세요',
             extraPlugins: [this.MyCustomUploadAdapterPlugin],
-          
         },
     }
   },
+  mounted(){
+    ClassicEditor.create(document.querySelector("#editor"), this.editorConfig).then(
+          editor => {
+            this.editor = editor;
+            this.editor.model.document.on("change", () => {
+              this.sendText();
+            });
+          }
+    );
+  },
   methods:{
     sendText(){
-      this.$EventBus.$emit('editorText',this.editorData);
+      console.log(this.editor.getData());
+      this.$EventBus.$emit('editorText',this.editor.getData());
     },
     MyCustomUploadAdapterPlugin( editor ) {
             editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
