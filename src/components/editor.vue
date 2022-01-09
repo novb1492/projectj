@@ -6,7 +6,6 @@
 <style>
 </style>
 <script>
-//import * as modules from '../jslib';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import MyUploadAdapter from '../MyUploadAdapter';
 export default {
