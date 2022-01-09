@@ -1,14 +1,16 @@
 <template>
-    <div id="mapPage">
-        <mapComponet/>
-        <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
-    </div>
+  <div class="map">
+        <div id="map"></div>
+  </div>
 </template>
+<style>
+</style>
 <script>
-import * as modules from './jslib';
+import * as modules from '../jslib';
+
 export default {
-   name :'firstdoor',
-    data() {
+  name: 'mapComponet',
+   data() {
     return {
       map: null,//카카오지도 객체
       destinationFlag:false,//받을 주소를 선택했는지 판별하는 플래그
@@ -23,9 +25,9 @@ export default {
       infowindowFlag:false,
       makers:[],
       inforWindows:[],
-    };
-  },
-  created() {
+    }
+   },
+   created() {
     //카카오 api head에넣기
     const script = document.createElement("script");
     /* global kakao */
@@ -56,6 +58,9 @@ export default {
       this.destinationFlag=true;
     },
     initMap() {
+        var url=location.pathname;
+        console.log('mapuri: '+url);
+        if(url=='/')
       this.address=sessionStorage.getItem("homeAddress");
       const container = document.getElementById("map");
       const options = {
@@ -175,8 +180,6 @@ export default {
         });
     } 
   },
- 
-   
-}
 
+}
 </script>

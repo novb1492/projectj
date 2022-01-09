@@ -112,7 +112,7 @@ export default {
     }
   },
   created(){
-    this.$EventBus.$on('loginInfor',loginInfor=>{
+    /*this.$EventBus.$on('loginInfor',loginInfor=>{
       loginInfor=JSON.parse(loginInfor);
         console.log(loginInfor);
         //비로그인,권한이없는유저 팅겨내기
@@ -120,7 +120,7 @@ export default {
             modules.wrongAccese();
             return;
         }
-    });
+    });*/
     this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
     //카카오 api head에넣기
     const script = document.createElement("script");
@@ -128,14 +128,17 @@ export default {
     script.onload = () => kakao.maps.load(this.initMap);
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
-    //에디터 컴포넌트 입력시 받아오기
+  },
+  mounted(){
+     //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;
+      console.log('에디터내용');
+      console.log(this.text);
     });
   },
   methods:{
     tryInsertStore(){
-      console.log(this.text);
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.text;
       var postcode=modules.getValueById('postcode');
@@ -149,7 +152,6 @@ export default {
       var deliverRadius=modules.getValueById('deliverRadius');
       var tel=modules.getValueById('tel');
       var phone=modules.getValueById('phone');
-      console.log(thumbNail+text);
       let data=JSON.stringify({
         "thumbNail":thumbNail,
         "text":text,
