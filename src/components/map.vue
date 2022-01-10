@@ -25,6 +25,7 @@ export default {
       infowindowFlag:false,
       makers:[],
       inforWindows:[],
+      url:null,
     }
    },
    created() {
@@ -58,9 +59,8 @@ export default {
       this.destinationFlag=true;
     },
     initMap() {
-        var url=location.pathname;
-        console.log('mapuri: '+url);
-        if(url=='/')
+        this.url=location.pathname;
+        console.log('mapuri: '+this.url);
       this.address=sessionStorage.getItem("homeAddress");
       const container = document.getElementById("map");
       const options = {
@@ -68,7 +68,7 @@ export default {
         level: 5,
       };
       this.map = new kakao.maps.Map(container, options);
-      container.style.width = window.innerWidth+'px';
+      container.style.width = window.innerWidth-200+'px';
       container.style.height = (window.innerHeight-150)+'px';
       this.map.relayout();
       if(this.destinationFlag){//false문자열로 저장되기 때문에 !로 형식변환
@@ -165,6 +165,7 @@ export default {
         var name=place.place_name;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
+          document.getElementById('map').style.left='200px';
           console.log(x+" "+this.destinationX);
           modules.requestGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).then(result=>{
               console.log(result);
@@ -173,9 +174,7 @@ export default {
                 alert(re.message)
                 return;
               }
-              if(confirm(re.message)){
-                location.href="/showLeaflet";
-              }
+              document.getElementById('map').style.left='200px';
           });          
         });
     } 

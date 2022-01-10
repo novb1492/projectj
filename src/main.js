@@ -6,6 +6,8 @@ import shortHeader from './components/layout/shortLogo.vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ck from './components/editor.vue';
 import kMap from './components/map.vue';
+import sideVar from './components/layout/sideVar.vue';
+
 Vue.use( CKEditor );
 Vue.use(VueDaumPostcode)
 Vue.config.productionTip = false;
@@ -16,11 +18,13 @@ Vue.prototype.$s3Path='https://s3.ap-northeast-2.amazonaws.com';
 Vue.prototype.$ROLE_USER='ROLE_USER';
 Vue.prototype.$ROLE_COMPANY='ROLE_COMPANY';
 Vue.prototype.$ROLE_ADMIN='ROLE_ADMIN';
+Vue.prototype.$sideVarWitdh=250;
 
 //글로벌 컴포넌츠들
 Vue.component(shortHeader.name, shortHeader); //이렇게 하면 글로벌 컴포넌츠가 된다 
 Vue.component(ck.name,ck);
 Vue.component(kMap.name,kMap);
+Vue.component(sideVar.name,sideVar);
 
 
 new Vue({

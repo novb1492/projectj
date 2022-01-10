@@ -1,5 +1,6 @@
 <template>
   <div class="showCompanyinforPage">
+    <side-var/>
     <ul>
       <span v-for="shop in this.shops" :key="shop">
         <li>
@@ -37,7 +38,9 @@ li{float: left; margin-left: 10px;}
 </style>
 <script>
 import * as modules from '../../jslib';
+import sideVar from '../layout/sideVar.vue';
 export default {
+  components: { sideVar },
   name: 'showCompanyinforPage',
   data() {
     return {

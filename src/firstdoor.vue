@@ -1,12 +1,20 @@
 <template>
     <div id="mapPage">
-        <mapComponet/>
+      <span v-if="sideFlag">
+      <side-var/>
+      </span>
+        <div id="map"></div>
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
     </div>
 </template>
+<style>
+#map{position: absolute; top: 80px;}
+</style>
 <script>
+import sideVar from './components/layout/sideVar.vue';
 import * as modules from './jslib';
 export default {
+  components: { sideVar },
    name :'firstdoor',
     data() {
     return {
@@ -23,6 +31,7 @@ export default {
       infowindowFlag:false,
       makers:[],
       inforWindows:[],
+      sideFlag:false,
     };
   },
   created() {
@@ -160,6 +169,8 @@ export default {
         var name=place.place_name;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
+          this.sideFlag=true;
+          document.getElementById('map').style.left=this.$sideVarWitdh+'px';
           console.log(x+" "+this.destinationX);
           modules.requestGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).then(result=>{
               console.log(result);
