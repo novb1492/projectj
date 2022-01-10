@@ -8,7 +8,7 @@
     </div>
 </template>
 <style>
-#map{position: absolute; top: 80px;}
+#map{position: absolute; top: 80px; overflow:scroll}
 </style>
 <script>
 import sideVar from './components/layout/sideVar.vue';
@@ -65,7 +65,10 @@ export default {
       }else{
         //아니라면 삭제되어야하는지 판단
         if(this.deleteFlag){
+          //사이드바제거
           document.getElementById('side').hidden=true;
+          //마진 0로 꽉차게
+          document.getElementById('map').style.marginLeft='0px';
           return;
         }
         this.deleteFlag=true;
@@ -193,7 +196,7 @@ export default {
           modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
               console.log('a');
               this.sideFlag=true;
-              document.getElementById('map').style.transform='translateX(250px)';
+              document.getElementById('map').style.marginLeft='250px';
               document.getElementById('side').hidden=false;
           }).then(result=>{
               console.log(result);
@@ -203,7 +206,9 @@ export default {
               }
               //응답이 성공적이라면 사이드바 펼치키
               this.sideFlag=true;
-              document.getElementById('map').style.transform='translateX(250px)';
+              //마진부여후 사이드바 공간 확보
+              document.getElementById('map').style.marginLeft=this.$sideVarWidth+'px';
+              //히든 속성 꺼주기
               document.getElementById('side').hidden=false;
           });          
         });
