@@ -50,10 +50,10 @@
         </li>
       </ul>
       <div v-if="searchflag">
-      <form class="d-flex">
+      <span class="d-flex">
         <input class="form-control me-2" id="search" type="search" placeholder="00슈퍼,00마트등 검색" @keyup.enter="callFirstDoor" aria-label="Search">
         <button class="btn btn-outline-success" @click="callFirstDoor" type="button">Search</button>
-      </form>
+      </span>
       </div>
     </div>
   </div>
