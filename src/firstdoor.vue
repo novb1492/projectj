@@ -59,7 +59,6 @@ export default {
     document.getElementById('mapPage').addEventListener('click',(event)=>{
       //side영역이라면 무시 사이드바가 안펼쳐있다면 무시
       if(event.target == event.currentTarget.querySelector("#side")||!this.sideFlag){
-        this.againFlag=false;  
         this.deleteFlag=true;
         this.sideFlag=false;
         return ;
@@ -193,7 +192,7 @@ export default {
           console.log(x+" "+this.destinationX);
           modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
               console.log('a');
-                            this.sideFlag=true;
+              this.sideFlag=true;
               document.getElementById('map').style.transform='translateX(250px)';
               document.getElementById('side').hidden=false;
           }).then(result=>{
