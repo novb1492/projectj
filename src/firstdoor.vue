@@ -1,8 +1,8 @@
 <template>
     <div id="mapPage">
-      <span v-if="sideFlag">
-      <side-var/>
-      </span>
+
+      <side-var id="side" hidden/>
+  
         <div id="map"></div>
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
     </div>
@@ -32,6 +32,7 @@ export default {
       makers:[],
       inforWindows:[],
       sideFlag:false,
+      deleteFlag:false,
     };
   },
   created() {
@@ -48,11 +49,30 @@ export default {
   mounted(){
     //리사이즈 될때 감지
     window.onresize = ()=> {
+      console.log('resize');
       const container = document.getElementById("map");
       container.style.width = window.innerWidth+'px';
       container.style.height = (window.innerHeight-150)+'px';
       this.map.relayout();
     };
+    //사이드바 표시여부 조절
+    document.getElementById('mapPage').addEventListener('click',(event)=>{
+      //side영역이라면 무시 사이드바가 안펼쳐있다면 무시
+      if(event.target == event.currentTarget.querySelector("#side")||!this.sideFlag){
+        this.againFlag=false;  
+        this.deleteFlag=true;
+        this.sideFlag=false;
+        return ;
+      }else{
+        //아니라면 삭제되어야하는지 판단
+        if(this.deleteFlag){
+          document.getElementById('side').hidden=true;
+          return;
+        }
+        this.deleteFlag=true;
+      }
+        
+    });
   },
   methods: {
     showHomePlace(place){
@@ -169,19 +189,23 @@ export default {
         var name=place.place_name;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
-          this.sideFlag=true;
-          document.getElementById('map').style.left=this.$sideVarWitdh+'px';
+
           console.log(x+" "+this.destinationX);
-          modules.requestGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).then(result=>{
+          modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
+              console.log('a');
+                            this.sideFlag=true;
+              document.getElementById('map').style.transform='translateX(250px)';
+              document.getElementById('side').hidden=false;
+          }).then(result=>{
               console.log(result);
-              var re=result.data;
-              if(re.flag==false){
-                alert(re.message)
+              if(result.flag==false){
+                alert(result.message)
                 return;
               }
-              if(confirm(re.message)){
-                location.href="/showLeaflet";
-              }
+              //응답이 성공적이라면 사이드바 펼치키
+              this.sideFlag=true;
+              document.getElementById('map').style.transform='translateX(250px)';
+              document.getElementById('side').hidden=false;
           });          
         });
     } 

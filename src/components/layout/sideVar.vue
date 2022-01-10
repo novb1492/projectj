@@ -67,5 +67,8 @@
 <script>
 export default {
   name: 'sideVar',
+  mounted(){
+    
+  }
 }
 </script>
