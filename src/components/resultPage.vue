@@ -31,8 +31,7 @@ export default {
     login(){
       this.flag=modules.getParam('result');
       if(this.flag=='true'){
-        opener.opener.location.reload();
-        opener.close();
+        opener.location.href='/';
       }else{
         alert(modules.getParam('message'));
       }

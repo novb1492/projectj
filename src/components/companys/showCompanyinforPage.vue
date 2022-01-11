@@ -1,9 +1,9 @@
 <template>
   <div class="showCompanyinforPage">
     <side-var/>
-    <ul>
+    <ul style="float: left; text-align: center;">
       <span v-for="shop in this.shops" :key="shop">
-        <li>
+        <li style="float: left; margin-left: 10px;">
           <a href="#" @click="showStore(shop.sid)">
             <img :src="shop.simg" alt="">
             <br>
@@ -33,8 +33,7 @@
   </div>
 </template>
 <style>
-ul{float: left; text-align: center;} 
-li{float: left; margin-left: 10px;}
+
 </style>
 <script>
 import * as modules from '../../jslib';

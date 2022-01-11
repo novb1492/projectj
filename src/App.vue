@@ -21,14 +21,10 @@ export default {
 </script>
 
 <style>
-html,body {
-    margin:0;
-    padding:0;
-    height:100%;
-}
+
 .foot {
     position:absolute;
-    bottom:0;
+    bottom:0px;
     width:100%;
 }
 .mr20{margin-right: 20px;}
@@ -47,7 +43,8 @@ li{list-style-type: none; }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+
 }
+.loginCenter{text-align: center;}
 .storeThumbnail{width: 200px; height: 200px;}
 </style>

@@ -40,8 +40,8 @@
               </div>
             </div>
             <div v-else>
-              <li><a class="dropdown-item" href="#" @click="openPopUP('/loginPage','userpopup',500,500)">로그인</a></li>
-              <li><a class="dropdown-item" href="#" @click="openPopUP('/beforeJoinPage','userpopup',500,900)">회원가입</a></li>
+              <li><a class="dropdown-item" href="/loginPage" >로그인</a></li>
+              <li><a class="dropdown-item" href="/beforeJoinPage" >회원가입</a></li>
             </div>
           </ul>
         </li>

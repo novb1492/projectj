@@ -8,7 +8,7 @@
     </div>
 </template>
 <style>
-#map{position: absolute; top: 80px; overflow:scroll}
+#map{position: absolute; top: 50px; overflow:scroll}/*네비바 세로길이 만큼 top을 부여해야함.*/
 </style>
 <script>
 import sideVar from './components/layout/sideVar.vue';
@@ -191,13 +191,12 @@ export default {
         var name=place.place_name;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
-
           console.log(x+" "+this.destinationX);
           modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
               console.log('a');
-              this.sideFlag=true;
-              document.getElementById('map').style.marginLeft='250px';
-              document.getElementById('side').hidden=false;
+              this.sideFlag=true;//테스트코드
+              document.getElementById('map').style.marginLeft='250px';//테스트코드
+              document.getElementById('side').hidden=false;//테스트코드
           }).then(result=>{
               console.log(result);
               if(result.flag==false){
