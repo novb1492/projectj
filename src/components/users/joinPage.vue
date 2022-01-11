@@ -27,7 +27,7 @@
       <vue-daum-postcode
         id="kpost"
         @complete="onComplete"
-        style="overflow: scroll; margin-left: 50px; width: 400px; height: 500px"
+        style="overflow: scroll; margin-left: 50%; transform: translateX(-50%);  width: 400px; height: 500px"
       />
       <span>우편번호</span
       ><input
