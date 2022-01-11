@@ -21,6 +21,16 @@ export default {
 </script>
 
 <style>
+html,body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+.foot {
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
 .mr20{margin-right: 20px;}
 a{ text-decoration:none }
 .ml80{margin-left: 80px;}
