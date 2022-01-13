@@ -1,5 +1,5 @@
 <template>
-  <div class="sideVar">
+  <div  class="sideBar">
   <div class="flex-shrink-0 p-3 bg-white" style="width: 250px;">
     <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
@@ -66,9 +66,8 @@
 </style>
 <script>
 export default {
-  name: 'sideVar',
+  name: 'sideBar',
   mounted(){
-    
   }
 }
 </script>

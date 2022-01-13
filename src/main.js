@@ -6,7 +6,7 @@ import shortHeader from './components/layout/shortLogo.vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ck from './components/editor.vue';
 import kMap from './components/map.vue';
-import sideVar from './components/layout/sideVar.vue';
+import sideBar from './components/layout/sideBar.vue';
 
 Vue.use( CKEditor );
 Vue.use(VueDaumPostcode)
@@ -24,7 +24,7 @@ Vue.prototype.$sideVarWitdh=250;//수정시 사이드바 width는 가서 직접 
 Vue.component(shortHeader.name, shortHeader); //이렇게 하면 글로벌 컴포넌츠가 된다 
 Vue.component(ck.name,ck);
 Vue.component(kMap.name,kMap);
-Vue.component(sideVar.name,sideVar);
+Vue.component(sideBar.name,sideBar);
 
 
 new Vue({

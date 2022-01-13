@@ -1,9 +1,11 @@
 <template>
-  <div class="foot giveCenter">
-      풋터
-  </div>
+  <footer class="foot giveCenter"> 풋터</footer>
 </template>
 <style>
+footer{
+  position : relative;
+  transform : translateY(-100%);
+}
 </style>
 <script>
 export default {

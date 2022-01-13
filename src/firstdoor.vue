@@ -1,7 +1,7 @@
 <template>
     <div id="mapPage">
 
-      <side-var id="side" hidden/>
+      <side-bar id="side" hidden/>
   
         <div id="map"></div>
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
@@ -11,10 +11,10 @@
 #map{position: absolute; top: 50px; overflow:scroll}/*네비바 세로길이 만큼 top을 부여해야함.*/
 </style>
 <script>
-import sideVar from './components/layout/sideVar.vue';
+import sideBar from './components/layout/sideBar.vue';
 import * as modules from './jslib';
 export default {
-  components: { sideVar },
+  components: { sideBar },
    name :'firstdoor',
     data() {
     return {
@@ -56,9 +56,8 @@ export default {
       this.map.relayout();
     };
     //사이드바 표시여부 조절
-    document.getElementById('mapPage').addEventListener('click',(event)=>{
-      //side영역이라면 무시 사이드바가 안펼쳐있다면 무시
-      if(event.target == event.currentTarget.querySelector("#side")||!this.sideFlag){
+    document.getElementById('map').addEventListener('click',()=>{
+      if(!this.sideFlag){
         this.deleteFlag=true;
         this.sideFlag=false;
         return ;
@@ -193,7 +192,6 @@ export default {
         kakao.maps.event.addListener(marker, 'click',()=>{
           console.log(x+" "+this.destinationX);
           modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
-              console.log('a');
               this.sideFlag=true;//테스트코드
               document.getElementById('map').style.marginLeft='250px';//테스트코드
               document.getElementById('side').hidden=false;//테스트코드

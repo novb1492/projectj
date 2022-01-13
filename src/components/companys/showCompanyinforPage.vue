@@ -37,7 +37,7 @@
 </style>
 <script>
 import * as modules from '../../jslib';
-import sideVar from '../layout/sideVar.vue';
+import sideVar from '../layout/sideBar.vue';
 export default {
   components: { sideVar },
   name: 'showCompanyinforPage',
