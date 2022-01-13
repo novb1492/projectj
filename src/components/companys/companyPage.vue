@@ -1,10 +1,10 @@
 <template>
   <div>
       <side-bar id="side"/>
-      <span v-if="choose=='/registStorePage'">
+      <span v-if="choose=='1'">
         <regist-store-page/>
       </span>
-        <span v-if="choose=='/showStoresPage?page=1&keyword=null'">
+        <span v-if="choose=='2'">
         <show-st/>
       </span>
   </div>
@@ -13,7 +13,6 @@
 #side{position: absolute;}
 </style>
 <script>
-import * as modules from '../../jslib'
 import SideBar from '../layout/sideBar.vue';
 import RegistStorePage from './registStorePage.vue';
 import ShowSt from './showSt.vue';
@@ -26,14 +25,22 @@ export default {
     }
   },
   mounted(){
-      console.log('a');
-      this.$EventBus.$on('changeuri',text=>{
-      console.log(text);
-      this.choose=text;
-      if(text=='/showStoresPage?page=1&keyword=null'){
-          modules.changeUrl('/showStoresPage?page=1&keyword=null');
+      var pageNum=localStorage.getItem('pageNum');
+      if(pageNum==null){
+        pageNum='2';
       }
+      console.log(pageNum);
+      this.choose=pageNum;
+      //새로고침시 이벤트 버스가 호출되지 않음
+      this.$EventBus.$on('pageNum',pageNum=>{
+      console.log("pageNum");
+      this.choose=pageNum;
     });
+  },
+  methods:{
+    chooseComponent(pageNum){
+      this.choose=pageNum;
+    }
   }
 }
 </script>

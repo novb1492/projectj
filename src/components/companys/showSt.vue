@@ -29,14 +29,13 @@
     <input type="text" id="searchinput" @keyup.enter="search"> 
     <input type="button" @click="search" value="매장이름으로 검색">
    </div>
-    </div>
-    
+    </div>  
   </div>
 </template>
 <style>
 img{width: 150px;height: 150px;}
 #showStorsPage{position: absolute;}
-#buttonArea{margin-top: 550px;}
+#buttonArea{margin-top: 70%;}
 </style>
 <script>
 import * as modules from '../../jslib';
@@ -55,9 +54,21 @@ export default {
     }
   },
   created(){
-    var key=modules.getParam('keyword');
-    this.getShops(modules.getParam('page'),key);
-    document.getElementById('searchinput').value=key;
+    var key=null;
+    var page=1;
+    //새로고침시 데이터가져오기
+    var localPage=localStorage.getItem("page");
+    var localKey=localStorage.getItem("keyword");
+    //새로고침시 데이터 유지 위해 저장
+    localStorage.setItem("pageNum","2");
+    //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
+    if(localPage!=null){
+      page=localPage;
+    }
+    if(localKey!=null){
+      key=localKey;
+    }
+    this.getShops(page,key);
   },
   mounted(){
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
@@ -100,7 +111,14 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
-        modules.changeUrl(this.$domain+'/showStoresPage?page='+this.page+'&keyword='+this.keyword);
+        //새로고침시 데이터 유지위해 저장
+        localStorage.setItem("page",this.page);
+        localStorage.setItem("keyword",this.keyword);
+        //null인경우 공백으로 표시
+        if(this.keyword=="null"){
+          this.keyword='';
+        }
+        document.getElementById('searchinput').value=this.keyword;
       });
     },
   },

@@ -61,19 +61,19 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri=='/showStoresPage'||uri=='/registStorePage'||uri=='/companyPage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+    <span v-if="uri=='/companyPage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
         </span>
     <ul class="list-unstyled ps-0">
          <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage('/registStorePage')">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage('1')">
           매장등록하기
         </button>
       </li>
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage('/showStoresPage?page=1&keyword=null')">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage('2')">
           모든매장보기
         </button>
       </li>
@@ -134,12 +134,13 @@ export default {
   },
   mounted(){
     this.uri=location.pathname;
-    console.log(this.uri);
+    this.changePage(1);
   },
   methods:{
-    changePage(uri){
-      //location.href=uri;
-      this.$EventBus.$emit('changeuri',uri);  
+    changePage(pageNum){
+      //새로고침시 호출되지 않음
+      console.log('emit'+pageNum);
+      this.$EventBus.$emit('pageNum',pageNum);  
     },
   }
 }
