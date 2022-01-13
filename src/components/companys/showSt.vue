@@ -1,9 +1,9 @@
 <template>
-  <div >
-   sss
-    <div id="showStorsPage">
+  <div>
+      <side-bar id="side" />
+   <div id="showStorsPage" style="margin-top:80px;">
       <ul style="float: left; text-align: center;">
-      <span v-for="shop in this.shops" :key="shop">
+      <span v-for="(shop,index) in this.shops" :key="index">
         <li style="float: left; margin-left: 10px;">
           <a href="#" @click="showStore(shop.sid)">
             <img :src="shop.simg" alt="">
@@ -22,9 +22,14 @@
         </li>
       </span>
     </ul>
-    <input type="button" @click="changePage(1)" style="margin-top:300px;" id="nextbutton" value="다음">
+   <div id="buttonArea">
+    <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
     <span>{{page}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
+    <br>
+    <input type="text" id="searchinput" @keyup.enter="search"> 
+    <input type="button" @click="search" value="매장이름으로 검색">
+   </div>
     </div>
     
   </div>
@@ -32,6 +37,7 @@
 <style>
 img{width: 150px;height: 150px;}
 #showStorsPage{position: absolute;}
+#buttonArea{margin-top: 700px;}
 </style>
 <script>
 import * as modules from '../../jslib';
@@ -50,7 +56,6 @@ export default {
     }
   },
   created(){
-    alert('bb');
     this.$EventBus.$on('loginInfor',loginInfor=>{
     loginInfor=JSON.parse(loginInfor);
     console.log('aaa'+loginInfor);
@@ -105,10 +110,10 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
-        modules.changeUrl(this.$domain+'/showCompanyinforPage?page='+this.page+'&keyword='+this.keyword);
+        modules.changeUrl(this.$domain+'/showStoresPage?page='+this.page+'&keyword='+this.keyword);
       });
     },
   },
-
 }
 </script>
+
