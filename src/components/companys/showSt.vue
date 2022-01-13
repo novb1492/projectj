@@ -55,22 +55,12 @@ export default {
     }
   },
   created(){
-    alert('abc');
-    this.$EventBus.$on('loginInfor',loginInfor=>{
-    loginInfor=JSON.parse(loginInfor);
-    console.log('aaa'+loginInfor);
-    //비로그인,권한이없는유저 팅겨내기
-        if(loginInfor.loginFlag!=true||loginInfor.role==this.$ROLE_USER){
-            modules.wrongAccese();
-            return;
-        }
-        var key=modules.getParam('keyword');
-        this.getShops(modules.getParam('page'),key);
-        document.getElementById('searchinput').value=key;
-    });
+    var key=modules.getParam('keyword');
+    this.getShops(modules.getParam('page'),key);
+    document.getElementById('searchinput').value=key;
   },
   mounted(){
-      document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
+    document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
   },
   methods:{
     showStore(id){
