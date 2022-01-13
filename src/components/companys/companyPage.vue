@@ -25,13 +25,14 @@ export default {
     }
   },
   mounted(){
+      //새로고침 대응 로직
       var pageNum=localStorage.getItem('pageNum');
       if(pageNum==null){
         pageNum='2';
       }
       console.log(pageNum);
       this.choose=pageNum;
-      //새로고침시 이벤트 버스가 호출되지 않음
+      //사이드바 클릭시 페이지 내용변경
       this.$EventBus.$on('pageNum',pageNum=>{
       console.log("pageNum");
       this.choose=pageNum;

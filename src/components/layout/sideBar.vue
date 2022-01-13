@@ -134,7 +134,7 @@ export default {
   },
   mounted(){
     this.uri=location.pathname;
-    this.changePage(1);
+    //this.changePage(1); 새로고침시에는 이벤트버스를 타지 않아서 /companyPage에 새로고침 대응 로직을 넣어놈
   },
   methods:{
     changePage(pageNum){
