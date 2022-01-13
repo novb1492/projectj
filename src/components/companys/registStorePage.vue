@@ -126,15 +126,6 @@ export default {
     }
   },
   created(){
-    this.$EventBus.$on('loginInfor',loginInfor=>{
-      loginInfor=JSON.parse(loginInfor);
-        console.log(loginInfor);
-        //비로그인,권한이없는유저 팅겨내기
-        if(loginInfor.loginFlag!=true||loginInfor.role==this.$ROLE_USER){
-            modules.wrongAccese();
-            return;
-        }
-    });
     this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
     //카카오 api head에넣기
     const script = document.createElement("script");

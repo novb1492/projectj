@@ -18,7 +18,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            마이페이지
+            User
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div v-if="loginFlag">
@@ -34,8 +34,9 @@
               </div>
               <div v-else>
                 <!--기업회원 목록-->
-                <li><a class="dropdown-item" href="/companyPage">매장관리하기</a></li>
-                <li><a class="dropdown-item" href="/showStoresPage">주문현황조회하기</a></li>
+                <li><a class="dropdown-item" href="/registStorePage">가게등록하기</a></li>
+                <li><a class="dropdown-item" href="/showCompanyinforPage?page=1&keyword=">가게관리하기</a></li>
+                <li><a class="dropdown-item" href="/showStoresPage">주문현황</a></li>
               </div>
             </div>
             <div v-else>

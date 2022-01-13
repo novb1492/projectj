@@ -13,6 +13,7 @@
 #side{position: absolute;}
 </style>
 <script>
+import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import RegistStorePage from './registStorePage.vue';
 import ShowSt from './showSt.vue';
@@ -23,6 +24,17 @@ export default {
     return {
         choose:null,
     }
+  },
+  created(){
+    this.$EventBus.$on('loginInfor',loginInfor=>{
+      loginInfor=JSON.parse(loginInfor);
+        console.log(loginInfor);
+        //비로그인,권한이없는유저 팅겨내기
+        if(loginInfor.loginFlag!=true||loginInfor.role==this.$ROLE_USER){
+            modules.wrongAccese();
+            return;
+        }
+    });
   },
   mounted(){
       //새로고침 대응 로직
