@@ -1,5 +1,5 @@
 <template>
-  <footer class="container-fluid navbar-fixed-bottom"> 풋터</footer>
+  <footer class="navbar-fixed-bottom"> 풋터</footer>
 </template>
 <style>
 
