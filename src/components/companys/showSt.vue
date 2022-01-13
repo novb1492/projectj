@@ -1,6 +1,5 @@
 <template>
   <div>
-      <side-bar id="side" />
    <div id="showStorsPage" style="margin-top:80px;">
       <ul style="float: left; text-align: center;">
       <span v-for="(shop,index) in this.shops" :key="index">
@@ -56,6 +55,7 @@ export default {
     }
   },
   created(){
+    alert('abc');
     this.$EventBus.$on('loginInfor',loginInfor=>{
     loginInfor=JSON.parse(loginInfor);
     console.log('aaa'+loginInfor);

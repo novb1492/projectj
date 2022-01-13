@@ -11,7 +11,7 @@ import resultPage from './components/resultPage.vue';
 import registStorePage from './components/companys/registStorePage.vue';
 import showSt from './components/companys/showSt.vue';
 import showStoreDetailPage from './components/companys/showStoreDetailPage.vue';
-
+import companyPage from './components/companys/companyPage.vue';
 Vue.use(VueRouter);
 const router =new VueRouter({
     mode:'history',
@@ -29,6 +29,7 @@ const router =new VueRouter({
       {path:'/registStorePage',component:registStorePage},
       {path:'/showStoresPage',component:showSt},
       {path:'/showStoreDetailPage',component:showStoreDetailPage},
+      {path:'/companyPage',component:companyPage},
     ]
 });
 export default router;

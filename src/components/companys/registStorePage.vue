@@ -1,6 +1,5 @@
 <template>
   <div class="registStorePage ">
-    <side-bar id="side" />
       <div id="registStorePage">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
@@ -107,14 +106,11 @@
 #registStorePage4{position: absolute;}
 #registStorePage3{position: absolute;}
 #registStorePage2{position: absolute;}
-#side{position: absolute;}
 #registStorePage{position: absolute;} 
 </style>
 <script>
 import * as modules from '../../jslib';
-import sideBar from '../layout/sideBar.vue';
 export default {
-  components: { sideBar },
   name: 'registStorePage',
   data(){
     return  {

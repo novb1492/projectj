@@ -61,7 +61,7 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri=='/showStoresPage'||uri=='/registStorePage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+    <span v-if="uri=='/showStoresPage'||uri=='/registStorePage'||uri=='/companyPage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
@@ -138,7 +138,8 @@ export default {
   },
   methods:{
     changePage(uri){
-      location.href=uri;
+      //location.href=uri;
+      this.$EventBus.$emit('changeuri',uri);  
     },
   }
 }
