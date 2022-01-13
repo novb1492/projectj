@@ -1,7 +1,8 @@
 <template>
-  <div class="showCompanyinforPage">
-    <side-var/>
-    <ul style="float: left; text-align: center;">
+  <div >
+   sss
+    <div id="showStorsPage">
+      <ul style="float: left; text-align: center;">
       <span v-for="shop in this.shops" :key="shop">
         <li style="float: left; margin-left: 10px;">
           <a href="#" @click="showStore(shop.sid)">
@@ -20,27 +21,24 @@
           </a>
         </li>
       </span>
-        
-
     </ul>
-    <br>
-    <input type="text" id="searchinput" @keyup.enter="search"> 
-    <input type="button" @click="search" value="매장이름으로 검색">
-    <br>
-    <input type="button" @click="changePage(1)" id="nextbutton" value="다음">
+    <input type="button" @click="changePage(1)" style="margin-top:300px;" id="nextbutton" value="다음">
     <span>{{page}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
+    </div>
+    
   </div>
 </template>
 <style>
-
+img{width: 150px;height: 150px;}
+#showStorsPage{position: absolute;}
 </style>
 <script>
 import * as modules from '../../jslib';
-import sideVar from '../layout/sideBar.vue';
-export default {
-  components: { sideVar },
-  name: 'showCompanyinforPage',
+//import sideVar from '../layout/sideBar.vue';
+export default {  
+  //components: { sideVar },
+  name: 'showStorsPage',
   data() {
     return {
         email:null,
@@ -52,9 +50,10 @@ export default {
     }
   },
   created(){
+    alert('bb');
     this.$EventBus.$on('loginInfor',loginInfor=>{
     loginInfor=JSON.parse(loginInfor);
-    console.log(loginInfor);
+    console.log('aaa'+loginInfor);
     //비로그인,권한이없는유저 팅겨내기
         if(loginInfor.loginFlag!=true||loginInfor.role==this.$ROLE_USER){
             modules.wrongAccese();
@@ -64,6 +63,9 @@ export default {
         this.getShops(modules.getParam('page'),key);
         document.getElementById('searchinput').value=key;
     });
+  },
+  mounted(){
+      document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
   },
   methods:{
     showStore(id){

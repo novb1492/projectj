@@ -9,7 +9,7 @@
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-          Home
+          22
         </button>
         <div class="collapse show" id="home-collapse" style="">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -61,7 +61,7 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri='location'">
+    <span v-if="uri=='/showStoresPage'"><!--회사 페이지 가게관리 사이드바-->
         <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Collapsible</span>
