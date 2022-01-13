@@ -61,14 +61,19 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri=='/showStoresPage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+    <span v-if="uri=='/showStoresPage'||uri=='/registStorePage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
         </span>
     <ul class="list-unstyled ps-0">
+         <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage('/registStorePage')">
+          매장등록하기
+        </button>
+      </li>
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage('/showStoresPage?page=1&keyword=null')">
           모든매장보기
         </button>
       </li>
@@ -130,6 +135,11 @@ export default {
   mounted(){
     this.uri=location.pathname;
     console.log(this.uri);
+  },
+  methods:{
+    changePage(uri){
+      location.href=uri;
+    },
   }
 }
 </script>
