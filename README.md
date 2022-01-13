@@ -243,6 +243,6 @@ jwt방식이므로 요청시 쿠키 추가 + 만료시 재요청 로직추가
 4.가게등록 재디자인  
 5.localstorege이용해 새로고침시 데이터 유지  
 6.부트스트랩이용해 푸터 하단고정 
--navbar-fixed-bottom  
+-navbar-fixed-bottom 한줄 알았으나.. 아직안됨.. 
 7.네비바 상단 고정 지정으로 가로길이 문제해결  
 -fixed-top  
