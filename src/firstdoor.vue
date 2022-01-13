@@ -8,7 +8,8 @@
     </div>
 </template>
 <style>
-#map{position: absolute; top: 50px; overflow:scroll}/*네비바 세로길이 만큼 top을 부여해야함.*/
+#map{position: absolute; overflow:scroll}
+#side{position: absolute; }
 </style>
 <script>
 import sideBar from './components/layout/sideBar.vue';
