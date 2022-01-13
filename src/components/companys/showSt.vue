@@ -37,7 +37,7 @@
 <style>
 img{width: 150px;height: 150px;}
 #showStorsPage{position: absolute;}
-#buttonArea{margin-top: 700px;}
+#buttonArea{margin-top: 550px;}
 </style>
 <script>
 import * as modules from '../../jslib';
