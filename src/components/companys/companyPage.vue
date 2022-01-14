@@ -31,22 +31,13 @@ export default {
   },
   mounted(){
     this.choose=this.$route.params.id;
+    //사이드바에서 클릭하면 여기로와서 컴포넌트 교체
       this.$EventBus.$on('pageNum',pageNum=>{
       console.log("pageNum");
       this.choose=pageNum;
-      //새로고침시 대응로직
       this.witchStep(this.choose);
    
     });
   },
-  methods:{
-    /*changeUrl(pageNum){
-      sessionStorage.setItem("pageNum",pageNum);
-      modules.changeUrl(location.pathname+"?selectPage="+pageNum);
-    },
-    chooseComponent(pageNum){
-      this.choose=pageNum;
-    }*/
-  }
 }
 </script>

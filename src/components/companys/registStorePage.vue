@@ -130,6 +130,8 @@ export default {
     script.onload = () => kakao.maps.load(this.initMap);
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
+    //새로고침 대응
+    modules.changeUrl(this.$domain+'/companyPage/0');
   },
   mounted(){
      //에디터 컴포넌트 입력시 받아오기

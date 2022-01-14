@@ -55,10 +55,10 @@ export default {
   created(){
     var key=null;
     var page=1;
+    //새로고침 대응
+    modules.changeUrl(this.$domain+'/companyPage/1');
     //새로고침시 데이터가져오기
     var body=JSON.parse(sessionStorage.getItem(this.sessionStorageName));
-    //새로고침시 데이터 유지 위해 저장
-    sessionStorage.setItem("pageNum","2");
     //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
     try {
         if(body.page!=null){
