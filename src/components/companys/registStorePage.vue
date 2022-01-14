@@ -1,5 +1,5 @@
 <template>
-  <div  id="container" class="margintopNavSize">
+  <div  class="margintopNavSize">
       <div id="registStorePage" style="float: left;">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
@@ -138,7 +138,6 @@ export default {
       console.log('에디터내용');
       console.log(this.text);
     });
-     modules.footerAtButton(this.$footerHeight);
   },
   methods:{
     tryInsertStore(){

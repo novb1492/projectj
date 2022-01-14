@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  id="container">
       <side-bar />
       <span v-if="choose=='1'">
         <regist-store-page/><!--매장등록-->
@@ -55,6 +55,7 @@ export default {
     });
     //새로고침시 대응로직
     this.changeUrl(this.choose);
+    modules.footerAtButton(this.$footerHeigth);
   },
   methods:{
     changeUrl(pageNum){
