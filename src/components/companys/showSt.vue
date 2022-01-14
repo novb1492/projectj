@@ -66,6 +66,9 @@ export default {
         }
         var key=modules.getParam('keyword');
         this.getShops(modules.getParam('page'),key);
+        if(key=='null'){
+          key=' ';
+        }
         document.getElementById('searchinput').value=key;
     });
   },
