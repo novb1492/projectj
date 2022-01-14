@@ -1,6 +1,6 @@
 <template>
   <div>
-      <side-bar id="side"/>
+      <side-bar />
       <span v-if="choose=='1'">
         <regist-store-page/><!--매장등록-->
       </span>
