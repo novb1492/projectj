@@ -51,16 +51,18 @@ export default {
         totalPage:null,
         shops:[],
         keyword:null,
+        sessionStorageName:'showSt',
     }
   },
   created(){
     var key=null;
     var page=1;
     //새로고침시 데이터가져오기
-    var localPage=localStorage.getItem("page");
-    var localKey=localStorage.getItem("keyword");
+    var body=JSON.parse(sessionStorage.getItem(this.sessionStorageName));
+    var localPage=body.page;
+    var localKey=body.keyword;
     //새로고침시 데이터 유지 위해 저장
-    localStorage.setItem("pageNum","2");
+    sessionStorage.setItem("pageNum","2");
     //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
     if(localPage!=null){
       page=localPage;
@@ -112,8 +114,11 @@ export default {
           modules.disabledById('beforebutton',false);
         }
         //새로고침시 데이터 유지위해 저장
-        localStorage.setItem("page",this.page);
-        localStorage.setItem("keyword",this.keyword);
+        var body=JSON.stringify({
+          "page":this.page,
+          "keyword":this.keyword,
+        })
+        sessionStorage.setItem(this.sessionStorageName,body);
         //null인경우 공백으로 표시
         if(this.keyword=="null"){
           this.keyword='';

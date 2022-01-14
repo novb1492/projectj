@@ -38,7 +38,7 @@ export default {
   },
   mounted(){
       //새로고침 대응 로직
-      var pageNum=localStorage.getItem('pageNum');
+      var pageNum=sessionStorage.getItem('pageNum');
       if(pageNum==null){
         pageNum='2';
       }
@@ -56,7 +56,7 @@ export default {
   },
   methods:{
     changeUrl(pageNum){
-      localStorage.setItem("pageNum",pageNum);
+      sessionStorage.setItem("pageNum",pageNum);
       modules.changeUrl(location.pathname+"?selectPage="+pageNum);
     },
     chooseComponent(pageNum){
