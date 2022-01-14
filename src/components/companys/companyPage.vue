@@ -7,8 +7,8 @@
       <span v-if="choose=='2'">
         <show-st/><!--보유매장 전체보기-->
       </span>
-      <span v-if="choose=='3'">
-        sho
+      <span v-if="choose=='3'"><!--매장상세보기-->
+        <show-store-detail-page/>
       </span>
   </div>
 </template>
@@ -19,8 +19,9 @@ import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import RegistStorePage from './registStorePage.vue';
 import ShowSt from './showSt.vue';
+import ShowStoreDetailPage from './showStoreDetailPage.vue';
 export default {
-  components: {  SideBar, RegistStorePage, ShowSt },
+  components: {  SideBar, RegistStorePage, ShowSt, ShowStoreDetailPage },
   name: 'foot',
   data() {
     return {
