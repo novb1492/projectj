@@ -48,9 +48,17 @@ export default {
       this.$EventBus.$on('pageNum',pageNum=>{
       console.log("pageNum");
       this.choose=pageNum;
+      //새로고침시 대응로직
+      this.changeUrl(this.choose);
     });
+    //새로고침시 대응로직
+    this.changeUrl(this.choose);
   },
   methods:{
+    changeUrl(pageNum){
+      localStorage.setItem("pageNum",pageNum);
+      modules.changeUrl(location.pathname+"?selectPage="+pageNum);
+    },
     chooseComponent(pageNum){
       this.choose=pageNum;
     }

@@ -146,7 +146,6 @@ export default {
       console.log('에디터내용');
       console.log(this.text);
     });
-    localStorage.setItem("pageNum",'1');
   },
   methods:{
     tryInsertStore(){

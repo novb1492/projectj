@@ -119,6 +119,7 @@ export default {
           this.keyword='';
         }
         document.getElementById('searchinput').value=this.keyword;
+        modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
       });
     },
   },
