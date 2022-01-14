@@ -58,18 +58,27 @@ export default {
     var key=null;
     var page=1;
     //새로고침시 데이터가져오기
+    console.log('a');
     var body=JSON.parse(sessionStorage.getItem(this.sessionStorageName));
-    var localPage=body.page;
-    var localKey=body.keyword;
+    console.log('c');
+    //var localPage=body.page;
+    //var localKey=body.keyword;
     //새로고침시 데이터 유지 위해 저장
     sessionStorage.setItem("pageNum","2");
     //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
-    if(localPage!=null){
-      page=localPage;
+    try {
+        if(body.page!=null){
+          page=body.page;
+        }
+        if(body.keyword!=null){
+          key=body.keyword;
+        }
+    } catch (error) {
+        page=1;
+        key=null;
     }
-    if(localKey!=null){
-      key=localKey;
-    }
+  
+    console.log('b');
     this.getStores(page,key);
   },
   mounted(){

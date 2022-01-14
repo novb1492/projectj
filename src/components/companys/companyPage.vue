@@ -2,11 +2,15 @@
   <div>
       <side-bar id="side"/>
       <span v-if="choose=='1'">
-        <regist-store-page/>
+        <regist-store-page/><!--매장등록-->
       </span>
-        <span v-if="choose=='2'">
-        <show-st/>
+      <span v-if="choose=='2'">
+        <show-st/><!--보유매장 전체보기-->
       </span>
+      <span v-if="choose=='3'">
+        sho
+      </span>
+
   </div>
 </template>
 <style>
