@@ -1,5 +1,5 @@
 <template>
-    <div id="mapPage">
+    <div id="mapPage margintopNavSize">
 
       <side-bar id="side" hidden/>
   

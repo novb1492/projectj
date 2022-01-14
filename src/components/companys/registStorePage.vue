@@ -1,5 +1,5 @@
 <template>
-  <div class="registStorePage ">
+  <div class="registStorePage margintopNavSize">
       <div id="registStorePage">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">

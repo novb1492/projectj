@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style>
+.margintopNavSize{margin-top: 48px;}
 html, body {
     margin: 0;
     padding: 0;

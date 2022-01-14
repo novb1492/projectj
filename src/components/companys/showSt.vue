@@ -1,6 +1,6 @@
 <template>
-  <div>
-   <div id="showStorsPage" style="margin-top:80px;">
+  <div >
+   <div id="showStorsPage" class="margintopNavSize">
       <ul style="float: left; text-align: center;">
       <span v-for="(shop,index) in this.shops" :key="index">
         <li style="float: left; margin-left: 10px;">
