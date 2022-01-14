@@ -61,19 +61,19 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri=='/companyPage'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+    <span v-if="uri=='/companyPage/0'||uri=='/companyPage/1'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
         </span>
     <ul class="list-unstyled ps-0">
          <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage('1')">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(0)">
           매장등록하기
         </button>
       </li>
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage('2')">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(1)">
           모든매장보기
         </button>
       </li>
@@ -130,18 +130,23 @@ export default {
   data() {
     return {
       uri:null,
+      num:null,
     }
   },
   mounted(){
     this.uri=location.pathname;
     console.log(this.uri);
-    
+    this.checkPage();
     //this.changePage(1); 새로고침시에는 이벤트버스를 타지 않아서 /companyPage에 새로고침 대응 로직을 넣어놈
   },
   methods:{
+    checkPage(){
+      if(location.pathname.indexOf('/company')){
+        this.num=1;
+      }
+    },
     changePage(pageNum){
       //새로고침시 호출되지 않음
-      console.log('emit'+pageNum);
       this.$EventBus.$emit('pageNum',pageNum);  
     },
   }

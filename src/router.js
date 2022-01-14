@@ -29,7 +29,7 @@ const router =new VueRouter({
       {path:'/registStorePage',component:registStorePage},
       {path:'/showStoresPage',component:showSt},
       {path:'/showStoreDetailPage',component:showStoreDetailPage},
-      {path:'/companyPage',component:companyPage},
+      {path:'/companyPage/:id',component:companyPage},
     ]
 });
 export default router;
