@@ -70,7 +70,7 @@ export default {
     if(localKey!=null){
       key=localKey;
     }
-    this.getShops(page,key);
+    this.getStores(page,key);
   },
   mounted(){
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
@@ -80,15 +80,15 @@ export default {
       location.href='/showStoreDetailPage?id='+id;
     },
     search(){
-      this.getShops(1,modules.getValueById('searchinput'));
+      this.getStores(1,modules.getValueById('searchinput'));
     },
     changePage(num){
       if(this.page==null){
         return;
       }
-      this.getShops(this.page*1+num,this.keyword);
+      this.getStores(this.page*1+num,this.keyword);
     },
-    getShops(page,keyword){
+    getStores(page,keyword){
       if(modules.checkNull(keyword)){
         keyword=null;
       }
