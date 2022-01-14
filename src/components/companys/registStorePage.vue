@@ -1,6 +1,6 @@
 <template>
-  <div class="registStorePage margintopNavSize">
-      <div id="registStorePage">
+  <div  id="container" class="margintopNavSize">
+      <div id="registStorePage" style="float: left;">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
         <br>
@@ -40,7 +40,7 @@
         <span >간단한 가게 설명을 적어주세요</span>
         <editorComponent class="mt-2"/>
       </div>
-      <div id="registStorePage2">
+      <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
         id="kpost"
         @complete="onComplete"
@@ -86,7 +86,7 @@
       />
       <br>
       </div>
-      <div id="registStorePage3">
+      <div id="registStorePage3" >
         <div id="map"></div>
       <br>
       </div>
@@ -103,10 +103,7 @@
   </div>
 </template>
 <style>
-#registStorePage4{position: absolute;}
-#registStorePage3{position: absolute;}
-#registStorePage2{position: absolute;}
-#registStorePage{position: absolute;} 
+
 </style>
 <script>
 import * as modules from '../../jslib';
@@ -135,17 +132,13 @@ export default {
     document.head.appendChild(script);
   },
   mounted(){
-      document.getElementById('registStorePage').style.left=this.$sideVarWitdh+'px';
-      document.getElementById('registStorePage2').style.left=this.$sideVarWitdh+700+'px';
-      document.getElementById('registStorePage3').style.left=this.$sideVarWitdh+1200+'px';
-      document.getElementById('registStorePage4').style.left=this.$sideVarWitdh+1200+'px';
-      document.getElementById('registStorePage4').style.top="570px";
      //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;
       console.log('에디터내용');
       console.log(this.text);
     });
+     modules.footerAtButton(this.$footerHeight);
   },
   methods:{
     tryInsertStore(){

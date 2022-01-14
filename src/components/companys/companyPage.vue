@@ -10,11 +10,9 @@
       <span v-if="choose=='3'">
         sho
       </span>
-
   </div>
 </template>
 <style>
-#side{position: absolute;}
 </style>
 <script>
 import * as modules from '../../jslib';

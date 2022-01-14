@@ -139,3 +139,9 @@ export function checkLoginFlag(loginFlag){
 export function changeValueById(id,value){
     document.getElementById(id).value=value;
 }
+export function footerAtButton(footerHeight){
+    window.addEventListener('resize',()=>{
+        document.getElementById('container').style.height=window.innerHeight-footerHeight+'px';
+    });
+    document.getElementById('container').style.height=window.innerHeight-footerHeight+'px';
+}

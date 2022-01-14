@@ -1,5 +1,5 @@
 <template>
-  <div class="beforeJoinPage giveCenter">
+  <div id="container" class="beforeJoinPage giveCenter">
     <short-logo/>
     <a href="/joinPage?scope=seller"><img src="" />나는 기업회원입니다</a>
     <br>
@@ -9,8 +9,11 @@
 <style>
 </style>
 <script>
+import * as modules from '../../jslib';
 export default {
   name: "foot",
-  methods: {},
+  mounted(){
+    modules.footerAtButton(this.$footerHeigth);
+  }
 };
 </script>

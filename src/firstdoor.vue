@@ -1,15 +1,13 @@
 <template>
     <div id="mapPage margintopNavSize">
-
       <side-bar id="side" hidden/>
-  
-        <div id="map"></div>
+        <div id="map" ></div>
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
     </div>
 </template>
 <style>
-#map{position: absolute; overflow:scroll}
-#side{position: absolute; }
+#map{overflow:scroll;}
+#side{position: absolute;}
 </style>
 <script>
 import sideBar from './components/layout/sideBar.vue';
@@ -95,7 +93,7 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       container.style.width = window.innerWidth+'px';
-      container.style.height = (window.innerHeight-150)+'px';
+      container.style.height = (window.innerHeight-this.$footerHeigth)+'px';
       this.map.relayout();
       if(this.destinationFlag){//false문자열로 저장되기 때문에 !로 형식변환
         console.log('주소 검색기록 존재');

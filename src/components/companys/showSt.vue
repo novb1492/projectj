@@ -20,7 +20,7 @@
           </a>
         </li>
       </span>
-    </ul>
+    </ul> 
    <div id="buttonArea">
     <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
     <span>{{page}}</span>/<span>{{totalPage}}</span>
@@ -34,8 +34,6 @@
 </template>
 <style>
 img{width: 150px;height: 150px;}
-#showStorsPage{position: absolute;}
-#buttonArea{margin-top: 70%;}
 </style>
 <script>
 import * as modules from '../../jslib';
@@ -58,11 +56,7 @@ export default {
     var key=null;
     var page=1;
     //새로고침시 데이터가져오기
-    console.log('a');
     var body=JSON.parse(sessionStorage.getItem(this.sessionStorageName));
-    console.log('c');
-    //var localPage=body.page;
-    //var localKey=body.keyword;
     //새로고침시 데이터 유지 위해 저장
     sessionStorage.setItem("pageNum","2");
     //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
@@ -77,8 +71,6 @@ export default {
         page=1;
         key=null;
     }
-  
-    console.log('b');
     this.getStores(page,key);
   },
   mounted(){
@@ -133,7 +125,7 @@ export default {
           this.keyword='';
         }
         document.getElementById('searchinput').value=this.keyword;
-        modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
+        //modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
       });
     },
   },

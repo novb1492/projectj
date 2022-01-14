@@ -1,5 +1,5 @@
 <template>
-  <div class="loginPage">
+  <div id="container">
       <short-logo/>
         <ul class="loginCenter">
           <li>이메일을 입력해 주세요</li>
@@ -24,6 +24,10 @@ export default {
     return{
 
     };
+  },
+  mounted(){
+    //풋터 하단고정
+    modules.footerAtButton(this.$footerHeigth);
   },
   methods:{
     soLogin(kind){

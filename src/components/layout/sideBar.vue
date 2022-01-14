@@ -1,6 +1,6 @@
 <template>
   <div  class="sideBar">
-  <div class="flex-shrink-0 p-3 bg-white" style="width: 250px;">
+  <div class="flex-shrink-0 p-3 bg-white" style="width: 250px; float: left;">
     <span v-if="uri=='/'"><!--firstdoor사이드바-->
     <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
@@ -135,6 +135,7 @@ export default {
   mounted(){
     this.uri=location.pathname;
     console.log(this.uri);
+    
     //this.changePage(1); 새로고침시에는 이벤트버스를 타지 않아서 /companyPage에 새로고침 대응 로직을 넣어놈
   },
   methods:{

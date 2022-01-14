@@ -157,10 +157,7 @@ export default {
     }
   },
   mounted() {
-    //리사이즈 될때 창크기 고정
-    window.onresize = () => {
-      window.resizeTo(500, 900);
-    };
+    modules.footerAtButton(this.$footerHeigth);
   },
   methods: {
       checkEmail(){

@@ -1,5 +1,5 @@
 <template>
-  <div class="authPage giveCenter">
+  <div  id="container" class="authPage giveCenter">
     <short-logo/>
     <input type="button" @click="sendnum" id="sendnum" value="인증번호 전송">
     <div>인증번호를 입력해주세요</div>
@@ -39,6 +39,9 @@ export default {
     }else{
       modules.wrongAccese();
     }
+  },
+  mounted(){
+    modules.footerAtButton(this.$footerHeigth);
   },
   methods:{
       sendnum(){

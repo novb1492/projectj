@@ -22,16 +22,6 @@ export default {
 
 <style>
 .margintopNavSize{margin-top: 48px;}
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-.foot {
-    position:absolute;
-    bottom:0px;
-    width:100%;
-}
 .mr20{margin-right: 20px;}
 a{ text-decoration:none }
 .ml80{margin-left: 80px;}

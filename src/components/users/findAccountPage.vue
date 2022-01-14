@@ -1,12 +1,12 @@
 <template>
-  <div class="findAcountPage giveCenter">
+  <div id="container" class="findAcountPage giveCenter">
       <short-logo/>
-      <div v-if="scope=='email'">
+      <div v-if="scope=='email'"><!--이메일찾기일경우-->
           <div>가입하신 핸드폰번호를 입력해주세요</div>
           <input type="text" id="val" class="mt-2" placeholder="번호를 입력해주세요">
       </div>
       <div v-if="scope=='pwd'">
-          <div>이메일을 입력해주세요</div>
+          <div>이메일을 입력해주세요</div><!--비밀번호찾기일경우-->
           <input type="email" id="val" class="mt-2" placeholder="이메일을 입력해주세요">
       </div>
       <input type="button" class="mt-2" id="send" @click="sendnum"  value="인증번호 전송">
@@ -36,6 +36,9 @@ export default {
       if(this.scope!=this.email&&this.scope!=this.pwd){
           modules.wrongAccese();
       }
+  },
+  mounted(){
+        modules.footerAtButton(this.$footerHeigth);
   },
   methods:{
      sendnum(){
