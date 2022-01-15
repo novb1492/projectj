@@ -32,6 +32,7 @@ export default {
       inforWindows:[],
       sideFlag:false,
       deleteFlag:false,
+      moveFlag:false,
     };
   },
   created() {
@@ -42,7 +43,8 @@ export default {
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
     this.$EventBus.$on('searchStore',text=>{
-      this.search(text,true);
+      this.moveFlag=true;
+      this.search(text);
     });
   },
   mounted(){
@@ -89,7 +91,7 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
+        level: 9,
       };
       this.map = new kakao.maps.Map(container, options);
       container.style.width = window.innerWidth+'px';
@@ -115,7 +117,8 @@ export default {
         if(status==kakao.maps.services.Status.OK){
           for(var i=0;i<result.length;i++){
             console.log(result[i].address_name);
-            this.search(result[i].address_name+' 슈퍼',false);
+            this.moveFlag=false;
+            this.search(result[i].address_name+' 슈퍼');
           } 
         }
         
@@ -136,7 +139,7 @@ export default {
         infowindow.open(this.map, marker);
         return infowindow;
     },
-    search(va,moveFlag){
+    search(va){
         var n=va;
         console.log("검색한 마트 키워드"+n);
         // 장소 검색 객체를 생성합니다
@@ -154,7 +157,7 @@ export default {
               this.inforWindows=[];
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
-                console.log('move'+moveFlag);
+                console.log('move'+this.moveFlag);
                 var bounds = new kakao.maps.LatLngBounds();
                 for (var i=0; i<result.length; i++) {
                     console.log(result[i]);
@@ -165,13 +168,13 @@ export default {
                     if(category_group_code=='CS2'||category_group_code=='MT1'||category_name.includes('가정,생활 > 생활용품점')||category_name.includes('가정,생활 > 슈퍼마켓')||category_name.includes('가정,생활 > 식품판매 >')){
                       this.displayMarker(result[i]);  
                       //드래그 이동시 무시  
-                      if(moveFlag==true){
+                      if(this.moveFlag==true){
                         bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
                       }
                     }
                 }       
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다 드래그 이동시 무시
-                if(moveFlag==true){
+                if(this.moveFlag==true){
                   this.map.setBounds(bounds);
                 }
                 sessionStorage.setItem("searchStore",n);
