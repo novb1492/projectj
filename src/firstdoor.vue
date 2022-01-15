@@ -42,7 +42,7 @@ export default {
     script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
     document.head.appendChild(script);
     this.$EventBus.$on('searchStore',text=>{
-      this.search(text);
+      this.search(text,true);
     });
   },
   mounted(){
@@ -85,7 +85,7 @@ export default {
       this.destinationFlag=true;
     },
     initMap() {
-      this.address=sessionStorage.getItem("homeAddress");
+      //지도 초기설정
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -95,30 +95,31 @@ export default {
       container.style.width = window.innerWidth+'px';
       container.style.height = (window.innerHeight-this.$footerHeigth)+'px';
       this.map.relayout();
-      if(this.destinationFlag){//false문자열로 저장되기 때문에 !로 형식변환
-        console.log('주소 검색기록 존재');
-        //배달받을 주소 표시
-        if(this.destinationX==null||this.destinationY==null){
-          console.log("주소 좌표 없음 주소 재검색 요청");
-          var geocoder = new kakao.maps.services.Geocoder();
-          geocoder.addressSearch(this.address, (result, status)=> {
-          // 정상적으로 검색이 완료됐으면 
-          if (status === kakao.maps.services.Status.OK) { 
-            this.destinationX=result[0].x;
-            this.destinationY=result[0].y
-            //배달받을 주소표사
-            this.showHomePlace(new kakao.maps.LatLng(this.destinationY, this.destinationX));
-            sessionStorage.setItem("destinationX",this.destinationX);
-            sessionStorage.setItem("destinationY",this.destinationY);
-            sessionStorage.setItem("destinationFlag",true);
+      //지도 드래그 이동시 이벤트등록 
+      kakao.maps.event.addListener(this.map, 'dragend', function() {        
+        this.changeMapEvent();         
+      }.bind(this));//첫 bind사용s
+    },
+    changeMapEvent(){
+        // 지도 중심좌표를 얻어옵니다 
+        var latlng = this.map.getCenter(); 
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+        var message = '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
+        message += '경도는 ' + latlng.getLng() + ' 입니다';
+        console.log(message);
+        //좌표=>주소
+        geocoder.coord2RegionCode(latlng.getLng(), latlng.getLat(), (result,status)=>{
+        //주소를 받아 근처 마트 검색
+        console.log(result);
+        if(status==kakao.maps.services.Status.OK){
+          for(var i=0;i<result.length;i++){
+            console.log(result[i].address_name);
+            this.search(result[i].address_name+' 슈퍼',false);
           } 
-        });    
-        }else{
-          console.log("좌표도 있으므로 바로 표사");
-          this.showHomePlace(new kakao.maps.LatLng(this.destinationY, this.destinationX));
         }
-        this.search(sessionStorage.getItem('searchStore'));
-      }
+        
+      });           
     },
     getMarker(place){
       this.marker= new kakao.maps.Marker({
@@ -135,7 +136,7 @@ export default {
         infowindow.open(this.map, marker);
         return infowindow;
     },
-    search(va){
+    search(va,moveFlag){
         var n=va;
         console.log("검색한 마트 키워드"+n);
         // 장소 검색 객체를 생성합니다
@@ -153,6 +154,7 @@ export default {
               this.inforWindows=[];
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
+                console.log('move'+moveFlag);
                 var bounds = new kakao.maps.LatLngBounds();
                 for (var i=0; i<result.length; i++) {
                     console.log(result[i]);
@@ -161,12 +163,17 @@ export default {
                     var category_group_code=result[i].category_group_code;
                     //MT1=대형마트,CS2=편의점, 일반 마트 슈퍼는 카테고리가 비어있음 그래서 카테코리 name으로 검출해야함
                     if(category_group_code=='CS2'||category_group_code=='MT1'||category_name.includes('가정,생활 > 생활용품점')||category_name.includes('가정,생활 > 슈퍼마켓')||category_name.includes('가정,생활 > 식품판매 >')){
-                      this.displayMarker(result[i]);    
-                      bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
+                      this.displayMarker(result[i]);  
+                      //드래그 이동시 무시  
+                      if(moveFlag==true){
+                        bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
+                      }
                     }
                 }       
-                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                this.map.setBounds(bounds);
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다 드래그 이동시 무시
+                if(moveFlag==true){
+                  this.map.setBounds(bounds);
+                }
                 sessionStorage.setItem("searchStore",n);
             }else{
               alert('검색 내역이 없습니다');
