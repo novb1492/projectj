@@ -1,7 +1,7 @@
 <template>
   <div  class="sideBar">
   <div class="flex-shrink-0 p-3 bg-white" style="width: 250px; float: left;">
-    <span v-if="uri=='/'"><!--firstdoor사이드바-->
+    <span v-if="checkPage()==homeNum"><!--firstdoor사이드바-->
     <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Collapsible</span>
@@ -61,7 +61,7 @@
       </li>
     </ul>
     </span>
-    <span v-if="uri=='/companyPage/0'||uri=='/companyPage/1'"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+    <span v-if="checkPage()==companyNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
@@ -130,20 +130,22 @@ export default {
   data() {
     return {
       uri:null,
-      num:null,
+      choose:0,
+      homeNum:0,
+      companyNum:1,
     }
   },
-  mounted(){
+  created(){
     this.uri=location.pathname;
-    console.log(this.uri);
-    this.checkPage();
-    //this.changePage(1); 새로고침시에는 이벤트버스를 타지 않아서 /companyPage에 새로고침 대응 로직을 넣어놈
   },
   methods:{
     checkPage(){
-      if(location.pathname.indexOf('/company')){
-        this.num=1;
+      if(this.uri=='/'){
+        this.choose=this.homeNum;
+      }else if(this.uri.indexOf('/company')!=-1){
+        this.choose=this.companyNum;
       }
+      return this.choose;
     },
     changePage(pageNum){
       //새로고침시 호출되지 않음

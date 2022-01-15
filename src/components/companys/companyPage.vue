@@ -1,7 +1,7 @@
 <template>
-  <div  id="container">
+  <div id="container">
     <side-bar/>
-    <component v-bind:is="witchStep"></component>
+    <component v-bind:is="chooseComponet"></component>
   </div>
 </template>
 <style>
@@ -9,7 +9,7 @@
 <script>
 import SideBar from '../layout/sideBar.vue';
 export default {
-  name: 'foot',
+  name: 'companyPage',
   data() {
     return {
         choose:null,
@@ -22,7 +22,7 @@ export default {
 
   },
   computed:{
-    witchStep(){
+    chooseComponet(){
        if(this.choose==0){
         return 'registStorePage';
       }
@@ -35,7 +35,7 @@ export default {
       this.$EventBus.$on('pageNum',pageNum=>{
       console.log("pageNum");
       this.choose=pageNum;
-      this.witchStep(this.choose);
+      this.chooseComponet(this.choose);
    
     });
   },

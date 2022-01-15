@@ -1,5 +1,5 @@
 <template>
-  <div  class="margintopNavSize">
+  <div  class="margintopNavSize marginLeftSideSize" >
       <div id="registStorePage" style="float: left;">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
@@ -103,7 +103,6 @@
   </div>
 </template>
 <style>
-
 </style>
 <script>
 import * as modules from '../../jslib';

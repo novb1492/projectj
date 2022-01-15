@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style>
+.marginLeftSideSize{margin-left: 250px;}
 .margintopNavSize{margin-top: 48px;}
 .mr20{margin-right: 20px;}
 a{ text-decoration:none }
