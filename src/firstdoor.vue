@@ -26,7 +26,6 @@ export default {
       address:null,
       width:0,
       height:0,
-      marker:null,
       //검색정보 마커윈도우
       searchMakers:[],
       searchInforWindows:[],
@@ -129,11 +128,11 @@ export default {
       });           
     },
     getMarker(place){
-      this.marker= new kakao.maps.Marker({
+      var  marker= new kakao.maps.Marker({
                 map: this.map,
                 position: place
       });
-      return this.marker;
+      return marker;
     },
     showTextOnMaker(marker,text){
        var infowindow =  new kakao.maps.InfoWindow({
@@ -151,31 +150,8 @@ export default {
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(n, (result,status)=>{
             if (status === kakao.maps.services.Status.OK) {
-              if(this.moveFlag){
-                var size=this.searchMakers.length;
-                for(var ii=0;ii<size;ii++){
-                  this.searchMakers[ii].setMap(null);
-                  this.searchInforWindows[ii].close();
-                }
-                this.searchMakers=[];
-                this.searchInforWindows=[];
-                 var size3=this.dragMarkers.length;
-                 for(var iiii=0;iiii<size3;iiii++){
-                  this.dragMarkers[iiii].setMap(null);
-                  this.dragInforWindows[iiii].close();
-                }
-                this.dragMarkers=[];
-                this.dragInforWindows=[];
-              }else{
-                  var size2=this.dragMarkers.length;
-                 for(var iii=0;iii<size2;iii++){
-                  this.dragMarkers[iii].setMap(null);
-                  this.dragInforWindows[iii].close();
-                }
-                this.dragMarkers=[];
-                this.dragInforWindows=[];
-              }
-         
+              //마커,인포윈도우 정리
+              this.deleteMarkerAndWindow();
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 console.log('move'+this.moveFlag);
@@ -205,18 +181,50 @@ export default {
 
         });
     },
+     deleteMarkerAndWindow(){
+       if(this.moveFlag){
+         //검색했다면 이전검색/드래그로 생긴흔적 삭제
+                this.deleteSearchMarkerAndWindow();
+                this.deleteDragMarkerAndWindow();
+              }else{
+                //드래그중이라면 검색내역이 있다면 내비둠
+                this.deleteDragMarkerAndWindow();
+              }
+    },
+    deleteDragMarkerAndWindow(){
+       var size=this.dragMarkers.length;
+                 for(var i=0;i<size;i++){
+                  this.dragMarkers[i].setMap(null);
+                  this.dragInforWindows[i].close();
+                }
+                this.dragMarkers=[];
+                this.dragInforWindows=[];
+    },
+    deleteSearchMarkerAndWindow(){
+       var size=this.searchMakers.length;
+                for(var i=0;i<size;i++){
+                  this.searchMakers[i].setMap(null);
+                  this.searchInforWindows[i].close();
+                }
+                this.searchMakers=[];
+                this.searchInforWindows=[];
+    },
+    insertMarkerAndWindow(marker,infor){
+    if(this.moveFlag){
+            this.searchMakers.push(marker);
+            this.searchInforWindows.push(infor);
+          }else{
+            this.dragMarkers.push(marker);
+            this.dragInforWindows.push(infor);
+          }
+    },
     displayMarker(place) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
         // 마커위에 상호명 표시
         var infor=this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-        if(this.moveFlag){
-          this.searchMakers.push(this.marker);
-          this.searchInforWindows.push(infor);
-        }else{
-          this.dragMarkers.push(this.marker);
-          this.dragInforWindows.push(infor);
-        }
+        //마커와 인포윈도우 배열에 담기 삭제위해
+        this.insertMarkerAndWindow(marker,infor);
         //배열에 상점별 위도경도 저장합니다
         //var obj = { name : 'jaehee', x : place.x,y:place.y };
         var x=place.x;
