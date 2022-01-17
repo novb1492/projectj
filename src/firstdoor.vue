@@ -33,9 +33,9 @@ export default {
       dragMarkers:[],
       dragInforWindows:[],
       //사이드바 관련 변수
-      sideFlag:false,
+      sideFlag:false,//사이드바존재 여부
       deleteFlag:false,
-      moveFlag:false,
+      moveFlag:false,//드래그 했는지 ,검색했는지
     };
   },
   created() {
@@ -196,12 +196,14 @@ export default {
         //검색했다면 이전검색/드래그로 생긴흔적 삭제
         this.deleteMarkersAndWinodws(this.searchMakers,this.searchInforWindows);
         this.deleteMarkersAndWinodws(this.dragMarkers,this.dragInforWindows);
+        //검색 배열지우기
         this.searchMakers=[];
         this.searchInforWindows=[];
         }else{
           //드래그중이라면 검색내역이 있다면 내비두고 드래그 흔적만 지움
           this.deleteMarkersAndWinodws(this.dragMarkers,this.dragInforWindows);
         }
+        //드래그 배열 비우기 얘는 어떤 상황에서든 비워져야 하므로 여기 배치
         this.dragMarkers=[];
         this.dragInforWindows=[];
     },
