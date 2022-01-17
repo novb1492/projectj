@@ -199,7 +199,7 @@ export default {
         this.searchMakers=[];
         this.searchInforWindows=[];
         }else{
-          //드래그중이라면 검색내역이 있다면 내비둠
+          //드래그중이라면 검색내역이 있다면 내비두고 드래그 흔적만 지움
           this.deleteMarkersAndWinodws(this.dragMarkers,this.dragInforWindows);
         }
         this.dragMarkers=[];
