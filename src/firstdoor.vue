@@ -27,9 +27,13 @@ export default {
       width:0,
       height:0,
       marker:null,
-      infowindowFlag:false,
-      makers:[],
-      inforWindows:[],
+      //검색정보 마커윈도우
+      searchMakers:[],
+      searchInforWindows:[],
+      //드래그했을때 카머윈도우
+      dragMarkers:[],
+      dragInforWindows:[],
+      //사이드바 관련 변수
       sideFlag:false,
       deleteFlag:false,
       moveFlag:false,
@@ -147,14 +151,31 @@ export default {
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(n, (result,status)=>{
             if (status === kakao.maps.services.Status.OK) {
-              var size=this.makers.length;
-              console.log(this.inforWindows);
-              for(var ii=0;ii<size;ii++){
-                  this.makers[ii].setMap(null);
-                  this.inforWindows[ii].close();
+              if(this.moveFlag){
+                var size=this.searchMakers.length;
+                for(var ii=0;ii<size;ii++){
+                  this.searchMakers[ii].setMap(null);
+                  this.searchInforWindows[ii].close();
+                }
+                this.searchMakers=[];
+                this.searchInforWindows=[];
+                 var size3=this.dragMarkers.length;
+                 for(var iiii=0;iiii<size3;iiii++){
+                  this.dragMarkers[iiii].setMap(null);
+                  this.dragInforWindows[iiii].close();
+                }
+                this.dragMarkers=[];
+                this.dragInforWindows=[];
+              }else{
+                  var size2=this.dragMarkers.length;
+                 for(var iii=0;iii<size2;iii++){
+                  this.dragMarkers[iii].setMap(null);
+                  this.dragInforWindows[iii].close();
+                }
+                this.dragMarkers=[];
+                this.dragInforWindows=[];
               }
-              this.makers=[];
-              this.inforWindows=[];
+         
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 console.log('move'+this.moveFlag);
@@ -168,13 +189,13 @@ export default {
                     if(category_group_code=='CS2'||category_group_code=='MT1'||category_name.includes('가정,생활 > 생활용품점')||category_name.includes('가정,생활 > 슈퍼마켓')||category_name.includes('가정,생활 > 식품판매 >')){
                       this.displayMarker(result[i]);  
                       //드래그 이동시 무시  
-                      if(this.moveFlag==true){
+                      if(this.moveFlag){
                         bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
                       }
                     }
                 }       
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다 드래그 이동시 무시
-                if(this.moveFlag==true){
+                if(this.moveFlag){
                   this.map.setBounds(bounds);
                 }
                 sessionStorage.setItem("searchStore",n);
@@ -187,10 +208,15 @@ export default {
     displayMarker(place) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
-        this.makers.push(this.marker);
         // 마커위에 상호명 표시
         var infor=this.showTextOnMaker(marker,'<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-        this.inforWindows.push(infor);
+        if(this.moveFlag){
+          this.searchMakers.push(this.marker);
+          this.searchInforWindows.push(infor);
+        }else{
+          this.dragMarkers.push(this.marker);
+          this.dragInforWindows.push(infor);
+        }
         //배열에 상점별 위도경도 저장합니다
         //var obj = { name : 'jaehee', x : place.x,y:place.y };
         var x=place.x;
