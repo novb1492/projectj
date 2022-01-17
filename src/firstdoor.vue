@@ -181,33 +181,29 @@ export default {
 
         });
     },
+    deleteMarkersAndWinodws(markers,inforWindows){
+            var size=markers.length;
+                 for(var i=0;i<size;i++){
+                  markers[i].setMap(null);
+                 inforWindows[i].close();
+                }
+    },
+    deleteWindow(){
+
+    },
      deleteMarkerAndWindow(){
        if(this.moveFlag){
-         //검색했다면 이전검색/드래그로 생긴흔적 삭제
-                this.deleteSearchMarkerAndWindow();
-                this.deleteDragMarkerAndWindow();
-              }else{
-                //드래그중이라면 검색내역이 있다면 내비둠
-                this.deleteDragMarkerAndWindow();
-              }
-    },
-    deleteDragMarkerAndWindow(){
-       var size=this.dragMarkers.length;
-                 for(var i=0;i<size;i++){
-                  this.dragMarkers[i].setMap(null);
-                  this.dragInforWindows[i].close();
-                }
-                this.dragMarkers=[];
-                this.dragInforWindows=[];
-    },
-    deleteSearchMarkerAndWindow(){
-       var size=this.searchMakers.length;
-                for(var i=0;i<size;i++){
-                  this.searchMakers[i].setMap(null);
-                  this.searchInforWindows[i].close();
-                }
-                this.searchMakers=[];
-                this.searchInforWindows=[];
+        //검색했다면 이전검색/드래그로 생긴흔적 삭제
+        this.deleteMarkersAndWinodws(this.searchMakers,this.searchInforWindows);
+        this.deleteMarkersAndWinodws(this.dragMarkers,this.dragInforWindows);
+        this.searchMakers=[];
+        this.searchInforWindows=[];
+        }else{
+          //드래그중이라면 검색내역이 있다면 내비둠
+          this.deleteMarkersAndWinodws(this.dragMarkers,this.dragInforWindows);
+        }
+        this.dragMarkers=[];
+        this.dragInforWindows=[];
     },
     insertMarkerAndWindow(marker,infor){
     if(this.moveFlag){
