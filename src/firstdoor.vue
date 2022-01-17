@@ -17,6 +17,7 @@ export default {
    name :'firstdoor',
     data() {
     return {
+      //지도관련
       map: null,//카카오지도 객체
       destinationFlag:false,//받을 주소를 선택했는지 판별하는 플래그
       destinationX:null,
@@ -47,6 +48,7 @@ export default {
     document.head.appendChild(script);
     this.$EventBus.$on('searchStore',text=>{
       this.moveFlag=true;
+      console.log('2');
       this.search(text);
     });
   },
@@ -102,7 +104,8 @@ export default {
       this.map.relayout();
       //지도 드래그 이동시 이벤트등록 
       kakao.maps.event.addListener(this.map, 'dragend', function() {        
-        this.changeMapEvent();         
+        this.changeMapEvent();   
+        //this.map.setLevel(4);      
       }.bind(this));//첫 bind사용s
     },
     changeMapEvent(){
@@ -156,6 +159,7 @@ export default {
                 // LatLngBounds 객체에 좌표를 추가합니다
                 console.log('move'+this.moveFlag);
                 var bounds = new kakao.maps.LatLngBounds();
+               var num=0;
                 for (var i=0; i<result.length; i++) {
                     console.log(result[i]);
                     //상점혹은건물 사업종류를 꺼냄
@@ -165,14 +169,20 @@ export default {
                     if(category_group_code=='CS2'||category_group_code=='MT1'||category_name.includes('가정,생활 > 생활용품점')||category_name.includes('가정,생활 > 슈퍼마켓')||category_name.includes('가정,생활 > 식품판매 >')){
                       this.displayMarker(result[i]);  
                       //드래그 이동시 무시  
-                      if(this.moveFlag){
-                        bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
-                      }
+                      num++;
                     }
-                }       
-                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다 드래그 이동시 무시
+                }
+                       
                 if(this.moveFlag){
-                  this.map.setBounds(bounds);
+                  if(num>0){//검색결과가 0보다 커야함
+                    //지도이동 드래그이동시는 무시
+                    bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
+                    this.map.setBounds(bounds);
+                    this.map.setLevel(3);
+                  }else{
+                    console.log('1');
+                    alert('검색범위가 너무 크거나 지역에 존재하는 매장이 없습니다');
+                  }
                 }
                 sessionStorage.setItem("searchStore",n);
             }else{
