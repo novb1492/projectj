@@ -40,9 +40,12 @@ export default {
   mounted(){
     this.choose=this.$route.params.id;
     //사이드바에서 클릭하면 여기로와서 컴포넌트 교체
-      this.$EventBus.$on('pageNum',pageNum=>{
+      this.$EventBus.$on('pageNum',pageArr=>{
       console.log("pageNum");
-      this.choose=pageNum;
+      this.choose=pageArr.pageNum;
+      if(this.choose==1){
+        modules.changeUrl(this.$domain+'/companyPage/1?page=1&keyword=');
+      }
     });
     this.$EventBus.$on('showStoreDetail',id=>{
       console.log(id);

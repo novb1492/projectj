@@ -48,8 +48,8 @@ export async function requestAsyncToGet(url){
       console.log(result);
       console.log('통신직후');
       if(result.message=='new'){
-        console.log('새토큰으로 요청');
-        requestAsyncToGet(url);
+          console.log('새토큰으로 요청');
+          return requestAsyncToGet(url);
       }
       return result;
    })
@@ -66,7 +66,7 @@ export async function requestAsyncToPost(url,data){
       console.log('통신직후')
       if(result.message=='new'){
         console.log('새토큰으로 요청');
-            requestAsyncToPost(url,data);
+        return requestAsyncToPost(url,data);
         }   
       return result;
    })
@@ -83,7 +83,7 @@ export async function requestFormAsyncToPost(url,data){
       console.log('통신직후')
       if(result.message=='new'){
         console.log('새토큰으로 요청');
-         requestAsyncToPost(url,data);
+        return requestAsyncToPost(url,data);
         }   
       return result;
    })
@@ -100,7 +100,7 @@ export async function requestPutToServer(url,data){
       console.log('통신직후')
       if(result.message=='newAccessToken'){
         console.log('새토큰으로 요청');
-         requestPutToServer(url,data);
+        return requestPutToServer(url,data);
     }
       return result;
    })
