@@ -78,7 +78,7 @@ export default {
   },
   methods:{
     showStore(id){
-      location.href='/showStoreDetailPage?id='+id;
+      this.$EventBus.$emit('showStoreDetail',id);  
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));

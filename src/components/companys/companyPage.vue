@@ -7,26 +7,34 @@
 <style>
 </style>
 <script>
+import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 export default {
   name: 'companyPage',
   data() {
     return {
         choose:null,
+        id:null,
     }
   },
   components:{
       'registStorePage': () => import('./registStorePage.vue'),
       'showSt': () => import('./showSt.vue'),
+      'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
       SideBar,
 
   },
   computed:{
     chooseComponet(){
-       if(this.choose==0){
+      if(this.choose==0){
         return 'registStorePage';
+      }else if(this.choose==1){
+        return 'showSt';
+      }else if(this.choose==2){
+        return 'showStoreDetailPage';
       }
-      return 'showSt';
+      //잘못된경로로 왔을때
+      return 'registStorePage';
     }
   },
   mounted(){
@@ -35,8 +43,11 @@ export default {
       this.$EventBus.$on('pageNum',pageNum=>{
       console.log("pageNum");
       this.choose=pageNum;
-      this.chooseComponet(this.choose);
-   
+    });
+    this.$EventBus.$on('showStoreDetail',id=>{
+      console.log(id);
+      this.choose=2;
+      modules.changeUrl(this.$domain+'/companyPage/2?id='+id);
     });
   },
 }
