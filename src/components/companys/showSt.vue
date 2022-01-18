@@ -62,8 +62,8 @@ export default {
   },
   methods:{
     showStore(id){
-      alert(1);
-      this.$EventBus.$emit('showStoreDetail',id);  
+      var arr = { id: id, page: this.page, keyword: this.keyword};
+      this.$EventBus.$emit('showStoreDetail',arr);  
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));

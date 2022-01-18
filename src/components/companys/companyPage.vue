@@ -11,19 +11,11 @@ import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 export default {
   name: 'companyPage',
-   /*watch: {
-     //뒤로가기 구현 
-    '$route'(to, from) {
-      console.log(to, from);
-      console.log(to.fullPath);
-      var beforeUrl=this.$route.
-      location.href=to.fullPath;
-    }
-  },*/
   data() {
     return {
         choose:null,
         id:null,
+        beforePath:null,
     }
   },
   components:{
@@ -56,11 +48,14 @@ export default {
         modules.changeUrl(this.$domain+'/companyPage/1?page=1&keyword=');
       }
     });
-    this.$EventBus.$on('showStoreDetail',id=>{
-      console.log(id);
+    //매장 목록에서 매장클릭시
+    this.$EventBus.$on('showStoreDetail',arr=>{
+      console.log(arr);
       this.choose=2;
-      //modules.changeUrl(this.$domain+'/companyPage/2?id='+id);
+      modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     });
+    //매장 디테일에서 목록 클릭시
+    
 
 
   },
