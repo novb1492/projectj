@@ -99,6 +99,7 @@
       <br>
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
       <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+      <input type="button" @click="leave" value="이전으로 가기">
       </div>
   </div>
 </template>
@@ -147,6 +148,10 @@ export default {
     });
   },
   methods:{
+    leave(){
+      var arr = {page: modules.getParam('page'), keyword: modules.getParam('keyword')};
+      this.$EventBus.$emit('outDetail',arr);  
+    },
     tryInsertStore(){
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.text;
