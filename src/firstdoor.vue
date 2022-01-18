@@ -117,12 +117,12 @@ export default {
         timeout: 5000,
         maximumAge: 0
       };
-      var na =navigator.geolocation.watchPosition(this.success,this.error,options2);
-      console.log(na);
+      //실시간 위치 서비스
+      navigator.geolocation.watchPosition(this.success,this.error,options2);
     },
     success(position){
-      console.log('usc');
       console.log(position);
+      //이전 위치가 존재한다면 지움
       if(this.userPosFlag){
         this.userMarker.setMap(null);
       }
@@ -139,7 +139,7 @@ export default {
 
     },
     error(){
-
+      alert('위치를 불러오는데 실패했습니다');
     },
     changeMapEvent(){
         // 지도 중심좌표를 얻어옵니다 
