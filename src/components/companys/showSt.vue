@@ -53,24 +53,8 @@ export default {
     }
   },
   created(){
-    var key=null;
-    var page=1;
-    //새로고침 대응
-    modules.changeUrl(this.$domain+'/companyPage/1');
-    //새로고침시 데이터가져오기
-    var body=JSON.parse(sessionStorage.getItem(this.sessionStorageName));
-    //데이터가 존재 했다면 값부여 없다면 기본값으로 표시됨
-    try {
-        if(body.page!=null){
-          page=body.page;
-        }
-        if(body.keyword!=null){
-          key=body.keyword;
-        }
-    } catch (error) {
-        page=1;
-        key=null;
-    }
+    var key=modules.getParam('keyword');
+    var page=modules.getParam('page');
     this.getStores(page,key);
   },
   mounted(){
@@ -78,7 +62,7 @@ export default {
   },
   methods:{
     showStore(id){
-      location.href='/showStoreDetailPage?id='+id;
+      this.$EventBus.$emit('showStoreDetail',id);  
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));
@@ -114,18 +98,12 @@ export default {
         }else{
           modules.disabledById('beforebutton',false);
         }
-        //새로고침시 데이터 유지위해 저장
-        var body=JSON.stringify({
-          "page":this.page,
-          "keyword":this.keyword,
-        })
-        sessionStorage.setItem(this.sessionStorageName,body);
         //null인경우 공백으로 표시
         if(this.keyword=="null"){
           this.keyword='';
         }
         document.getElementById('searchinput').value=this.keyword;
-        //modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
+        modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
       });
     },
   },

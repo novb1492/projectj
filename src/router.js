@@ -8,9 +8,6 @@ import authPage from './components/users/authPage.vue';
 import findAccountPage from './components/users/findAccountPage.vue';
 import changePwdPage from './components/users/changePwdPage.vue';
 import resultPage from './components/resultPage.vue';
-import registStorePage from './components/companys/registStorePage.vue';
-import showSt from './components/companys/showSt.vue';
-import showStoreDetailPage from './components/companys/showStoreDetailPage.vue';
 import companyPage from './components/companys/companyPage.vue';
 Vue.use(VueRouter);
 const router =new VueRouter({
@@ -26,9 +23,6 @@ const router =new VueRouter({
       {path:'/findAccountPage',component:findAccountPage},
       {path:'/changePwdPage',component:changePwdPage},
       {path:'/resultPage',component:resultPage},
-      {path:'/registStorePage',component:registStorePage},
-      {path:'/showStoresPage',component:showSt},
-      {path:'/showStoreDetailPage',component:showStoreDetailPage},
       {path:'/companyPage/:id',component:companyPage},
     ]
 });

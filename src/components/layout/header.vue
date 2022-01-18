@@ -34,7 +34,7 @@
               </div>
               <div v-else>
                 <!--기업회원 목록-->
-                <li><a class="dropdown-item" href="/companyPage/1">매장관리/등록</a></li>
+                <li><a class="dropdown-item" href="/companyPage/1?page=1&keyword=">매장관리/등록</a></li>
                 <li><a class="dropdown-item" href="/companyPage">주문조회/등록</a></li>
               </div>
             </div>
