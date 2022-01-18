@@ -62,6 +62,7 @@ export default {
   },
   methods:{
     showStore(id){
+      alert(1);
       this.$EventBus.$emit('showStoreDetail',id);  
     },
     search(){
