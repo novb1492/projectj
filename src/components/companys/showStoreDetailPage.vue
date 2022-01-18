@@ -124,6 +124,12 @@ export default {
   created(){
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
+      if(!result.flag){
+        alert('존재하지 않는 매장입니다');
+        return;
+      }
+      var infor=result.message;
+      this.thumbnail=infor.simg;
     });
     //카카오 api head에넣기
     const script = document.createElement("script");
