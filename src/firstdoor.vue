@@ -37,6 +37,10 @@ export default {
       sideFlag:false,//사이드바존재 여부
       deleteFlag:false,
       moveFlag:false,//드래그 했는지 ,검색했는지
+      //사용자 위치표시 
+      userPosFlag:false,
+      forcusFlag:true,
+      userMarker:null,
     };
   },
   created() {
@@ -107,6 +111,35 @@ export default {
         this.changeMapEvent();   
         //this.map.setLevel(4);      
       }.bind(this));//첫 bind사용s
+      //내위치 표시
+      var options2 = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+      var na =navigator.geolocation.watchPosition(this.success,this.error,options2);
+      console.log(na);
+    },
+    success(position){
+      console.log('usc');
+      console.log(position);
+      if(this.userPosFlag){
+        this.userMarker.setMap(null);
+      }
+      var lat = position.coords.latitude;// 위도
+      var lon = position.coords.longitude; // 경도
+      var locPosition = new kakao.maps.LatLng(lat, lon);
+      this.userMarker=this.getMarker(locPosition);
+      this.userPosFlag=true;
+      //초기입장 한번만 사용자 위치로 고정
+      if(this.forcusFlag){
+        this.forcusFlag=false;
+        this.map.setCenter(locPosition);
+      }
+
+    },
+    error(){
+
     },
     changeMapEvent(){
         // 지도 중심좌표를 얻어옵니다 
