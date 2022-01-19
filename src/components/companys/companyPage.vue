@@ -52,7 +52,7 @@ export default {
     this.$EventBus.$on('showStoreDetail',arr=>{
       console.log(arr);
       this.choose=2;
-      modules.changeUrl(this.$domain+'/companyPage/1?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+      modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     });
     //매장 디테일에서 목록 클릭시
      this.$EventBus.$on('outDetail',arr=>{

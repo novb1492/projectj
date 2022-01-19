@@ -121,6 +121,8 @@ export default {
       deliverRadiusFlag:false,
       circle:null,
       storeName:null,
+      address:null,
+      first:true,
     }
   },
   created(){
@@ -133,14 +135,23 @@ export default {
       var infor=result.message;
       this.thumbnail=infor.simg;
       modules.changeValueById('storeName',infor.sname);
-      modules.changeValueById('')
+      modules.changeValueById('num',infor.snum);
+      modules.changeValueById('openTime',infor.openTime);
+      modules.changeValueById('closeTime',infor.closeTime);
+      modules.changeValueById('postcode',infor.spostcode);
+      modules.changeValueById('address',infor.saddress);
+      modules.changeValueById('detailAddress',infor.sdetail_address);
+      modules.changeValueById('minPrice',infor.minPrice);
+      modules.changeValueById('deliverRadius',infor.deliverRadius);
+      this.address=infor.saddress;
+      //카카오 api head에넣기
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
+      document.head.appendChild(script);
     });
-    //카카오 api head에넣기
-    const script = document.createElement("script");
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-    document.head.appendChild(script);
+   
   },
   mounted(){
      //에디터 컴포넌트 입력시 받아오기
@@ -242,6 +253,16 @@ export default {
       container.style.width ='410px';
       container.style.height = '500px';
       //container.style.marginLeft = '40px';
+      //회사 위치 띄어주는 서비스
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+      // 주소로 좌표를 검색합니다
+      geocoder.addressSearch(this.address, function(result, status) {
+          // 정상적으로 검색이 완료됐으면 
+          if (status === kakao.maps.services.Status.OK) {
+            this.showCompanyPlace(new kakao.maps.LatLng(result[0].y, result[0].x));
+          }
+      }.bind(this));    
       this.map.relayout();
     },
     drawCircle(radius){
@@ -274,7 +295,6 @@ export default {
                 map: this.map,
                 position: place
       });
-      return this.marker;
   },
     onComplete(result) {
       console.log(result);
@@ -315,9 +335,9 @@ export default {
     showCompanyPlace(place){
       console.log(place);
       // 결과값으로 받은 위치를 마커로 표시합니다
-      var marker = this.getMarker(place);
+      this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
+      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },

@@ -260,7 +260,6 @@ export default {
                 map: this.map,
                 position: place
       });
-      return this.marker;
   },
     onComplete(result) {
       console.log(result);
@@ -301,9 +300,9 @@ export default {
     showCompanyPlace(place){
       console.log(place);
       // 결과값으로 받은 위치를 마커로 표시합니다
-      var marker = this.getMarker(place);
+      this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
+      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },
