@@ -4,7 +4,7 @@
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
         <br>
-        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png">
+        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" value="123">
         <br>
         <input type="button" class="mt-2"  value="업로드"  @click="uploadThumbNail">
         <br>
@@ -120,6 +120,7 @@ export default {
       thumbnail:null,
       deliverRadiusFlag:false,
       circle:null,
+      storeName:null,
     }
   },
   created(){
@@ -131,6 +132,8 @@ export default {
       }
       var infor=result.message;
       this.thumbnail=infor.simg;
+      modules.changeValueById('storeName',infor.sname);
+      modules.changeValueById('')
     });
     //카카오 api head에넣기
     const script = document.createElement("script");
