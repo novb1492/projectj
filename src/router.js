@@ -9,6 +9,7 @@ import findAccountPage from './components/users/findAccountPage.vue';
 import changePwdPage from './components/users/changePwdPage.vue';
 import resultPage from './components/resultPage.vue';
 import companyPage from './components/companys/companyPage.vue';
+import deliveryPage from './components/companys/deliveryPage.vue';
 Vue.use(VueRouter);
 const router =new VueRouter({
     mode:'history',
@@ -24,6 +25,7 @@ const router =new VueRouter({
       {path:'/changePwdPage',component:changePwdPage},
       {path:'/resultPage',component:resultPage},
       {path:'/companyPage/:id',component:companyPage},
+      {path:'/del',component:deliveryPage},
     ]
 });
 export default router;

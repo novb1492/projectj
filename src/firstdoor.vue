@@ -139,7 +139,7 @@ export default {
 
     },
     error(){
-      alert('위치를 불러오는데 실패했습니다');
+      //alert('위치를 불러오는데 실패했습니다');
     },
     changeMapEvent(){
         // 지도 중심좌표를 얻어옵니다 
