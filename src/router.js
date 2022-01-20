@@ -11,6 +11,7 @@ import resultPage from './components/resultPage.vue';
 import companyPage from './components/companys/companyPage.vue';
 import deliveryPage from './components/companys/deliveryPage.vue';
 import userDeliverPage from './components/users/userdeliverPage.vue';
+import secretPage from './secretPage.vue'
 Vue.use(VueRouter);
 const router =new VueRouter({
     mode:'history',
@@ -28,6 +29,7 @@ const router =new VueRouter({
       {path:'/companyPage/:id',component:companyPage},
       {path:'/del',component:deliveryPage},
       {path:'/del2',component:userDeliverPage},
+      {path:'/s',component:secretPage},
     ]
 });
 export default router;
