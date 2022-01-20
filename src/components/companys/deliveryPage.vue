@@ -1,7 +1,7 @@
 <template>
   <div class="margintopNavSize">
-       <input type="button" value="배달시작" @click="connect">
-        <input type="button" value="전송" @click="test">
+      <input type="button" value="배달시작" @click="connect">
+      <input type="button" value="배달완료" @click="close"> 
   </div>
 </template>
 <style>
@@ -14,6 +14,14 @@ export default {
    data() {
     return {
       websocket:null,
+      deliveryFlag:false,
+      deliveryFlagText:'deliveryFlag',
+    }
+  },
+  created(){
+    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
+    if(this.deliveryFlag){
+      this.connect();
     }
   },
   methods : {
@@ -27,9 +35,10 @@ export default {
           this.reconnect(result.flag);
         })
         }.bind(this);
-        /*this.websocket.onclose = function (event) {
-          console.log(event);
-        }*/ 
+        /*  this.websocket.onopen = e=> {
+        console.log(e);
+        setInterval(this.test,1000);
+        };*/
     },
     reconnect(flag){
       if(flag){
@@ -42,8 +51,13 @@ export default {
     socketOpen(){
     this.websocket.onopen = e=> {
         console.log(e);
+        this.deliveryFlag=true;
+        localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
         setInterval(this.test,1000);
     };
+    },
+    close(){
+      this.websocket.close();
     },
     test(){
       this.websocket.send("helloMessage");

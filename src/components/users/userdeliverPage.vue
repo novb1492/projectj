@@ -1,6 +1,7 @@
 <template>
   <div class="margintopNavSize"> 
     userdeliverPage
+    <input type="test" disabled id="test">
   </div>
 </template>
 <style>
@@ -46,6 +47,7 @@ export default {
         console.log(e);
        this.websocket.onmessage = function(event) {
           console.log(event.data);
+          modules.changeValueById('test',event.data);
           //JSON.parse(event.data);
         };
     };
