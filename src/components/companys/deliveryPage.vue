@@ -19,13 +19,13 @@ export default {
     }
   },
   created(){
-    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
-    if(this.deliveryFlag){
-      this.connect();
-    }
+   this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
+   console.log(this.deliveryFlag);
+
   },
   methods : {
       connect() {
+  
         this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
         this.socketOpen();
         this.websocket.onerror = function(error) {
@@ -35,10 +35,6 @@ export default {
           this.reconnect(result.flag);
         })
         }.bind(this);
-        /*  this.websocket.onopen = e=> {
-        console.log(e);
-        setInterval(this.test,1000);
-        };*/
     },
     reconnect(flag){
       if(flag){
@@ -49,14 +45,17 @@ export default {
       }
     },
     socketOpen(){
+      this.deliveryFlag=true;
+      localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
     this.websocket.onopen = e=> {
         console.log(e);
-        this.deliveryFlag=true;
-        localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
+        alert('a');
         setInterval(this.test,1000);
     };
     },
     close(){
+      this.deliveryFlag=false;
+      localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
       this.websocket.close();
     },
     test(){
