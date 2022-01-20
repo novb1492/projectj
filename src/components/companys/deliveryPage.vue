@@ -49,7 +49,6 @@ export default {
       localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
     this.websocket.onopen = e=> {
         console.log(e);
-        alert('a');
         setInterval(this.test,1000);
     };
     },
