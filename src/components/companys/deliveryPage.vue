@@ -24,7 +24,8 @@ export default {
         };
          this.websocket.onerror = function(error) {
            console.log(error);
-          
+            location.reload();
+             this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
            
          }
         /*this.websocket.onclose = function (event) {
