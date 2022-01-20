@@ -4,7 +4,7 @@
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
         <br>
-        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png">
+        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" value="123">
         <br>
         <input type="button" class="mt-2"  value="업로드"  @click="uploadThumbNail">
         <br>
@@ -99,6 +99,7 @@
       <br>
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
       <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+      <input type="button" @click="leave" value="이전으로 가기">
       </div>
   </div>
 </template>
@@ -119,6 +120,9 @@ export default {
       thumbnail:null,
       deliverRadiusFlag:false,
       circle:null,
+      storeName:null,
+      address:null,
+      first:true,
     }
   },
   created(){
@@ -130,13 +134,24 @@ export default {
       }
       var infor=result.message;
       this.thumbnail=infor.simg;
+      modules.changeValueById('storeName',infor.sname);
+      modules.changeValueById('num',infor.snum);
+      modules.changeValueById('openTime',infor.openTime);
+      modules.changeValueById('closeTime',infor.closeTime);
+      modules.changeValueById('postcode',infor.spostcode);
+      modules.changeValueById('address',infor.saddress);
+      modules.changeValueById('detailAddress',infor.sdetail_address);
+      modules.changeValueById('minPrice',infor.minPrice);
+      modules.changeValueById('deliverRadius',infor.deliverRadius);
+      this.address=infor.saddress;
+      //카카오 api head에넣기
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
+      document.head.appendChild(script);
     });
-    //카카오 api head에넣기
-    const script = document.createElement("script");
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-    document.head.appendChild(script);
+   
   },
   mounted(){
      //에디터 컴포넌트 입력시 받아오기
@@ -147,6 +162,10 @@ export default {
     });
   },
   methods:{
+    leave(){
+      var arr = {page: modules.getParam('page'), keyword: modules.getParam('keyword')};
+      this.$EventBus.$emit('outDetail',arr);  
+    },
     tryInsertStore(){
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.text;
@@ -234,6 +253,16 @@ export default {
       container.style.width ='410px';
       container.style.height = '500px';
       //container.style.marginLeft = '40px';
+      //회사 위치 띄어주는 서비스
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+      // 주소로 좌표를 검색합니다
+      geocoder.addressSearch(this.address, function(result, status) {
+          // 정상적으로 검색이 완료됐으면 
+          if (status === kakao.maps.services.Status.OK) {
+            this.showCompanyPlace(new kakao.maps.LatLng(result[0].y, result[0].x));
+          }
+      }.bind(this));    
       this.map.relayout();
     },
     drawCircle(radius){
@@ -266,7 +295,6 @@ export default {
                 map: this.map,
                 position: place
       });
-      return this.marker;
   },
     onComplete(result) {
       console.log(result);
@@ -307,9 +335,9 @@ export default {
     showCompanyPlace(place){
       console.log(place);
       // 결과값으로 받은 위치를 마커로 표시합니다
-      var marker = this.getMarker(place);
+      this.getMarker(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
+      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },

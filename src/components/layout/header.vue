@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" @click="test">sendMessage</a>
+         <!-- <a class="nav-link active" aria-current="page" href="#" @click="test">배달시작</a>-->
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">{{loginFlag}}</a>
@@ -77,7 +77,6 @@ export default {
       role:"noLogin",
       email:null,
       roleFlag:false,
-      websocket:null,
     }
   },
   created() {
@@ -106,7 +105,7 @@ export default {
         this.loginFlag=true;
         this.email=message[0];
         this.role=message[1];
-         this.connect();
+        // this.connect();
       }else{
         this.loginFlag=false;
       }
@@ -121,23 +120,6 @@ export default {
     }
   },
   methods : {
-        connect() {
-         this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
-         this.websocket.onerror = function(error) {
-           console.log(error);
-         }
-        /*this.websocket.onclose = function (event) {
-          console.log(event);
-        }*/
-         this.websocket.onmessage = function(event) {
-          console.log(event.data);
-          JSON.parse(event.data);
-        };
-      
-    },
-    test(){
-      this.websocket.send("helloMessage");
-    },
     getUserInfor(){
       var arr=JSON.stringify({
         "loginFlag":this.loginFlag,
