@@ -26,7 +26,7 @@ export default {
   methods : {
       connect() {
   
-        this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
+        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();
         this.websocket.onerror = function(error) {
         console.log(error);
@@ -38,7 +38,7 @@ export default {
     },
     reconnect(flag){
       if(flag){
-        this.websocket = new WebSocket("ws://localhost:8080/auth/ws/chat");
+        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();            
       }else{
         alert('소켓연결에 실패했습니다');
