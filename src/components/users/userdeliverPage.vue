@@ -21,7 +21,7 @@ export default {
   },
   methods:{
     connect() {
-        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
+        this.websocket = new WebSocket("wss://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();
         this.websocket.onerror = function(error) {
         console.log(error);
