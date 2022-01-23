@@ -288,3 +288,11 @@ jwt방식이므로 요청시 쿠키 추가 + 만료시 재요청 로직추가
 병합시도/병합성공  
 
 0.0.4 브랜치 생성  
+
+2022-01-23  
+1.https=https
+-netfly로 테스트결과 프론트가 https면 백엔드도 마찬가지  
+ec2 https로 올리면됨  
+2.https=wss  
+-http=ws/https=wss  
+

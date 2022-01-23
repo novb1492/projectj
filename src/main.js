@@ -20,7 +20,7 @@ Vue.prototype.$ROLE_COMPANY='ROLE_COMPANY';
 Vue.prototype.$ROLE_ADMIN='ROLE_ADMIN';
 Vue.prototype.$sideVarWitdh=250;//수정시 사이드바 width는 가서 직접 수정해줘야한다
 Vue.prototype.$footerHeigth=50;//수정시 사이드바 width는 가서 직접 수정해줘야한다
-Vue.prototype.$deliverSocketUrl='/ws/deliver';
+Vue.prototype.$deliverSocketUrl='/auth/ws/deliver';
 Vue.prototype.$shortServerDomain='localhost:8080';//웹소켓통신시 사용
 
 //글로벌 컴포넌츠들
