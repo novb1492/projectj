@@ -49,6 +49,12 @@ export default {
       localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
     this.websocket.onopen = e=> {
         console.log(e);
+        var options2 = {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        };
+        navigator.geolocation.watchPosition(this.success,this.error,options2);
         setInterval(this.test,1000);
     };
     },
@@ -57,9 +63,18 @@ export default {
       localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
       this.websocket.close();
     },
-    test(){
-      this.websocket.send("helloMessage");
+    success(position){
+      var lat = position.coords.latitude;// 위도
+      var lon = position.coords.longitude; // 경도
+      let data=JSON.stringify({
+        "latitude":lat,
+        "longitude":lon,
+      })
+      this.websocket.send(data);
     },
+    error(){
+
+    }
   }
 }
 </script>
