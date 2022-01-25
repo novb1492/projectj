@@ -296,3 +296,8 @@ ec2 https로 올리면됨
 2.https=wss  
 -http=ws/https=wss  
 
+0.0.5
+
+2021-01-25  
+1.지도를 컴포넌트화 시도  
+
