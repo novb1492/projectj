@@ -47,6 +47,8 @@ export default {
       circlex:0,
       circley:0,
       radius:0,
+      //매장정보 이벤트 플래그
+      storeDetailFlag:false,
     };
   },
   mounted(){
@@ -60,6 +62,11 @@ export default {
         this.dragEventFlag=configs.dragEventFlag;
         this.dragEventNum=configs.dragEventNum;
         this.positionEventFlag=configs.positionEventFlag;
+        this.storeDetailFlag=configs.storeDetailFlag;
+        if(this.storeDetailFlag){
+          this.address=configs.address;
+          this.radius=configs.radius;
+        }
        //카카오 api head에넣기
         const script = document.createElement("script");
         /* global kakao */
@@ -129,20 +136,35 @@ export default {
       if(this.positionEventFlag){
           this.positionEvent();
       }
+      //마커와원을 미리 그려놓는 기능
+      if(this.storeDetailFlag){
+        var data=new Object();
+        data.address=this.address;
+        data.radius=this.radius;
+        data.deliverRadiusFlag=true;
+        this.drawCicleAndMakerWithAddress(data);
+      }
       //한개만 마커를 그리는 기능 
-       this.$EventBus.$on('showOnlyOnePlace',address=>{
-            console.log(address);
-            var geocoder = new kakao.maps.services.Geocoder();
-            geocoder.addressSearch(address, (result, status)=> {
+       this.$EventBus.$on('showOnlyOnePlace',data=>{
+            console.log(data);
+            this.drawCicleAndMakerWithAddress(data);
+        });
+        //원 한개만 그리기
+         this.$EventBus.$on('drawCircle',num=>{
+            this.drawCircle(num);
+        });
+    },
+    drawCicleAndMakerWithAddress(data){
+      var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(data.address, (result, status)=> {
                 if (status === kakao.maps.services.Status.OK) { 
                     // 정상적으로 검색이 완료됐으면 
-                    alert("주소 선택완료 지도를 확인해 주세요");
                     this.circlex= result[0].x;
                     this.circley=result[0].y;
                     console.log('x: '+this.circlex);
                     console.log('y: '+this.circley);
-                    if(this.deliverRadiusFlag){
-                        this.drawCircle(this.radius);
+                    if(data.deliverRadiusFlag){
+                        this.drawCircle(data.radius);
                     }
                     //배달받을 주소표시
                     this.showOnePlace(new kakao.maps.LatLng(result[0].y, result[0].x));
@@ -150,11 +172,6 @@ export default {
                     alert('검색 내역이 없습니다');
                 } 
             }); 
-        });
-        //원 한개만 그리기
-         this.$EventBus.$on('drawCircle',num=>{
-            this.drawCircle(num);
-        });
     },
     positionEvent(){
         var options2 = {
@@ -371,7 +388,6 @@ export default {
       // 지도에 원을 표시합니다 
       this.circle.setMap(this.map); 
       this.deliverRadiusFlag=true;
-       this.radius=radius;
     },
     showOnePlace(place){
       // 결과값으로 받은 위치를 마커로 표시합니다
