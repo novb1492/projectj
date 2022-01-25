@@ -19,7 +19,7 @@ export default {
    name :'firstdoor',
     data() {
     return {
-      //지도관련
+     /* //지도관련
       map: null,//카카오지도 객체
       destinationFlag:false,//받을 주소를 선택했는지 판별하는 플래그
       destinationX:null,
@@ -42,7 +42,7 @@ export default {
       //사용자 위치표시 
       userPosFlag:false,
       forcusFlag:true,
-      userMarker:null,
+      userMarker:null,*/
     };
   },
   mounted() {

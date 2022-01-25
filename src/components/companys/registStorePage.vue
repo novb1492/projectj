@@ -82,8 +82,7 @@
         class="ml80 mt-2"
         id="deliverRadius"
         placeholder="최대배달반경"
-        @keyup="showCircle"
-      />
+      /><!--  @keyup="showCircle"-->
       <br>
       </div>
       <div id="registStorePage3" >
@@ -123,16 +122,15 @@ export default {
       circle:null,
     }
   },
-  created(){
-    this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
-   
-    //새로고침 대응
-    modules.changeUrl(this.$domain+'/companyPage/0');
-  },
   mounted(){
     //기본 썸네일 출력
     this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";  
-
+    //지도 호출
+    var configs=new Object();
+    configs.width=410;
+    configs.height=500;
+    configs.zoom=5;
+    this.$EventBus.$emit('drawMap',configs); 
     //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;
@@ -193,16 +191,7 @@ export default {
         }
         modules.openPOPup('/authPage?scope='+type+'&detail=auth2&kind='+modules.getParam('scope'),'authPage',500,500);
       },
-    /*showCircle(){
-      var num=modules.getValueById('deliverRadius');
-      //숫자인지검사
-      if(isNaN(num)){
-        alert('배달거리는 숫자만 입력해주세요');
-        return;
-      }
-      this.drawCircle(num);
-    },
-    uploadThumbNail(){
+      uploadThumbNail(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
       frm.append("upload",document.getElementById('img').files[0]);
@@ -217,6 +206,23 @@ export default {
 
       });
     },
+    onComplete(result) {
+      console.log(result);
+      document.getElementById("postcode").value = result.zonecode;
+      document.getElementById("address").value = result.address;
+      this.$EventBus.$emit('showOnlyOnePlace',result.address); 
+       
+    },
+    /*showCircle(){
+      var num=modules.getValueById('deliverRadius');
+      //숫자인지검사
+      if(isNaN(num)){
+        alert('배달거리는 숫자만 입력해주세요');
+        return;
+      }
+      this.drawCircle(num);
+    },
+    
     initMap() {
       //불러오기
       const container = document.getElementById("map");
@@ -263,29 +269,6 @@ export default {
                 position: place
       });
   },
-    onComplete(result) {
-      console.log(result);
-      document.getElementById("postcode").value = result.zonecode;
-      document.getElementById("address").value = result.address;
-        var geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(result.address, (result, status)=> {
-        if (status === kakao.maps.services.Status.OK) { 
-          // 정상적으로 검색이 완료됐으면 
-          alert("주소 선택완료 지도를 확인해 주세요");
-          this.storex=result[0].x;
-          this.storey=result[0].y
-          console.log(this.storex);
-          //배달받을 주소표시
-          this.showCompanyPlace(new kakao.maps.LatLng(this.storey, this.storex));
-          //이전에 이미 반경 표시까지 하고 수정했다면 재 탐색된 좌표로 원그려주기
-          if(this.deliverRadiusFlag){
-            this.showCircle();
-          }
-        }else{
-          alert('검색 내역이 없습니다');
-        } 
-      }); 
-    },
      showTextOnMaker(marker,text){
        //이미 인포 윈도우가 존재 한다면 지워줘야한다
        if(this.infowindow!=null){
@@ -298,15 +281,6 @@ export default {
         //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
         //마커위치에 표시
         this.infowindow.open(this.map, marker);
-    },
-    showCompanyPlace(place){
-      console.log(place);
-      // 결과값으로 받은 위치를 마커로 표시합니다
-      this.getMarker(place);
-      // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
-      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-      this.map.setCenter(place);
     },*/
   }
   

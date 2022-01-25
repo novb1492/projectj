@@ -41,6 +41,9 @@ export default {
       userPosFlag:false,
       forcusFlag:true,
       userMarker:null,
+      //원그리기
+      deliverRadiusFlag:false,
+      circle:null,
     };
   },
   mounted(){
@@ -123,6 +126,21 @@ export default {
       if(this.positionEventFlag){
           this.positionEvent();
       }
+      //한개만 마커를 그리는 기능 
+       this.$EventBus.$on('showOnlyOnePlace',address=>{
+            console.log(address);
+            var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(address, (result, status)=> {
+                if (status === kakao.maps.services.Status.OK) { 
+                    // 정상적으로 검색이 완료됐으면 
+                    alert("주소 선택완료 지도를 확인해 주세요");
+                    //배달받을 주소표시new kakao.maps.LatLng(result[0].y, result[0].x)
+                    this.showOnePlace(new kakao.maps.LatLng(result[0].y, result[0].x));
+                }else{
+                    alert('검색 내역이 없습니다');
+                } 
+            }); 
+        });
     },
     positionEvent(){
         var options2 = {
@@ -165,8 +183,7 @@ export default {
     },
     firstDoorDragEvent(){
     //지도 드래그 이동시 이벤트등록 
-    console.log('dra');
-      kakao.maps.event.addListener(this.map, 'dragend', function() {        
+    kakao.maps.event.addListener(this.map, 'dragend', function() {        
         this.changeMapEvent();   
         //this.map.setLevel(4);      
       }.bind(this));//첫 bind사용s
@@ -320,7 +337,60 @@ export default {
         infowindow.open(this.map, marker);
         return infowindow;
     },
+      drawCircle(radius){
+      //이전원이 있다면 지워줘야함
+      if(this.deliverRadiusFlag){
+        this.circle.setMap(null); // 지도에서 제거한다.
+      }
+       // 지도에 표시할 원을 생성합니다
+      this.circle = new kakao.maps.Circle({
+          center : new kakao.maps.LatLng(this.storey,this.storex),  // 원의 중심좌표 입니다 
+          radius: radius*1000, // 미터 단위의 원의 반지름입니다 
+          strokeWeight: 5, // 선의 두께입니다 
+          strokeColor: '#75B8FA', // 선의 색깔입니다
+          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'dashed', // 선의 스타일 입니다
+          fillColor: '#CFE7FF', // 채우기 색깔입니다
+          fillOpacity: 0.7  // 채우기 불투명도 입니다   
+      }); 
+      // 지도에 원을 표시합니다 
+      this.circle.setMap(this.map); 
+      this.deliverRadiusFlag=true;
+    },
+    showOnePlace(place){
+      // 결과값으로 받은 위치를 마커로 표시합니다
+      this.getMarkerOnlyOne(place);
+      // 인포윈도우로 장소에 대한 설명을 표시합니다
+      this.showTextOnMakerOnlyOne(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+      this.map.setCenter(place);
+    },
+    getMarkerOnlyOne(place){
+       //이전 마커가 존재 한다면 null아니다
+       if(this.marker!=null){
+          this.marker.setMap(null);//이전 마커 지우기
+       }
+       //새마커 설정
+      this.marker= new kakao.maps.Marker({
+                map: this.map,
+                position: place
+      });
   },
+     showTextOnMakerOnlyOne(marker,text){
+       //이미 인포 윈도우가 존재 한다면 지워줘야한다
+       if(this.infowindow!=null){
+         this.infowindow.close();
+       }
+       //새로 그릴 정보 만들기
+        this.infowindow =  new kakao.maps.InfoWindow({
+                content: text
+        }); //new kakao.maps.InfoWindow({zIndex:1});
+        //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        //마커위치에 표시
+        this.infowindow.open(this.map, marker);
+    },
   
+  },
+ 
 }
 </script>
