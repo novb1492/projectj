@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <div id="map"></div>
+        <k-map/>
       <br>
       </div>
       <div id="registStorePage4">
@@ -106,7 +106,9 @@
 </style>
 <script>
 import * as modules from '../../jslib';
+import kMap from '../../kMap.vue';
 export default {
+  components: { kMap },
   name: 'registStorePage',
   data(){
     return  {
@@ -123,22 +125,22 @@ export default {
   },
   created(){
     this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
-    //카카오 api head에넣기
-    const script = document.createElement("script");
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-    document.head.appendChild(script);
+   
     //새로고침 대응
     modules.changeUrl(this.$domain+'/companyPage/0');
   },
   mounted(){
-     //에디터 컴포넌트 입력시 받아오기
+    //기본 썸네일 출력
+    this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";  
+
+    //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;
       console.log('에디터내용');
       console.log(this.text);
     });
+    //새로고침 대응
+    modules.changeUrl(this.$domain+'/companyPage/0');
   },
   methods:{
     tryInsertStore(){
@@ -191,7 +193,7 @@ export default {
         }
         modules.openPOPup('/authPage?scope='+type+'&detail=auth2&kind='+modules.getParam('scope'),'authPage',500,500);
       },
-    showCircle(){
+    /*showCircle(){
       var num=modules.getValueById('deliverRadius');
       //숫자인지검사
       if(isNaN(num)){
@@ -305,7 +307,7 @@ export default {
       this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
-    },
+    },*/
   }
   
 }
