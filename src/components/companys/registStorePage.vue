@@ -82,7 +82,8 @@
         class="ml80 mt-2"
         id="deliverRadius"
         placeholder="최대배달반경"
-      /><!--  @keyup="showCircle"-->
+        @keyup="showCircle"
+      />
       <br>
       </div>
       <div id="registStorePage3" >
@@ -211,19 +212,21 @@ export default {
       document.getElementById("postcode").value = result.zonecode;
       document.getElementById("address").value = result.address;
       this.$EventBus.$emit('showOnlyOnePlace',result.address); 
+      
        
     },
-    /*showCircle(){
+    showCircle(){
       var num=modules.getValueById('deliverRadius');
       //숫자인지검사
       if(isNaN(num)){
         alert('배달거리는 숫자만 입력해주세요');
         return;
       }
-      this.drawCircle(num);
+      this.deliverRadiusFlag=true;
+      this.$EventBus.$emit('drawCircle',num); 
     },
     
-    initMap() {
+   /* initMap() {
       //불러오기
       const container = document.getElementById("map");
       const options = {

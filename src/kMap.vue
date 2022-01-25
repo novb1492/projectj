@@ -44,6 +44,9 @@ export default {
       //원그리기
       deliverRadiusFlag:false,
       circle:null,
+      circlex:0,
+      circley:0,
+      radius:0,
     };
   },
   mounted(){
@@ -134,12 +137,23 @@ export default {
                 if (status === kakao.maps.services.Status.OK) { 
                     // 정상적으로 검색이 완료됐으면 
                     alert("주소 선택완료 지도를 확인해 주세요");
-                    //배달받을 주소표시new kakao.maps.LatLng(result[0].y, result[0].x)
+                    this.circlex= result[0].x;
+                    this.circley=result[0].y;
+                    console.log('x: '+this.circlex);
+                    console.log('y: '+this.circley);
+                    if(this.deliverRadiusFlag){
+                        this.drawCircle(this.radius);
+                    }
+                            //배달받을 주소표시
                     this.showOnePlace(new kakao.maps.LatLng(result[0].y, result[0].x));
                 }else{
                     alert('검색 내역이 없습니다');
                 } 
             }); 
+        });
+        //원 한개만 그리기
+         this.$EventBus.$on('drawCircle',num=>{
+            this.drawCircle(num);
         });
     },
     positionEvent(){
@@ -338,13 +352,14 @@ export default {
         return infowindow;
     },
       drawCircle(radius){
+        console.log("X: "+this.circlex+" y: "+this.circley)
       //이전원이 있다면 지워줘야함
       if(this.deliverRadiusFlag){
         this.circle.setMap(null); // 지도에서 제거한다.
       }
        // 지도에 표시할 원을 생성합니다
       this.circle = new kakao.maps.Circle({
-          center : new kakao.maps.LatLng(this.storey,this.storex),  // 원의 중심좌표 입니다 
+          center : new kakao.maps.LatLng(this.circley,this.circlex),  // 원의 중심좌표 입니다 
           radius: radius*1000, // 미터 단위의 원의 반지름입니다 
           strokeWeight: 5, // 선의 두께입니다 
           strokeColor: '#75B8FA', // 선의 색깔입니다
@@ -356,6 +371,7 @@ export default {
       // 지도에 원을 표시합니다 
       this.circle.setMap(this.map); 
       this.deliverRadiusFlag=true;
+       this.radius=radius;
     },
     showOnePlace(place){
       // 결과값으로 받은 위치를 마커로 표시합니다
@@ -375,7 +391,7 @@ export default {
                 map: this.map,
                 position: place
       });
-  },
+    },
      showTextOnMakerOnlyOne(marker,text){
        //이미 인포 윈도우가 존재 한다면 지워줘야한다
        if(this.infowindow!=null){
