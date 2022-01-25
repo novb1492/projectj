@@ -54,6 +54,7 @@ export default {
    configs.resizeFlag=true;
    configs.dragEventFlag=true;
    configs.dragEventNum=1;
+   configs.positionEventFlag=true;
    this.$EventBus.$emit('drawMap',configs); 
   },
  /* mounted(){

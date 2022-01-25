@@ -26,6 +26,7 @@ export default {
       resizeFlag:false,
       dragEventFlag:false,
       dragEventNum:0,
+      positionEventFlag:false,
       //검색정보 마커윈도우
       searchMakers:[],
       searchInforWindows:[],
@@ -52,6 +53,7 @@ export default {
         this.resizeFlag=configs.resizeFlag;
         this.dragEventFlag=configs.dragEventFlag;
         this.dragEventNum=configs.dragEventNum;
+        this.positionEventFlag=configs.positionEventFlag;
        //카카오 api head에넣기
         const script = document.createElement("script");
         /* global kakao */
@@ -63,19 +65,22 @@ export default {
         console.log(text);
         //this.search(text);
         });
-        //리사이즈 될때 감지
+        //리사이즈 이벤트 판별
         if(this.resizeFlag){
-            window.onresize = ()=> {
+            this.resizeEvent();
+        }
+    });
+  },
+  methods:{
+    resizeEvent(){
+        window.onresize = ()=> {
                 console.log('resize');
                 const container = document.getElementById("map");
                 container.style.width = window.innerWidth+'px';
                 container.style.height = (window.innerHeight-150)+'px';
                 this.map.relayout();
-            };
-        }
-    });
-  },
-  methods:{
+        };
+    },
     initMap() {
       //지도 초기설정
       const container = document.getElementById("map");
@@ -91,14 +96,39 @@ export default {
       if(this.dragEventFlag){
           this.chooseDragEvent(this.dragEventNum);
       }
-      //내위치 표시
-      var options2 = {
+      //위치이벤트가 필요한지 판별
+      if(this.positionEventFlag){
+          this.positionEvent();
+      }
+    },
+    positionEvent(){
+        var options2 = {
         enableHighAccuracy: true,
         timeout: 5000,
         maximumAge: 0
-      };
-      //실시간 위치 서비스
-      navigator.geolocation.watchPosition(this.success,this.error,options2);
+        };
+        navigator.geolocation.watchPosition(this.success,this.error,options2);
+    },
+    success(position){
+      console.log(position);
+      //이전 위치가 존재한다면 지움
+      if(this.userPosFlag){
+        this.userMarker.setMap(null);
+      }
+      var lat = position.coords.latitude;// 위도
+      var lon = position.coords.longitude; // 경도
+      var locPosition = new kakao.maps.LatLng(lat, lon);
+      this.userMarker=this.getMarker(locPosition);
+      this.userPosFlag=true;
+      //초기입장 한번만 사용자 위치로 고정
+      if(this.forcusFlag){
+        this.forcusFlag=false;
+        this.map.setCenter(locPosition);
+      }
+
+    },
+    error(){
+      alert('위치를 불러오는데 실패했습니다');
     },
     chooseDragEvent(dragEventNum){
         switch(dragEventNum){
@@ -193,10 +223,7 @@ export default {
                  inforWindows[i].close();
                 }
     },
-    deleteWindow(){
-
-    },
-     deleteMarkerAndWindow(){
+    deleteMarkerAndWindow(){
        if(this.moveFlag){
         //검색했다면 이전검색/드래그로 생긴흔적 삭제
         this.deleteMarkersAndWinodws(this.searchMakers,this.searchInforWindows);
