@@ -1,7 +1,7 @@
 <template>
   <div class="margintopNavSize"> 
-    userdeliverPage
     <input type="test" disabled id="test">
+    <div id="map"></div>
   </div>
 </template>
 <style>
@@ -14,6 +14,7 @@ export default {
    data() {
     return {
       websocket:null,
+      map:null,
     }
   },
   created(){
@@ -46,9 +47,9 @@ export default {
     this.websocket.onopen = e=> {
         console.log(e);
        this.websocket.onmessage = function(event) {
-          console.log(event.data);
           modules.changeValueById('test',event.data);
-          //JSON.parse(event.data);
+          let xy=JSON.parse(event.data);
+          console.log(xy);
         };
     };
     },

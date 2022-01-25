@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <div id="map"></div>
+        <k-map/>
       <br>
       </div>
       <div id="registStorePage4">
@@ -106,39 +106,34 @@
 </style>
 <script>
 import * as modules from '../../jslib';
+import kMap from '../../kMap.vue';
 export default {
+  components: { kMap },
   name: 'registStorePage',
   data(){
     return  {
-      storex:0,
-      storey:0,
-      text:null,
-      map:null,
-      marker:null,
-      infowindow:null,
-      thumbnail:null,
       deliverRadiusFlag:false,
-      circle:null,
+      radius:0,
+      thumbnail:null,
     }
   },
-  created(){
-    this.thumbnail=this.$s3Path+"/jangbogo/2021-12-31660cf46a-7bc0-4f0c-a6ee-dbf1b5aca9ef사본 -스크린샷(2146).png";    
-    //카카오 api head에넣기
-    const script = document.createElement("script");
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-    document.head.appendChild(script);
-    //새로고침 대응
-    modules.changeUrl(this.$domain+'/companyPage/0');
-  },
   mounted(){
-     //에디터 컴포넌트 입력시 받아오기
+    //기본 썸네일 출력
+    this.thumbnail=this.$s3Path+"/jangbogo/test2.jpeg";  
+    //지도 호출
+    var configs=new Object();
+    configs.width=410;
+    configs.height=500;
+    configs.zoom=5;
+    this.$EventBus.$emit('drawMap',configs); 
+    //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;
       console.log('에디터내용');
       console.log(this.text);
     });
+    //새로고침 대응
+    modules.changeUrl(this.$domain+'/companyPage/0');
   },
   methods:{
     tryInsertStore(){
@@ -191,16 +186,7 @@ export default {
         }
         modules.openPOPup('/authPage?scope='+type+'&detail=auth2&kind='+modules.getParam('scope'),'authPage',500,500);
       },
-    showCircle(){
-      var num=modules.getValueById('deliverRadius');
-      //숫자인지검사
-      if(isNaN(num)){
-        alert('배달거리는 숫자만 입력해주세요');
-        return;
-      }
-      this.drawCircle(num);
-    },
-    uploadThumbNail(){
+      uploadThumbNail(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
       frm.append("upload",document.getElementById('img').files[0]);
@@ -215,96 +201,30 @@ export default {
 
       });
     },
-    initMap() {
-      //불러오기
-      const container = document.getElementById("map");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
-      };
-      //지도그리기
-      this.map = new kakao.maps.Map(container, options);
-      //지도사이즈 
-      container.style.width ='410px';
-      container.style.height = '500px';
-      //container.style.marginLeft = '40px';
-      this.map.relayout();
-    },
-    drawCircle(radius){
-      //이전원이 있다면 지워줘야함
-      if(this.deliverRadiusFlag){
-        this.circle.setMap(null); // 지도에서 제거한다.
-      }
-       // 지도에 표시할 원을 생성합니다
-      this.circle = new kakao.maps.Circle({
-          center : new kakao.maps.LatLng(this.storey,this.storex),  // 원의 중심좌표 입니다 
-          radius: radius*1000, // 미터 단위의 원의 반지름입니다 
-          strokeWeight: 5, // 선의 두께입니다 
-          strokeColor: '#75B8FA', // 선의 색깔입니다
-          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'dashed', // 선의 스타일 입니다
-          fillColor: '#CFE7FF', // 채우기 색깔입니다
-          fillOpacity: 0.7  // 채우기 불투명도 입니다   
-      }); 
-      // 지도에 원을 표시합니다 
-      this.circle.setMap(this.map); 
-      this.deliverRadiusFlag=true;
-    },
-     getMarker(place){
-       //이전 마커가 존재 한다면 null아니다
-       if(this.marker!=null){
-          this.marker.setMap(null);//이전 마커 지우기
-       }
-       //새마커 설정
-      this.marker= new kakao.maps.Marker({
-                map: this.map,
-                position: place
-      });
-  },
     onComplete(result) {
       console.log(result);
       document.getElementById("postcode").value = result.zonecode;
       document.getElementById("address").value = result.address;
-        var geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(result.address, (result, status)=> {
-        if (status === kakao.maps.services.Status.OK) { 
-          // 정상적으로 검색이 완료됐으면 
-          alert("주소 선택완료 지도를 확인해 주세요");
-          this.storex=result[0].x;
-          this.storey=result[0].y
-          console.log(this.storex);
-          //배달받을 주소표시
-          this.showCompanyPlace(new kakao.maps.LatLng(this.storey, this.storex));
-          //이전에 이미 반경 표시까지 하고 수정했다면 재 탐색된 좌표로 원그려주기
-          if(this.deliverRadiusFlag){
-            this.showCircle();
-          }
-        }else{
-          alert('검색 내역이 없습니다');
-        } 
-      }); 
+      var data=new Object();
+      data.address=result.address;
+      data.deliverRadiusFlag=this.deliverRadiusFlag;
+      if(this.deliverRadiusFlag){
+        data.radius=this.radius;
+      }
+      this.$EventBus.$emit('showOnlyOnePlace',data); 
+      
+       
     },
-     showTextOnMaker(marker,text){
-       //이미 인포 윈도우가 존재 한다면 지워줘야한다
-       if(this.infowindow!=null){
-         this.infowindow.close();
-       }
-       //새로 그릴 정보 만들기
-        this.infowindow =  new kakao.maps.InfoWindow({
-                content: text
-        }); //new kakao.maps.InfoWindow({zIndex:1});
-        //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-        //마커위치에 표시
-        this.infowindow.open(this.map, marker);
-    },
-    showCompanyPlace(place){
-      console.log(place);
-      // 결과값으로 받은 위치를 마커로 표시합니다
-      this.getMarker(place);
-      // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
-      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-      this.map.setCenter(place);
+    showCircle(){
+      var num=modules.getValueById('deliverRadius');
+      //숫자인지검사
+      if(isNaN(num)){
+        alert('배달거리는 숫자만 입력해주세요');
+        return;
+      }
+      this.deliverRadiusFlag=true;
+      this.radius=num;
+      this.$EventBus.$emit('drawCircle',num); 
     },
   }
   
