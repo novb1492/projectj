@@ -1,7 +1,8 @@
 <template>
     <div id="mapPage margintopNavSize">
       <side-bar id="side" hidden/>
-        <div id="map" ></div>
+      <k-map/>
+       <!-- <div id="map" ></div>-->
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
     </div>
 </template>
@@ -11,9 +12,10 @@
 </style>
 <script>
 import sideBar from './components/layout/sideBar.vue';
-import * as modules from './jslib';
+//import * as modules from './jslib';
+import KMap from './kMap.vue';
 export default {
-  components: { sideBar },
+  components: { sideBar, KMap },
    name :'firstdoor',
     data() {
     return {
@@ -43,20 +45,16 @@ export default {
       userMarker:null,
     };
   },
-  created() {
-    //카카오 api head에넣기
-    const script = document.createElement("script");
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-    document.head.appendChild(script);
-    this.$EventBus.$on('searchStore',text=>{
-      this.moveFlag=true;
-      console.log('2');
-      this.search(text);
-    });
+  mounted() {
+    //카카오 맵  그리기
+   var configs=new Object();
+   configs.width=window.innerWidth;
+   configs.height=window.innerHeight;
+   configs.zoom=9;
+   configs.resizeFlag=true;
+   this.$EventBus.$emit('drawMap',configs); 
   },
-  mounted(){
+ /* mounted(){
     //리사이즈 될때 감지
     window.onresize = ()=> {
       console.log('resize');
@@ -294,7 +292,7 @@ export default {
           });          
         });
     } 
-  },
+  },*/
  
    
 }
