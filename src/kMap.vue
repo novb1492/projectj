@@ -23,6 +23,8 @@ export default {
       height:0,
       defalutZoom:0,
       resizeFlag:false,
+      dragEventFlag:false,
+      dragEventNum:0,
       //검색정보 마커윈도우
       searchMakers:[],
       searchInforWindows:[],
@@ -47,6 +49,8 @@ export default {
         this.height=configs.height;
         this.defalutZoom=configs.zoom;
         this.resizeFlag=configs.resizeFlag;
+        this.dragEventFlag=configs.dragEventFlag;
+        this.dragEventNum=configs.dragEventNum;
        //카카오 api head에넣기
         const script = document.createElement("script");
         /* global kakao */
@@ -82,11 +86,10 @@ export default {
       container.style.width = this.width+'px';
       container.style.height = (this.height-this.$footerHeigth)+'px';
       this.map.relayout();
-      //지도 드래그 이동시 이벤트등록 
-      kakao.maps.event.addListener(this.map, 'dragend', function() {        
-        this.changeMapEvent();   
-        //this.map.setLevel(4);      
-      }.bind(this));//첫 bind사용s
+      //드래그이벤트가 있는지 판별
+      if(this.dragEventFlag){
+          this.chooseDragEvent(this.dragEventNum);
+      }
       //내위치 표시
       var options2 = {
         enableHighAccuracy: true,
@@ -95,6 +98,24 @@ export default {
       };
       //실시간 위치 서비스
       navigator.geolocation.watchPosition(this.success,this.error,options2);
+    },
+    chooseDragEvent(dragEventNum){
+        switch(dragEventNum){
+            case 1:
+                this.firstDoorDragEvent();
+                break;
+            default:
+                alert('올바른 지도 드래그이벤트가 없습니다');
+                   
+        }
+    },
+    firstDoorDragEvent(){
+    //지도 드래그 이동시 이벤트등록 
+    console.log('dra');
+      kakao.maps.event.addListener(this.map, 'dragend', function() {        
+        this.changeMapEvent();   
+        //this.map.setLevel(4);      
+      }.bind(this));//첫 bind사용s
     },
   },
 }

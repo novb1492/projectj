@@ -52,6 +52,8 @@ export default {
    configs.height=window.innerHeight;
    configs.zoom=9;
    configs.resizeFlag=true;
+   configs.dragEventFlag=true;
+   configs.dragEventNum=1;
    this.$EventBus.$emit('drawMap',configs); 
   },
  /* mounted(){
