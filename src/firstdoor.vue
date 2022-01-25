@@ -56,6 +56,9 @@ export default {
    configs.dragEventNum=1;
    configs.positionEventFlag=true;
    this.$EventBus.$emit('drawMap',configs); 
+   this.$EventBus.$on('searchStore',text=>{
+      this.$EventBus.$emit('callSearch',text); 
+    });
   },
  /* mounted(){
     //리사이즈 될때 감지

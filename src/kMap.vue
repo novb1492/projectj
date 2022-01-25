@@ -70,15 +70,38 @@ export default {
             this.resizeEvent();
         }
     });
+    this.$EventBus.$on('callSearch',text=>{
+      this.moveFlag=true;
+      this.search(text);
+    });
+    //사이드바 표시여부 조절
+    document.getElementById('map').addEventListener('click',()=>{
+      if(!this.sideFlag){
+        this.deleteFlag=true;
+        this.sideFlag=false;
+        return ;
+      }else{
+        //아니라면 삭제되어야하는지 판단
+        if(this.deleteFlag){
+          //사이드바제거
+          document.getElementById('side').hidden=true;
+          //마진 0로 꽉차게
+          document.getElementById('map').style.marginLeft='0px';
+          return;
+        }
+        this.deleteFlag=true;
+      }
+        
+    });
   },
   methods:{
     resizeEvent(){
         window.onresize = ()=> {
-                console.log('resize');
-                const container = document.getElementById("map");
-                container.style.width = window.innerWidth+'px';
-                container.style.height = (window.innerHeight-150)+'px';
-                this.map.relayout();
+            console.log('resize');
+            const container = document.getElementById("map");
+            container.style.width = window.innerWidth+'px';
+            container.style.height = (window.innerHeight-150)+'px';
+            this.map.relayout();
         };
     },
     initMap() {
@@ -167,7 +190,6 @@ export default {
             this.search(result[i].address_name+' 슈퍼');
           } 
         }
-        
       });           
     },
     search(va){
