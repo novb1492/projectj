@@ -47,16 +47,16 @@ export default {
   },
   mounted() {
     //카카오 맵  그리기
-   var configs=new Object();
-   configs.width=window.innerWidth;
-   configs.height=window.innerHeight;
-   configs.zoom=9;
-   configs.resizeFlag=true;
-   configs.dragEventFlag=true;
-   configs.dragEventNum=1;
-   configs.positionEventFlag=true;
-   this.$EventBus.$emit('drawMap',configs); 
-   this.$EventBus.$on('searchStore',text=>{
+    var configs=new Object();
+    configs.width=window.innerWidth;
+    configs.height=window.innerHeight;
+    configs.zoom=9;
+    configs.resizeFlag=true;
+    configs.dragEventFlag=true;
+    configs.dragEventNum=1;
+    configs.positionEventFlag=true;
+    this.$EventBus.$emit('drawMap',configs); 
+    this.$EventBus.$on('searchStore',text=>{
       this.$EventBus.$emit('callSearch',text); 
     });
   },

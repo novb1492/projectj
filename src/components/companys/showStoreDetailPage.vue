@@ -97,8 +97,10 @@
       <span>매장전화번호</span>
       <input type="text" class="ml80 mt-2" id="tel">
       <br>
-      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
-      <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="휴대폰인증(번호수정시)" />
+      <input type="button" value="가맹점 수정" @click="tryUpdateStore">
+      <br>
+      <input type="button" value="전단지 등록" >
       <input type="button" @click="leave" value="이전으로 가기">
       </div>
   </div>
@@ -139,7 +141,9 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       modules.changeValueById('detailAddress',infor.sdetail_address);
       modules.changeValueById('minPrice',infor.minPrice);
       modules.changeValueById('deliverRadius',infor.deliverRadius);
-       //지도 호출
+      modules.changeValueById('phone',infor.sphone);
+      modules.changeValueById('tel',infor.stel);
+      //지도 호출
       var configs=new Object();
       configs.width=410;
       configs.height=500;
@@ -166,7 +170,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       var arr = {page: modules.getParam('page'), keyword: modules.getParam('keyword')};
       this.$EventBus.$emit('outDetail',arr);  
     },
-    tryInsertStore(){
+    tryUpdateStore(){
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
       var text=this.text;
       var postcode=modules.getValueById('postcode');
