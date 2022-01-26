@@ -119,6 +119,7 @@ export default {
       address:null,
       radius:0,
       deliverRadiusFlag:true,
+      id:0,
     }
   },
   created(){
@@ -132,6 +133,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       this.address=infor.saddress;
       this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
+      this.id=modules.getParam('id');
       modules.changeValueById('storeName',infor.sname);
       modules.changeValueById('num',infor.snum);
       modules.changeValueById('openTime',infor.openTime);
@@ -171,7 +173,8 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       this.$EventBus.$emit('outDetail',arr);  
     },
     tryUpdateStore(){
-      var thumbNail=decodeURI(document.getElementById('thumbnail').src);
+      var thumbNail=this.thumbnail;
+      console.log(thumbNail);
       var text=this.text;
       var postcode=modules.getValueById('postcode');
       var address=modules.getValueById('address');
@@ -185,6 +188,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       var tel=modules.getValueById('tel');
       var phone=modules.getValueById('phone');
       let data=JSON.stringify({
+        "id":this.id,
         "thumbNail":thumbNail,
         "text":text,
         "postcode":postcode,
@@ -199,7 +203,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
         "tel":tel,
         "phone":phone,
       });
-      modules.requestAsyncToPost(this.$serverDomain+"/auth/store/join",data).then(result=>{
+      modules.requestAsyncToPut(this.$serverDomain+"/auth/store/infor/change",data).then(result=>{
         alert(result.message);
         if(result.flag){
           location.href="/showStoresPage?page=1&keyword=null";
