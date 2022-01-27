@@ -2,7 +2,7 @@
   <div  class="margintopNavSize marginLeftSideSize" >
       <div id="registStorePage" style="float: left;">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
-        <!--<img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">-->
+        <img  src=""  id="thumbnail" class="storeThumbnail">
         <br>
         <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" value="123">
         <br>
@@ -133,6 +133,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       this.address=infor.saddress;
       this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
+      document.getElementById('thumbnail').src=infor.simg;
       this.id=modules.getParam('id');
       modules.changeValueById('storeName',infor.sname);
       modules.changeValueById('num',infor.snum);
@@ -208,7 +209,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       modules.requestAsyncToPut(this.$serverDomain+"/auth/store/infor/change",data).then(result=>{
         alert(result.message);
         if(result.flag){
-          location.href="/showStoresPage?page=1&keyword=null";
+          location.reload();
         }
       });
 
@@ -234,6 +235,7 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
         if(result.uploaded){
+          document.getElementById('thumbnail').src=result.url;
           this.thumbnail=result.url;
           return;
         }
