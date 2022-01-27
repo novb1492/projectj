@@ -5,13 +5,13 @@
       <span v-for="(shop,index) in this.shops" :key="index">
         <li style="float: left; margin-left: 10px;">
           <a href="#" @click="showStore(shop.sid)">
-            <img :src="shop.simg" alt="">
+            <img :src="shop.thumb_nail" alt="">
             <br>
-            {{shop.sname}}
+            {{shop.store_name}}
             <br>
-            {{shop.saddress}}
+            {{shop.store_address}}
             <br>
-            <span v-if="shop.ssleep==0">
+            <span v-if="shop.store_sleep==0">
               영업중인 매장입니다
             </span>
             <span v-else>
