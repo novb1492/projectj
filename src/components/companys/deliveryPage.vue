@@ -58,6 +58,12 @@ export default {
         setInterval(this.test,1000);
     };
     },
+    test(){
+      let data=JSON.stringify({
+        "message":"hello",
+      })
+      this.websocket.send(data);
+    },
     close(){
       this.deliveryFlag=false;
       localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
