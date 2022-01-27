@@ -24,10 +24,13 @@ export default {
           editor => {
             this.editor = editor;
             this.editor.model.document.on("change", () => {
-            this.$EventBus.$emit('editorText',this.editor.getData());
+            this.$EventBus.$emit('editorText',this.editor.getData());     
             });
           }
     );
+    this.$EventBus.$on('setEditor',text=>{
+      this.editor.setData(text);
+    });
   },
   methods:{
     MyCustomUploadAdapterPlugin( editor ) {

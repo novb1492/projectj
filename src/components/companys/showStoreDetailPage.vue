@@ -154,6 +154,8 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       configs.storeDetailFlag=true;
       configs.radius=this.radius;
       this.$EventBus.$emit('drawMap',configs); 
+      //editor 
+      this.$EventBus.$emit('setEditor',infor.text);   
       
 
     });
