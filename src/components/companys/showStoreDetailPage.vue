@@ -126,7 +126,8 @@ export default {
 modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){
-        alert('존재하지 않는 매장입니다');
+        alert(result.message);
+        this.leave();
         return;
       }
       var infor=result.message;
