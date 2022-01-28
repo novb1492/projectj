@@ -1,8 +1,8 @@
 <template>
   <div class="margintopNavSize">
-      <input type="button" value="1배달시작" @click="connect(1)">
-      <input type="button" value="2배달시작" @click="connect(2)">
-      <input type="button" value="3배달시작" @click="connect(3)">
+    <span v-for="(room,index) in this.rooms" :key="index">
+      <input type="button" :value="room.roomId+'배달'" @click="connect(room.roomId)">
+    </span>
       <input type="button" value="배달완료" @click="close"> 
   </div>
 </template>
@@ -19,13 +19,19 @@ export default {
       deliveryFlag:false,
       deliveryFlagText:'deliveryFlag',
       roomId:0,
+      rooms:[],
     }
   },
   created(){
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
    console.log(this.deliveryFlag);
-    modules.requestAsyncToGet('http://localhost:8080/auth/store/deliver').then(result=>{
+    modules.requestAsyncToGet('http://localhost:8080/auth/store/gets/deliver/1/45/2022-01-28/2022-01-28').then(result=>{
       console.log(result);
+      if(!result.flag){
+        alert(result.message);
+        return;
+      }
+      this.rooms=result.message;
     })
   },
   methods : {
