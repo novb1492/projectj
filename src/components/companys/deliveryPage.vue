@@ -24,7 +24,9 @@ export default {
   created(){
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
    console.log(this.deliveryFlag);
-
+    modules.requestAsyncToGet('http://localhost:8080/auth/store/deliver').then(result=>{
+      console.log(result);
+    })
   },
   methods : {
       connect(roomId) {
