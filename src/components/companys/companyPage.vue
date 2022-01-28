@@ -35,12 +35,13 @@ export default {
           this.choose=1;
           //같은 페이지에서 뒤로가기시에만 콜하는것
           if(to.path==from.path){
+            console.log(1);
             this.$EventBus.$emit('backSituationDetailPage',null);
           }
         }else if(location.pathname=='/companyPage/2'){
           this.choose=2;
         }
-        //location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
+      //  location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
     } 
   },
   components:{
@@ -79,11 +80,11 @@ export default {
     //매장 목록에서 매장클릭시
     this.$EventBus.$on('showStoreDetail',arr=>{
       console.log(arr);
+      modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
       this.choose=2;
       if(modules.checkNull(arr.keyword)){
         arr.keyword=null;
       }
-      modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     });
     //매장 디테일에서 목록 클릭시
     this.$EventBus.$on('outDetail',arr=>{

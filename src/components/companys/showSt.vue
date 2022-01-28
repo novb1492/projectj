@@ -58,14 +58,15 @@ export default {
     this.getStores(page,key);
     //뒤로가기대응 로직
     this.$EventBus.$on('backSituationDetailPage',()=>{
-      var keyword=modules.getParam('keyword');
+      console.log(2)
+      /*var keyword=modules.getParam('keyword');
       var page=modules.getParam('page');
       if(modules.checkNull(keyword)){
         keyword=null;
       }
       this.reqestServer(page,keyword).then(()=>{
         console.log("뒤로가기");
-      })
+      })*/
     });
   },
   mounted(){
