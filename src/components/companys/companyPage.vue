@@ -19,11 +19,18 @@ export default {
     }
   },
   watch:{ 
-    //컴포넌트에서 이동을 감지
+    //컴포넌트에서 이동을 감지 뒤로가기 앞으로가기 버튼대응
     $route(){ 
       //뒤로가기 앞으로 가기 할때 마다 링크 이동 
-        console.log(location.protocol+"//"+window.location.host + window.location.pathname+location.search);
-        location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;
+        console.log(location.protocol+"//"+location.host + location.pathname+location.search);
+        if(location.pathname=='/companyPage/0'){
+          this.choose=0;
+        }else if(location.pathname=='/companyPage/1'){
+          this.choose=1;
+        }else if(location.pathname=='/companyPage/2'){
+          this.choose=2;
+        }
+        //location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;새로고침일어나게 이동
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       
     } 
@@ -55,7 +62,7 @@ export default {
       console.log("pageNum");
       this.choose=pageArr.pageNum;
       if(this.choose==1){
-        modules.changeUrl(this.$domain+'/companyPage/1?page=1&keyword=');
+        modules.changeUrl(this.$domain+'/companyPage/1?page=1&keyword= ');
       }
     });
     //매장 목록에서 매장클릭시
