@@ -19,8 +19,14 @@ export default {
     }
   },
   watch:{ 
-    //컴포넌트에서 이동을 감지 뒤로가기 앞으로가기 버튼대응
-    $route(){ 
+    //뒤로가기 앞으로가기 버튼대응
+    $route(to,from){
+      console.log(to);
+      console.log(from); 
+      //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
+      if(from.path=='/companyPage/2'){
+        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
+      }
       //뒤로가기 앞으로 가기 할때 마다 링크 이동 
         console.log(location.protocol+"//"+location.host + location.pathname+location.search);
         if(location.pathname=='/companyPage/0'){
@@ -31,8 +37,6 @@ export default {
           this.choose=2;
         }
         //location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;새로고침일어나게 이동
-        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
-      
     } 
   },
   components:{
