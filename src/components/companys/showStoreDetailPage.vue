@@ -123,7 +123,7 @@ export default {
     }
   },
   created(){
-modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
+    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -158,7 +158,8 @@ modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam
       this.$EventBus.$emit('drawMap',configs); 
       //editor 
       this.$EventBus.$emit('setEditor',infor.text);   
-      
+      this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
+
 
     });
   },

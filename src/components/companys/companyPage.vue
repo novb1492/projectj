@@ -18,6 +18,16 @@ export default {
         beforePath:null,
     }
   },
+  watch:{ 
+    //컴포넌트에서 이동을 감지
+    $route(){ 
+      //뒤로가기 앞으로 가기 할때 마다 링크 이동 
+        console.log(location.protocol+"//"+window.location.host + window.location.pathname+location.search);
+        location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;
+        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
+      
+    } 
+  },
   components:{
       'registStorePage': () => import('./registStorePage.vue'),
       'showSt': () => import('./showSt.vue'),

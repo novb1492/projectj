@@ -1,7 +1,15 @@
 <template>
   <div class="margintopNavSize">
     <span v-for="(room,index) in this.rooms" :key="index">
-      <input type="button" :value="room.roomId+'배달'" @click="connect(room.roomId)">
+      <span v-if="room.deliverRoomFlag==1">
+        <input type="button" :value="room.roomId+'배달완료'" @click="connect(room.roomId)" disabled>
+      </span>
+      <span v-else-if="room.deliverRoomFlag==0">
+        <input type="button" :value="room.roomId+'배달'" @click="connect(room.roomId)">
+      </span>
+      <span v-else-if="room.deliverRoomFlag==2">
+        <input type="button" :value="room.roomId+'배달중'" @click="connect(room.roomId)">
+      </span>
     </span>
       <input type="button" value="배달완료" @click="close"> 
   </div>
