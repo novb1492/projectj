@@ -123,6 +123,7 @@ export default {
     }
   },
   created(){
+    console.log('555');
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){
