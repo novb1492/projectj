@@ -56,29 +56,19 @@ export default {
     var key=modules.getParam('keyword');
     var page=modules.getParam('page');
     this.getStores(page,key);
-  },
-  mounted(){
-    document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
-  },
-  methods:{
-    showStore(id){
-      var arr = { id: id, page: this.page, keyword: this.keyword};
-      this.$EventBus.$emit('showStoreDetail',arr);  
-    },
-    search(){
-      this.getStores(1,modules.getValueById('searchinput'));
-    },
-    changePage(num){
-      if(this.page==null){
-        return;
-      }
-      this.getStores(this.page*1+num,this.keyword);
-    },
-    getStores(page,keyword){
+    //뒤로가기대응 로직
+    this.$EventBus.$on('backSituationDetailPage',()=>{
+      var keyword=modules.getParam('keyword');
+      var page=modules.getParam('page');
       if(modules.checkNull(keyword)){
         keyword=null;
       }
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
+      this.reqestServer(page,keyword).then(result=>{
+        console.log(result);
+      })
+      /*var keyword=modules.getParam('keyword');
+      var page=modules.getParam('page');
+       modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
         console.log(result);
         //예외발생 혹은 검색결과없을때
         if(!result.flag){
@@ -104,7 +94,64 @@ export default {
           this.keyword='';
         }
         document.getElementById('searchinput').value=this.keyword;
-        modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
+      });*/
+    });
+  },
+  mounted(){
+    document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
+  },
+  methods:{
+    reqestServer(page,keyword){
+      return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
+        console.log(result);
+        //예외발생 혹은 검색결과없을때
+        if(!result.flag){
+          alert(result.message);
+          return false;
+        }
+        this.page=page;
+        this.shops=result.message.message;
+        this.totalPage=result.message.totalPage;
+        this.keyword=keyword;
+        if(this.page>=this.totalPage){
+          modules.disabledById('nextbutton',true);
+        }else{
+          modules.disabledById('nextbutton',false);
+        } 
+        if(this.page<=1){
+          modules.disabledById('beforebutton',true);
+        }else{
+          modules.disabledById('beforebutton',false);
+        }
+        //null인경우 공백으로 표시
+        if(this.keyword=="null"){
+          this.keyword='';
+        }
+        document.getElementById('searchinput').value=this.keyword;
+        return true;
+      });
+    },
+    showStore(id){
+      var arr = { id: id, page: this.page, keyword: this.keyword};
+      this.$EventBus.$emit('showStoreDetail',arr);  
+    },
+    search(){
+      this.getStores(1,modules.getValueById('searchinput'));
+    },
+    changePage(num){
+      if(this.page==null){
+        return;
+      }
+      this.getStores(this.page*1+num,this.keyword);
+    },
+    getStores(page,keyword){
+      if(modules.checkNull(keyword)){
+        keyword=null;
+      }
+      this.reqestServer(page,keyword).then(result=>{
+        if(result){
+          modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
+        }
       });
     },
   },

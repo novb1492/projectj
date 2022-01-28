@@ -29,20 +29,24 @@ export default {
       }
       //뒤로가기 앞으로 가기 할때 마다 링크 이동 
         console.log(location.protocol+"//"+location.host + location.pathname+location.search);
-        if(location.pathname=='/companyPage/0'){
+       if(location.pathname=='/companyPage/0'){
           this.choose=0;
         }else if(location.pathname=='/companyPage/1'){
           this.choose=1;
+          //재랜더링 
+          this.$EventBus.$emit('backSituationDetailPage',null);
+          
         }else if(location.pathname=='/companyPage/2'){
           this.choose=2;
         }
-        //location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;새로고침일어나게 이동
+        //location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
     } 
   },
   components:{
       'registStorePage': () => import('./registStorePage.vue'),
       'showSt': () => import('./showSt.vue'),
       'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
+      'deliveryPage':()=>import('./deliveryPage.vue'),
       SideBar,
 
   },
@@ -54,6 +58,8 @@ export default {
         return 'showSt';
       }else if(this.choose==2){
         return 'showStoreDetailPage';
+      }else if(this.choose==3){
+        return 'deliveryPage';
       }
       //잘못된경로로 왔을때
       return 'registStorePage';
@@ -76,7 +82,7 @@ export default {
       modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     });
     //매장 디테일에서 목록 클릭시
-     this.$EventBus.$on('outDetail',arr=>{
+    this.$EventBus.$on('outDetail',arr=>{
       console.log(arr);
       this.choose=1;
       modules.changeUrl(this.$domain+'/companyPage/1?page='+arr.page+'&keyword='+arr.keyword);
