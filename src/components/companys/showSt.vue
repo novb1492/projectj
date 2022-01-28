@@ -63,38 +63,9 @@ export default {
       if(modules.checkNull(keyword)){
         keyword=null;
       }
-      this.reqestServer(page,keyword).then(result=>{
-        console.log(result);
+      this.reqestServer(page,keyword).then(()=>{
+        console.log("뒤로가기");
       })
-      /*var keyword=modules.getParam('keyword');
-      var page=modules.getParam('page');
-       modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
-        console.log(result);
-        //예외발생 혹은 검색결과없을때
-        if(!result.flag){
-          alert(result.message);
-          return;
-        }
-        this.page=page;
-        this.shops=result.message.message;
-        this.totalPage=result.message.totalPage;
-        this.keyword=keyword;
-        if(this.page>=this.totalPage){
-          modules.disabledById('nextbutton',true);
-        }else{
-          modules.disabledById('nextbutton',false);
-        } 
-        if(this.page<=1){
-          modules.disabledById('beforebutton',true);
-        }else{
-          modules.disabledById('beforebutton',false);
-        }
-        //null인경우 공백으로 표시
-        if(this.keyword=="null"){
-          this.keyword='';
-        }
-        document.getElementById('searchinput').value=this.keyword;
-      });*/
     });
   },
   mounted(){
@@ -150,7 +121,8 @@ export default {
       }
       this.reqestServer(page,keyword).then(result=>{
         if(result){
-          modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+this.keyword);
+          console.log("정상"+keyword);
+          modules.changeUrl(location.pathname+"?page="+this.page+"&keyword="+keyword);
         }
       });
     },
