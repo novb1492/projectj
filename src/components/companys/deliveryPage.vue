@@ -1,6 +1,8 @@
 <template>
   <div class="margintopNavSize">
-      <input type="button" value="배달시작" @click="connect">
+      <input type="button" value="1배달시작" @click="connect(1)">
+      <input type="button" value="2배달시작" @click="connect(2)">
+      <input type="button" value="3배달시작" @click="connect(3)">
       <input type="button" value="배달완료" @click="close"> 
   </div>
 </template>
@@ -16,6 +18,7 @@ export default {
       websocket:null,
       deliveryFlag:false,
       deliveryFlagText:'deliveryFlag',
+      roomId:0,
     }
   },
   created(){
@@ -24,8 +27,9 @@ export default {
 
   },
   methods : {
-      connect() {
-  
+      connect(roomId) {
+        this.roomId=roomId;
+        console.log(roomId);
         this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();
         this.websocket.onerror = function(error) {
@@ -59,8 +63,17 @@ export default {
     };
     },
     test(){
+      var message=null;
+      if(this.roomId==1){
+        message="1번배달 출발 위도경도";
+      }else if(this.roomId==2){
+        message="2번배달 출발 위도경도";
+      }else {
+        message="3번배달출발 위도경도";
+      }
       let data=JSON.stringify({
-        "message":"hello",
+        "message":message,
+        "roomId":this.roomId,
       })
       this.websocket.send(data);
     },
@@ -75,7 +88,9 @@ export default {
       let data=JSON.stringify({
         "latitude":lat,
         "longitude":lon,
+        "roomId":this.roomId
       })
+    
       this.websocket.send(data);
     },
     error(){
