@@ -123,7 +123,7 @@ export default {
       this.reqestServer(page,keyword).then(result=>{
         if(result){
           console.log("정상"+keyword);
-                this.$router.push(location.pathname+"?page="+this.page+"&keyword="+keyword);
+          this.$router.push(location.pathname+"?page="+this.page+"&keyword="+keyword);
         }
       });
     },

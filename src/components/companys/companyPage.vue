@@ -7,15 +7,19 @@
     <span v-else-if="choose==1">
       <show-st/>
     </span>
+      <span v-else-if="choose==2">
+        <show-store-detail-page/>
+    </span>
   </div>
 </template>
 <style>
 </style>
 <script>
-//import * as modules from '../../jslib';
+import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import RegistStorePage from './registStorePage.vue';
 import ShowSt from './showSt.vue';
+import ShowStoreDetailPage from './showStoreDetailPage.vue';
 export default {
   name: 'companyPage',
   data() {
@@ -52,6 +56,7 @@ export default {
     RegistStorePage,
     ShowSt,
     SideBar,
+    ShowStoreDetailPage,
 
   },
  
@@ -73,13 +78,14 @@ export default {
       this.choose=pageArr.pageNum;  
     });
     //매장 목록에서 매장클릭시
-    /*this.$EventBus.$on('showStoreDetail',arr=>{
+    this.$EventBus.$on('showStoreDetail',arr=>{
       console.log(arr);
-      //this.choose=2;
+      this.choose=2;
       if(modules.checkNull(arr.keyword)){
         arr.keyword=null;
       }
-      modules.changeUrl(this.$domain+'/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+      this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+
     });
     //매장 디테일에서 목록 클릭시
    /* this.$EventBus.$on('outDetail',arr=>{
