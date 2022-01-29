@@ -323,4 +323,6 @@ ec2 https로 올리면됨
 -라우터 변화를 감지해 url을 가져와서 이동시켜준다 =location.href 방식  
 컴포넌트 교체방식으로 전환  
 
+2022-01-29  
+1.vue는 url을 변경할때 router.push로 해야한다  
 
