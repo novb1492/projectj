@@ -75,7 +75,12 @@ export default {
       this.$EventBus.$on('pageNum',pageArr=>{
       console.log("pageNum");
       console.log(pageArr);
-      this.choose=pageArr.pageNum;  
+      this.choose=pageArr.pageNum; 
+      if(this.choose==1){
+        this.$router.push('/companyPage/1?&page=1&keyword=null');
+      }else{
+        this.$router.push('/companyPage/'+this.choose);
+      }
     });
     //매장 목록에서 매장클릭시
     this.$EventBus.$on('showStoreDetail',arr=>{

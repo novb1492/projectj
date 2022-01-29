@@ -155,7 +155,6 @@ export default {
     },
     changePage(pageNum){
       //새로고침시 호출되지 않음
-      this.$router.push('/companyPage/'+pageNum);
       var pageArr = { pageNum: pageNum, page: 1, keyword: null};
       this.$EventBus.$emit('pageNum',pageArr);  
     },
