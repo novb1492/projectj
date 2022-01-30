@@ -1,15 +1,8 @@
 <template>
   <div id="container">
     <side-bar/>
-    <span v-if="choose==0">
-      <regist-store-page/>
-    </span>
-    <span v-else-if="choose==1">
-      <show-st/>
-    </span>
-      <span v-else-if="choose==2">
-        <show-store-detail-page/>
-    </span>
+       <component v-bind:is="chooseComponet"></component>
+
   </div>
 </template>
 <style>
@@ -17,9 +10,7 @@
 <script>
 import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
-import RegistStorePage from './registStorePage.vue';
-import ShowSt from './showSt.vue';
-import ShowStoreDetailPage from './showStoreDetailPage.vue';
+
 export default {
   name: 'companyPage',
   data() {
@@ -41,33 +32,41 @@ export default {
       }
       //뒤로가기 앞으로 가기 할때 마다 링크 이동 
         console.log(location.protocol+"//"+location.host + location.pathname+location.search);
-        if(location.pathname=='/companyPage/1'){
+        var loc=location.pathname;
+        if(loc=='/companyPage/1'){
           this.choose=1;
           //같은 페이지에서 뒤로가기시에만 콜하는것
           if(to.path==from.path){
             console.log(1);
-            this.$EventBus.$emit('backSituationDetailPage',null);
+            //this.$EventBus.$emit('backSituationDetailPage',null);
           }
+        }else if(loc=='/companyPage/0'){
+          this.choose=0;
+        }else if(loc=='/companyPage/2'){
+          this.choose=2;
         }
       //  location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
     } 
   },
-  components:{
-    RegistStorePage,
-    ShowSt,
-    SideBar,
-    ShowStoreDetailPage,
-
+   components:{
+      'registStorePage': () => import('./registStorePage.vue'),
+      'showSt': () => import('./showSt.vue'),
+      'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
+      SideBar,
   },
- 
-  /*methods:{
+  computed:{
     chooseComponet(){
-      console.log('chooseComponet');
       if(this.choose==0){
         return 'registStorePage';
+      }else if(this.choose==1){
+        return 'showSt';
+      }else if(this.choose==2){
+        return 'showStoreDetailPage';
       }
+      //잘못된경로로 왔을때
+      return 'registStorePage';
     }
-  },*/
+  },
   mounted(){
     this.choose=this.$route.params.id;
     console.log(this.choose);
@@ -93,14 +92,14 @@ export default {
 
     });
     //매장 디테일에서 목록 클릭시
-   /* this.$EventBus.$on('outDetail',arr=>{
+    this.$EventBus.$on('outDetail',arr=>{
       console.log(arr);
       this.choose=1;
       if(modules.checkNull(arr.keyword)){
         arr.keyword=null;
       }
-      modules.changeUrl(this.$domain+'/companyPage/1?page='+arr.page+'&keyword='+arr.keyword);
-    });*/
+     this.$router.push('/companyPage/1?page='+arr.page+'&keyword='+arr.keyword);
+    });
 
 
   },
