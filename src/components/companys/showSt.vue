@@ -116,12 +116,7 @@ export default {
       if(this.inPage==null){
         return;
       }  
-      var np=this.inPage*1+num;
-      this.reqestServer(np,this.inKeyword).then(result=>{
-        if(result){
-          modules.changeUrl(this.$domain+"/companyPage/1?page="+np+"&keyword="+this.inKeyword);
-        }
-      })
+      this.$router.push("/companyPage/1?page="+(this.inPage*1+num)+"&keyword="+this.inKeyword);
     },
     getStores(page,keyword){
       this.reqestServer(page,keyword).then(result=>{
