@@ -23,13 +23,14 @@
     </ul> 
    <div id="buttonArea">
     <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
-    <span>{{page}}</span>/<span>{{totalPage}}</span>
+    <span>{{inPage}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
     <br>
     <input type="text" id="searchinput" @keyup.enter="search"> 
     <input type="button" @click="search" value="매장이름으로 검색">
    </div>
     </div>  
+    
   </div>
 </template>
 <style>
@@ -53,12 +54,22 @@ export default {
     }
   },
   created(){
-    this.getStores(this.inPage,this.inKeyword);
+    //비정상접근시 페이지,키워드임의로 부여
+    if(modules.checkNull(this.inPage)){
+      this.inPage=1;
+      this.inKeyword=null;
+      this.getStores(this.inPage,this.inKeyword);
+    }else{//정상적인접근일때
+      this.reqestServer(this.inPage,this.inKeyword);
+    }
   },
   mounted(){
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
   },
   methods:{
+    backEvent(page,keyword){
+      this.reqestServer(page,keyword);
+    },
     reqestServer(page,keyword){
      return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
         console.log(result);
@@ -88,11 +99,7 @@ export default {
         }else{
           k=this.inKeyword;
         }
-        document.getElementById('searchinput').value=k;
-        var pAndK=new Object();
-        pAndK.page=this.inPage;
-        pAndK.keyword=this.inKeyword;
-        this.$EventBus.$emit('changePageAndKeyword',pAndK);  
+        document.getElementById('searchinput').value=k; 
         return true;
       });
     },
@@ -104,15 +111,22 @@ export default {
       this.getStores(1,modules.getValueById('searchinput'));
     },
     changePage(num){
+      console.log(num);
       if(this.inPage==null){
         return;
-      }
-      this.getStores(this.inPage*1+num,this.inKeyword);
+      }  
+      var np=this.inPage*1+num;
+      this.reqestServer(np,this.inKeyword).then(result=>{
+        if(result){
+          modules.changeUrl(this.$domain+"/companyPage/1?page="+np+"&keyword="+this.inKeyword);
+        }
+      })
+     // this.getStores(this.inPage*1+num,this.inKeyword);
     },
     getStores(page,keyword){
       this.reqestServer(page,keyword).then(result=>{
         if(result){
-         // console.log("정상"+keyword);
+          this.$router.push("/companyPage/1?page="+page+"&keyword="+keyword);
         }
       });
     },

@@ -2,7 +2,7 @@
   <div id="container">
     <side-bar/>
     <span v-if="choose==1">
-      <show-st :page=page :keyword=keyword />
+      <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
@@ -33,18 +33,16 @@ export default {
       console.log('watch');
       console.log(to);
       console.log(from); 
+      var id=this.$route.params.id;
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
       if(from.path=='/companyPage/2'){
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       }
-      if(to.path=='/companyPage/1'){
-        console.log('a');
-        this.page=getParam('page');
-        this.keyword=getParam('keyword'); 
-  
-
+      console.log(id);
+      if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
+        this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
       }
-      this.choose=this.$route.params.id;
+      this.choose=id;
     } 
   },
    components:{
@@ -73,15 +71,8 @@ export default {
     }
     this.choose=num;
     console.log(this.choose);
-    this.$EventBus.$on('changePageAndKeyword',pAndK=>{
-      console.log(pAndK);
-      this.page=pAndK.page;
-      this.keyword=pAndK.keyword;
-      this.$router.push("/companyPage/1?page="+this.page+"&keyword="+this.keyword);
-
-    });
-  
   },
+
 
 }
 </script>
