@@ -67,6 +67,7 @@ export default {
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
   },
   methods:{
+    //뒤로/앞으로가기 버튼시 호출되는 함수
     backEvent(page,keyword){
       this.reqestServer(page,keyword);
     },
@@ -121,7 +122,6 @@ export default {
           modules.changeUrl(this.$domain+"/companyPage/1?page="+np+"&keyword="+this.inKeyword);
         }
       })
-     // this.getStores(this.inPage*1+num,this.inKeyword);
     },
     getStores(page,keyword){
       this.reqestServer(page,keyword).then(result=>{

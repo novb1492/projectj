@@ -38,7 +38,7 @@ export default {
       if(from.path=='/companyPage/2'){
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       }
-      console.log(id);
+      ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
         this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
       }
