@@ -130,6 +130,11 @@ export default {
     }
   },
   created(){
+    //뒤로가기 대응
+    var pageAndKeyWord=new Object();
+    pageAndKeyWord.page=modules.getParam('page');
+    pageAndKeyWord.keyword=modules.getParam('keyword');
+    this.$emit('changePageAndKeyword',pageAndKeyWord);//매장클릭시 부모 page/keyword 바꿔줘야 뒤로가기시 잘작동함
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){

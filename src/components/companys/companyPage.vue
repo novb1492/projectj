@@ -4,6 +4,9 @@
     <span v-if="choose==1">
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
+    <span v-else-if="choose==2">
+      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" />
+    </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
     </span>
@@ -15,6 +18,7 @@
 import {  getParam } from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import ShowSt from './showSt.vue';
+import ShowStoreDetailPage from './showStoreDetailPage.vue';
 
 export default {
   name: 'companyPage',
@@ -31,9 +35,6 @@ export default {
     //뒤로가기 앞으로가기 버튼대응
     $route(to,from){
       console.log('watch');
-      console.log(to);
-      console.log(from); 
-      var id=this.$route.params.id;
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
       if(from.path=='/companyPage/2'){
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
@@ -42,7 +43,7 @@ export default {
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
         this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
       }
-      this.choose=id;
+      this.choose=this.$route.params.id;
     } 
   },
    components:{
@@ -51,13 +52,12 @@ export default {
       'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
       SideBar,
       ShowSt,
+      ShowStoreDetailPage,
   },
   computed:{
     chooseComponet(){
       if(this.choose==0){
         return 'registStorePage';
-      }else if(this.choose==2){
-        return 'showStoreDetailPage';
       }
       //잘못된경로로 왔을때
       return 'registStorePage';
@@ -72,7 +72,13 @@ export default {
     this.choose=num;
     console.log(this.choose);
   },
-
+  methods:{
+    changePageAndKeyword(pageAndKeyword){
+      console.log(pageAndKeyword);
+      this.page=pageAndKeyword.page;
+      this.keyword=pageAndKeyword.keyword;
+    }
+  }
 
 }
 </script>

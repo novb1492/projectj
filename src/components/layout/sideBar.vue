@@ -155,9 +155,9 @@ export default {
     },
     changePage(pageNum){
       if(pageNum==1){
-        this.$router.push({path:'/companyPage/1?page=1&keyword=null'});
+        this.$router.push('/companyPage/1?page=1&keyword=null');
       }else{
-        this.$router.push({path:'/companyPage/'+pageNum});
+        this.$router.push('/companyPage/'+pageNum);
       }
 
     },

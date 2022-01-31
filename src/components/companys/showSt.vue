@@ -54,7 +54,7 @@ export default {
     }
   },
   created(){
-    //비정상접근시 페이지,키워드임의로 부여
+    //비정상접근시/사이드바에서 접근시 페이지,키워드임의로 부여
     if(modules.checkNull(this.inPage)){
       this.inPage=1;
       this.inKeyword=null;
@@ -105,8 +105,7 @@ export default {
       });
     },
     showStore(id){
-     var arr = { id: id, page: this.inPage, keyword: this.inKeyword};
-     this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+     this.$router.push('/companyPage/2?id='+id,+'&page='+ this.inPage+'&keyword='+this.inKeyword);
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));
