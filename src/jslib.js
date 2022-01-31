@@ -71,6 +71,23 @@ export async function requestAsyncToPost(url,data){
       return result;
    })
 }
+export async function requestAsyncToPut(url,data){
+    return  await axios.put(url,data,{
+      headers: {
+          "Content-Type": `application/json`,
+      },
+      withCredentials: true ,
+  }).then(function(response){
+      var result=response.data;
+      console.log(result);
+      console.log('통신직후')
+      if(result.message=='new'){
+        console.log('새토큰으로 요청');
+        return requestAsyncToPut(url,data);
+        }   
+      return result;
+   })
+}
 export async function requestFormAsyncToPost(url,data){
     return  await axios.post(url,data,{
         headers: {

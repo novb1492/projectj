@@ -104,19 +104,13 @@
         </div>
       </li>
       <li class="border-top my-3"></li>
-      <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-          Account
+      <span id="storeDetailSubSide" >
+        <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(1)">
+          배달현황 
         </button>
-        <div class="collapse" id="account-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">New...</a></li>
-            <li><a href="#" class="link-dark rounded">Profile</a></li>
-            <li><a href="#" class="link-dark rounded">Settings</a></li>
-            <li><a href="#" class="link-dark rounded">Sign out</a></li>
-          </ul>
-        </div>
       </li>
+      </span>
     </ul>
     </span>
   </div>
@@ -133,10 +127,22 @@ export default {
       choose:0,
       homeNum:0,
       companyNum:1,
+      subSideNum:0,
+      storeDetailNum:1,
     }
   },
   created(){
     this.uri=location.pathname;
+  },
+  mounted(){
+    document.getElementById('storeDetailSubSide').hidden=true;
+    this.$EventBus.$on('openSubSide',id=>{
+      document.getElementById(id).hidden=false;
+    });
+    this.$EventBus.$on('closeSubSide',id=>{
+      console.log('closesubsid');
+      document.getElementById(id).hidden=true;
+    });
   },
   methods:{
     checkPage(){
@@ -148,9 +154,12 @@ export default {
       return this.choose;
     },
     changePage(pageNum){
-      //새로고침시 호출되지 않음
-      var pageArr = { pageNum: pageNum, page: 1, keyword: null};
-      this.$EventBus.$emit('pageNum',pageArr);  
+      if(pageNum==1){
+        this.$router.push({path:'/companyPage/1?page=1&keyword=null'});
+      }else{
+        this.$router.push({path:'/companyPage/'+pageNum});
+      }
+
     },
   }
 }

@@ -2,7 +2,7 @@
   <div  class="margintopNavSize marginLeftSideSize" >
       <div id="registStorePage" style="float: left;">
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
-        <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
+        <img  src=""  id="thumbnail" class="storeThumbnail">
         <br>
         <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" value="123">
         <br>
@@ -38,7 +38,9 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <editorComponent class="mt-2"/>
+        <span v-if="doneFlag==1"><!--에디터 너무 빨리생성되지 않게-->
+          <editor class="mt-2" :text=text  />
+        </span>
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
@@ -87,7 +89,9 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <div id="map"></div>
+        <span v-if="doneFlag==1"><!--지도 너무 빨리생성 되지 않게-->
+          <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius />
+        </span>
       <br>
       </div>
       <div id="registStorePage4">
@@ -97,8 +101,10 @@
       <span>매장전화번호</span>
       <input type="text" class="ml80 mt-2" id="tel">
       <br>
-      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
-      <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="휴대폰인증(번호수정시)" />
+      <input type="button" value="가맹점 수정" @click="tryUpdateStore">
+      <br>
+      <input type="button" value="전단지 등록" >
       <input type="button" @click="leave" value="이전으로 가기">
       </div>
   </div>
@@ -107,33 +113,38 @@
 </style>
 <script>
 import * as modules from '../../jslib';
+import kMap from '../../kMap.vue';
+import Editor from '../editor.vue';
 export default {
+  components: { kMap, Editor },
   name: 'showStoreDetailPage',
   data(){
     return  {
-      storex:0,
-      storey:0,
-      text:null,
-      map:null,
-      marker:null,
-      infowindow:null,
-      thumbnail:null,
-      deliverRadiusFlag:false,
-      circle:null,
       storeName:null,
       address:null,
-      first:true,
+      radius:0,
+      deliverRadiusFlag:true,
+      id:0,
+      text:null,
+      doneFlag:0,//editor 너무 빨리 생성되지 않게
     }
   },
   created(){
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){
-        alert('존재하지 않는 매장입니다');
+        alert(result.message);
+        this.leave();
         return;
       }
       var infor=result.message;
+      this.address=infor.saddress;
+      this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
+      this.text=infor.text; 
+      console.log(this.text);
+      document.getElementById('thumbnail').src=infor.simg;
+      this.id=modules.getParam('id');
       modules.changeValueById('storeName',infor.sname);
       modules.changeValueById('num',infor.snum);
       modules.changeValueById('openTime',infor.openTime);
@@ -143,15 +154,12 @@ export default {
       modules.changeValueById('detailAddress',infor.sdetail_address);
       modules.changeValueById('minPrice',infor.minPrice);
       modules.changeValueById('deliverRadius',infor.deliverRadius);
-      this.address=infor.saddress;
-      //카카오 api head에넣기
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
-      document.head.appendChild(script);
+      modules.changeValueById('phone',infor.sphone);
+      modules.changeValueById('tel',infor.stel);
+      this.doneFlag=1;//정보다 받고 에디터,지도 생성
+      //subsidevar 
+      this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
     });
-   
   },
   mounted(){
      //에디터 컴포넌트 입력시 받아오기
@@ -163,11 +171,13 @@ export default {
   },
   methods:{
     leave(){
+      //페이지 이탈시 이전 페이지번호,검색어 정보들고있기
       var arr = {page: modules.getParam('page'), keyword: modules.getParam('keyword')};
       this.$EventBus.$emit('outDetail',arr);  
     },
-    tryInsertStore(){
-      var thumbNail=decodeURI(document.getElementById('thumbnail').src);
+    tryUpdateStore(){
+      var thumbNail=this.thumbnail;
+      console.log(thumbNail);
       var text=this.text;
       var postcode=modules.getValueById('postcode');
       var address=modules.getValueById('address');
@@ -181,6 +191,7 @@ export default {
       var tel=modules.getValueById('tel');
       var phone=modules.getValueById('phone');
       let data=JSON.stringify({
+        "id":this.id,
         "thumbNail":thumbNail,
         "text":text,
         "postcode":postcode,
@@ -195,10 +206,10 @@ export default {
         "tel":tel,
         "phone":phone,
       });
-      modules.requestAsyncToPost(this.$serverDomain+"/auth/store/join",data).then(result=>{
+      modules.requestAsyncToPut(this.$serverDomain+"/auth/store/infor/change",data).then(result=>{
         alert(result.message);
         if(result.flag){
-          location.href="/showStoresPage?page=1&keyword=null";
+          location.reload();
         }
       });
 
@@ -216,15 +227,6 @@ export default {
         }
         modules.openPOPup('/authPage?scope='+type+'&detail=auth2&kind='+modules.getParam('scope'),'authPage',500,500);
       },
-    showCircle(){
-      var num=modules.getValueById('deliverRadius');
-      //숫자인지검사
-      if(isNaN(num)){
-        alert('배달거리는 숫자만 입력해주세요');
-        return;
-      }
-      this.drawCircle(num);
-    },
     uploadThumbNail(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
@@ -233,6 +235,7 @@ export default {
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
         if(result.uploaded){
+          document.getElementById('thumbnail').src=result.url;
           this.thumbnail=result.url;
           return;
         }
@@ -240,108 +243,32 @@ export default {
 
       });
     },
-    initMap() {
-      //불러오기
-      const container = document.getElementById("map");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
-      };
-      //지도그리기
-      this.map = new kakao.maps.Map(container, options);
-      //지도사이즈 
-      container.style.width ='410px';
-      container.style.height = '500px';
-      //container.style.marginLeft = '40px';
-      //회사 위치 띄어주는 서비스
-      // 주소-좌표 변환 객체를 생성합니다
-      var geocoder = new kakao.maps.services.Geocoder();
-      // 주소로 좌표를 검색합니다
-      geocoder.addressSearch(this.address, function(result, status) {
-          // 정상적으로 검색이 완료됐으면 
-          if (status === kakao.maps.services.Status.OK) {
-            this.showCompanyPlace(new kakao.maps.LatLng(result[0].y, result[0].x));
-          }
-      }.bind(this));    
-      this.map.relayout();
-    },
-    drawCircle(radius){
-      //이전원이 있다면 지워줘야함
-      if(this.deliverRadiusFlag){
-        this.circle.setMap(null); // 지도에서 제거한다.
-      }
-       // 지도에 표시할 원을 생성합니다
-      this.circle = new kakao.maps.Circle({
-          center : new kakao.maps.LatLng(this.storey,this.storex),  // 원의 중심좌표 입니다 
-          radius: radius*1000, // 미터 단위의 원의 반지름입니다 
-          strokeWeight: 5, // 선의 두께입니다 
-          strokeColor: '#75B8FA', // 선의 색깔입니다
-          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'dashed', // 선의 스타일 입니다
-          fillColor: '#CFE7FF', // 채우기 색깔입니다
-          fillOpacity: 0.7  // 채우기 불투명도 입니다   
-      }); 
-      // 지도에 원을 표시합니다 
-      this.circle.setMap(this.map); 
-      this.deliverRadiusFlag=true;
-    },
-     getMarker(place){
-       //이전 마커가 존재 한다면 null아니다
-       if(this.marker!=null){
-          this.marker.setMap(null);//이전 마커 지우기
-       }
-       //새마커 설정
-      this.marker= new kakao.maps.Marker({
-                map: this.map,
-                position: place
-      });
-  },
     onComplete(result) {
       console.log(result);
       document.getElementById("postcode").value = result.zonecode;
       document.getElementById("address").value = result.address;
-        var geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(result.address, (result, status)=> {
-        if (status === kakao.maps.services.Status.OK) { 
-          // 정상적으로 검색이 완료됐으면 
-          alert("주소 선택완료 지도를 확인해 주세요");
-          this.storex=result[0].x;
-          this.storey=result[0].y
-          console.log(this.storex);
-          //배달받을 주소표시
-          this.showCompanyPlace(new kakao.maps.LatLng(this.storey, this.storex));
-          //이전에 이미 반경 표시까지 하고 수정했다면 재 탐색된 좌표로 원그려주기
-          if(this.deliverRadiusFlag){
-            this.showCircle();
-          }
-        }else{
-          alert('검색 내역이 없습니다');
-        } 
-      }); 
+      var data=new Object();
+      data.address=result.address;
+      data.deliverRadiusFlag=this.deliverRadiusFlag;
+      if(this.deliverRadiusFlag){
+        data.radius=this.radius;
+      }
+      this.$EventBus.$emit('showOnlyOnePlace',data); 
     },
-     showTextOnMaker(marker,text){
-       //이미 인포 윈도우가 존재 한다면 지워줘야한다
-       if(this.infowindow!=null){
-         this.infowindow.close();
-       }
-       //새로 그릴 정보 만들기
-        this.infowindow =  new kakao.maps.InfoWindow({
-                content: text
-        }); //new kakao.maps.InfoWindow({zIndex:1});
-        //infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-        //마커위치에 표시
-        this.infowindow.open(this.map, marker);
+    showCircle(){
+      var num=modules.getValueById('deliverRadius');
+      //숫자인지검사
+      if(isNaN(num)){
+        alert('배달거리는 숫자만 입력해주세요');
+        return;
+      }
+      this.deliverRadiusFlag=true;
+      this.radius=num;
+      this.$EventBus.$emit('drawCircle',num); 
     },
-    showCompanyPlace(place){
-      console.log(place);
-      // 결과값으로 받은 위치를 마커로 표시합니다
-      this.getMarker(place);
-      // 인포윈도우로 장소에 대한 설명을 표시합니다
-      this.showTextOnMaker(this.marker,'<div style="width:150px;text-align:center;padding:6px 0;">매장의 위치입니다</div>');
-      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-      this.map.setCenter(place);
-    },
+     
   }
+  
   
 }
 </script>

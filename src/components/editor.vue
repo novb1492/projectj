@@ -8,8 +8,10 @@
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import MyUploadAdapter from '../MyUploadAdapter';
+import { checkNull } from '../jslib';
 export default {
   name: 'editorComponent',
+  props:['text'],
   data(){
     return  {
         editor:null,
@@ -23,8 +25,12 @@ export default {
     ClassicEditor.create(document.querySelector("#editor"), this.editorConfig).then(
           editor => {
             this.editor = editor;
+            if(!checkNull(this.text)){
+              this.editor.setData(this.text);
+            }
             this.editor.model.document.on("change", () => {
             this.$EventBus.$emit('editorText',this.editor.getData());
+     
             });
           }
     );
