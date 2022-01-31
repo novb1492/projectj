@@ -105,7 +105,8 @@ export default {
       });
     },
     showStore(id){
-     this.$router.push('/companyPage/2?id='+id,+'&page='+ this.inPage+'&keyword='+this.inKeyword);
+     var arr = { id: id, page: this.inPage, keyword: this.inKeyword};
+     this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));
