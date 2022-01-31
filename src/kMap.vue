@@ -10,7 +10,7 @@
 import * as modules from './jslib';
 export default {
   name: 'kMapComponent',
-  props:['width','height','zoomLevel'],
+  props:['width','height','zoomLevel','positionEventFlag','dragEventFlag','dragEventNum'],
     data() {
     return {
       //지도관련
@@ -23,20 +23,20 @@ export default {
       address:null,
       defalutZoom:0,
       resizeFlag:false,
-      dragEventFlag:false,
-      dragEventNum:0,
-      positionEventFlag:false,
+      //positionEventFlag:false,
       //검색정보 마커윈도우
       searchMakers:[],
       searchInforWindows:[],
       //드래그했을때 카머윈도우
+      //dragEventFlag:false,
+      //dragEventNum:0,
       dragMarkers:[],
       dragInforWindows:[],
       //사이드바 관련 변수
       sideFlag:false,//사이드바존재 여부
       deleteFlag:false,
       moveFlag:false,//드래그 했는지 ,검색했는지
-      //사용자 위치표시 
+      //사용자 위치표시 np
       userPosFlag:false,
       forcusFlag:true,
       userMarker:null,

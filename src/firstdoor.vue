@@ -1,7 +1,7 @@
 <template>
     <div id="mapPage margintopNavSize">
       <side-bar id="side" hidden/>
-      <k-map/>
+      <k-map :width=width :height=height :zoomLevel=9 :dragEventFlag=true :dragEventNum=1 :positionEventFlag=true />
        <!-- <div id="map" ></div>-->
         <!--<div id="map"></div><input type="text" @keyup="search(null)" id="name">-->
     </div>
@@ -19,6 +19,8 @@ export default {
    name :'firstdoor',
     data() {
     return {
+      width:window.innerWidth,
+      height:window.innerHeight,
      /* //지도관련
       map: null,//카카오지도 객체
       destinationFlag:false,//받을 주소를 선택했는지 판별하는 플래그
@@ -46,16 +48,7 @@ export default {
     };
   },
   mounted() {
-    //카카오 맵  그리기
-    var configs=new Object();
-    configs.width=window.innerWidth;
-    configs.height=window.innerHeight;
-    configs.zoom=9;
-    configs.resizeFlag=true;
-    configs.dragEventFlag=true;
-    configs.dragEventNum=1;
-    configs.positionEventFlag=true;
-    this.$EventBus.$emit('drawMap',configs); 
+   // this.$EventBus.$emit('drawMap',configs); 
     this.$EventBus.$on('searchStore',text=>{
       this.$EventBus.$emit('callSearch',text); 
     });
