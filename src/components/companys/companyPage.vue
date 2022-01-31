@@ -1,14 +1,20 @@
 <template>
   <div id="container">
     <side-bar/>
-    <component v-bind:is="chooseComponet" ></component>
+    <span v-if="choose==1">
+      <show-st :page=page :keyword=keyword />
+    </span>
+    <span v-else>
+      <component v-bind:is="chooseComponet" ></component>
+    </span>
   </div>
 </template>
 <style>
 </style>
 <script>
-//  import * as modules from '../../jslib';
+import {  getParam } from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
+import ShowSt from './showSt.vue';
 
 export default {
   name: 'companyPage',
@@ -17,6 +23,8 @@ export default {
         choose:null,
         id:null,
         beforePath:null,
+        page:1,
+        keyword:null,
     }
   },
   watch:{ 
@@ -29,40 +37,27 @@ export default {
       if(from.path=='/companyPage/2'){
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       }
-      this.choose=this.$route.params.id;
+      if(to.path=='/companyPage/1'){
+        console.log('a');
+        this.page=getParam('page');
+        this.keyword=getParam('keyword'); 
+  
 
-      //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
-      /*if(from.path=='/companyPage/2'){
-        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       }
-      //뒤로가기 앞으로 가기 할때 마다 링크 이동 
-        console.log(location.protocol+"//"+location.host + location.pathname+location.search);
-        var loc=location.pathname;
-        if(loc=='/companyPage/1'){
-          this.choose=1;
-          //this.$EventBus.$emit('backSituationDetailPage',null);  
-
-        }else if(loc=='/companyPage/0'){
-          this.choose=0;
-        }else if(loc=='/companyPage/2'){
-          this.choose=2;
-        }*/
-      //  location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
-    
+      this.choose=this.$route.params.id;
     } 
   },
    components:{
       'registStorePage': () => import('./registStorePage.vue'),
-      'showSt': () => import('./showSt.vue'),
+      //'showSt': () => import('./showSt.vue'),
       'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
       SideBar,
+      ShowSt,
   },
   computed:{
     chooseComponet(){
       if(this.choose==0){
         return 'registStorePage';
-      }else if(this.choose==1){
-        return 'showSt';
       }else if(this.choose==2){
         return 'showStoreDetailPage';
       }
@@ -71,37 +66,21 @@ export default {
     }
   },
   mounted(){
-    this.choose=this.$route.params.id;
+    var num=this.$route.params.id;
+    if(num==1){
+      this.page=getParam('page');
+      this.keyword=getParam('keyword');
+    }
+    this.choose=num;
     console.log(this.choose);
-    //사이드바에서 클릭하면 여기로와서 컴포넌트 교체
-  /*    this.$EventBus.$on('pageNum',pageArr=>{
-      console.log("pageNum");
-      console.log(pageArr);
-      if(pageArr.pageNum==1){
-        this.$router.push('/companyPage/1?&page=1&keyword=null');
-      }else{
-        this.$router.push('/companyPage/'+pageArr.pageNum);
-      }
-    });
-    //매장 목록에서 매장클릭시
-    this.$EventBus.$on('showStoreDetail',arr=>{
-      console.log(arr);
-      if(modules.checkNull(arr.keyword)){
-        arr.keyword=null;
-      }
-      this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+    this.$EventBus.$on('changePageAndKeyword',pAndK=>{
+      console.log(pAndK);
+      this.page=pAndK.page;
+      this.keyword=pAndK.keyword;
+      this.$router.push("/companyPage/1?page="+this.page+"&keyword="+this.keyword);
 
     });
-    //매장 디테일에서 목록 클릭시
-    this.$EventBus.$on('outDetail',arr=>{
-      console.log(arr);
-      if(modules.checkNull(arr.keyword)){
-        arr.keyword=null;
-      }
-     this.$router.push('/companyPage/1?page='+arr.page+'&keyword='+arr.keyword);
-    });
-*/
-
+  
   },
 
 }

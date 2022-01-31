@@ -37,96 +37,82 @@ img{width: 150px;height: 150px;}
 </style>
 <script>
 import * as modules from '../../jslib';
-//import sideVar from '../layout/sideBar.vue';
 export default {  
-  //components: { sideVar },
   name: 'showStorsPage',
+  props:['page','keyword'],
   data() {
     return {
         email:null,
         storesArr:null,
-        page:null,
         totalPage:null,
         shops:[],
-        keyword:null,
         sessionStorageName:'showSt',
+        inPage:this.page,
+        inKeyword:this.keyword,
+        
     }
   },
   created(){
-    var key=modules.getParam('keyword');
-    var page=modules.getParam('page');
-    this.getStores(page,key);
-    //뒤로가기대응 로직
-    var a=0;
-    this.$EventBus.$on('backSituationDetailPage',()=>{
-      a++;
-      console.log(a);
-      
-      /*var keyword=modules.getParam('keyword');
-      var page=modules.getParam('page');
-      if(modules.checkNull(keyword)){
-        keyword=null;
-      }
-      this.reqestServer(page,keyword).then(()=>{
-        console.log("뒤로가기");
-      })*/
-    });
+    this.getStores(this.inPage,this.inKeyword);
   },
   mounted(){
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
   },
   methods:{
     reqestServer(page,keyword){
-      return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
+     return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
         console.log(result);
         //예외발생 혹은 검색결과없을때
         if(!result.flag){
           alert(result.message);
           return false;
         }
-        this.page=page;
+        this.inPage=page;
+        this.inKeyword=keyword;
         this.shops=result.message.message;
         this.totalPage=result.message.totalPage;
-        this.keyword=keyword;
-        if(this.page>=this.totalPage){
+        if(this.inPage>=this.totalPage){
           modules.disabledById('nextbutton',true);
         }else{
           modules.disabledById('nextbutton',false);
         } 
-        if(this.page<=1){
+        if(this.inPage<=1){
           modules.disabledById('beforebutton',true);
         }else{
           modules.disabledById('beforebutton',false);
         }
         //null인경우 공백으로 표시
-        if(this.keyword=="null"){
-          this.keyword='';
+        var k=null;
+        if(this.inKeyword=="null"){
+          k="";
+        }else{
+          k=this.inKeyword;
         }
-        document.getElementById('searchinput').value=this.keyword;
+        document.getElementById('searchinput').value=k;
+        var pAndK=new Object();
+        pAndK.page=this.inPage;
+        pAndK.keyword=this.inKeyword;
+        this.$EventBus.$emit('changePageAndKeyword',pAndK);  
         return true;
       });
     },
     showStore(id){
-      var arr = { id: id, page: this.page, keyword: this.keyword};
+     var arr = { id: id, page: this.inPage, keyword: this.inKeyword};
      this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));
     },
     changePage(num){
-      if(this.page==null){
+      if(this.inPage==null){
         return;
       }
-      this.getStores(this.page*1+num,this.keyword);
+      this.getStores(this.inPage*1+num,this.inKeyword);
     },
     getStores(page,keyword){
-      if(modules.checkNull(keyword)){
-        keyword=null;
-      }
       this.reqestServer(page,keyword).then(result=>{
         if(result){
-          console.log("정상"+keyword);
-          modules.changeUrl(this.$domain+"/companyPage/1?page="+this.page+"&keyword="+keyword);
+         // console.log("정상"+keyword);
         }
       });
     },

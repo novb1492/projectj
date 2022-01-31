@@ -38,7 +38,7 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <span v-if="choose==1"><!--에디터 너무 빨리생성되지 않게-->
+        <span v-if="doneFlag==1"><!--에디터 너무 빨리생성되지 않게-->
           <editor class="mt-2" :text=text  />
         </span>
       </div>
@@ -89,7 +89,9 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius />
+        <span v-if="doneFlag==1"><!--지도 너무 빨리생성 되지 않게-->
+          <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius />
+        </span>
       <br>
       </div>
       <div id="registStorePage4">
@@ -124,7 +126,7 @@ export default {
       deliverRadiusFlag:true,
       id:0,
       text:null,
-      choose:0,//editor 너무 빨리 생성되지 않게
+      doneFlag:0,//editor 너무 빨리 생성되지 않게
     }
   },
   created(){
@@ -154,7 +156,7 @@ export default {
       modules.changeValueById('deliverRadius',infor.deliverRadius);
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
-      this.choose=1;//정보다 받고 에디터 생성
+      this.doneFlag=1;//정보다 받고 에디터,지도 생성
       //subsidevar 
       this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
     });
