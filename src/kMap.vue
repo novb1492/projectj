@@ -10,7 +10,7 @@
 import * as modules from './jslib';
 export default {
   name: 'kMapComponent',
-  props:['width','height','zoomLevel','positionEventFlag','dragEventFlag','dragEventNum'],
+  props:['width','height','zoomLevel','positionEventFlag','dragEventFlag','dragEventNum','address','storeDetailFlag','radius'],
     data() {
     return {
       //지도관련
@@ -20,7 +20,7 @@ export default {
       destinationY:null,
       maketX:0,
       maketY:0,
-      address:null,
+      //address:null,
       defalutZoom:0,
       resizeFlag:false,
       //positionEventFlag:false,
@@ -45,9 +45,9 @@ export default {
       circle:null,
       circlex:0,
       circley:0,
-      radius:0,
+     // radius:0,
       //매장정보 이벤트 플래그
-      storeDetailFlag:false,
+      //storeDetailFlag:false,
     };
   },
   mounted(){
@@ -225,7 +225,7 @@ export default {
         }
       });           
     },
-    search(va){
+    search(va){//firstdoor
         var n=va;
         console.log("검색한 마트 키워드"+n);
         // 장소 검색 객체를 생성합니다
@@ -271,14 +271,14 @@ export default {
 
         });
     },
-    deleteMarkersAndWinodws(markers,inforWindows){
+    deleteMarkersAndWinodws(markers,inforWindows){//firstdoor
             var size=markers.length;
                  for(var i=0;i<size;i++){
                   markers[i].setMap(null);
                  inforWindows[i].close();
                 }
     },
-    deleteMarkerAndWindow(){
+    deleteMarkerAndWindow(){//firstdoor
        if(this.moveFlag){
         //검색했다면 이전검색/드래그로 생긴흔적 삭제
         this.deleteMarkersAndWinodws(this.searchMakers,this.searchInforWindows);
@@ -294,7 +294,7 @@ export default {
         this.dragMarkers=[];
         this.dragInforWindows=[];
     },
-    insertMarkerAndWindow(marker,infor){
+    insertMarkerAndWindow(marker,infor){//firstdoor
     if(this.moveFlag){
             this.searchMakers.push(marker);
             this.searchInforWindows.push(infor);
@@ -303,7 +303,7 @@ export default {
             this.dragInforWindows.push(infor);
           }
     },
-    displayMarker(place) {
+    displayMarker(place) {//firstdoor
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.getMarker(new kakao.maps.LatLng(place.y, place.x));
         // 마커위에 상호명 표시
@@ -353,7 +353,7 @@ export default {
         infowindow.open(this.map, marker);
         return infowindow;
     },
-      drawCircle(radius){
+      drawCircle(radius){//company
         console.log("X: "+this.circlex+" y: "+this.circley)
       //이전원이 있다면 지워줘야함
       if(this.deliverRadiusFlag){
@@ -374,7 +374,7 @@ export default {
       this.circle.setMap(this.map); 
       this.deliverRadiusFlag=true;
     },
-    showOnePlace(place){
+    showOnePlace(place){//company
       // 결과값으로 받은 위치를 마커로 표시합니다
       this.getMarkerOnlyOne(place);
       // 인포윈도우로 장소에 대한 설명을 표시합니다
@@ -382,7 +382,7 @@ export default {
       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
       this.map.setCenter(place);
     },
-    getMarkerOnlyOne(place){
+    getMarkerOnlyOne(place){//company
        //이전 마커가 존재 한다면 null아니다
        if(this.marker!=null){
           this.marker.setMap(null);//이전 마커 지우기
@@ -393,7 +393,7 @@ export default {
                 position: place
       });
     },
-     showTextOnMakerOnlyOne(marker,text){
+     showTextOnMakerOnlyOne(marker,text){//company
        //이미 인포 윈도우가 존재 한다면 지워줘야한다
        if(this.infowindow!=null){
          this.infowindow.close();

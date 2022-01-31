@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <k-map :width="400" :height="512" :zoomLevel=5 />
+        <k-map :width="400" :height="500" :zoomLevel=5 />
       <br>
       </div>
       <div id="registStorePage4">

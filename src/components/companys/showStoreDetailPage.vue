@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <k-map/>
+        <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius />
       <br>
       </div>
       <div id="registStorePage4">
@@ -157,8 +157,6 @@ export default {
       configs.radius=this.radius;
       //editor 
       this.$EventBus.$emit('setEditor',infor.text);  
-      //kmap
-      this.$EventBus.$emit('drawMap',configs); 
       //subsidevar 
       this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
     });
