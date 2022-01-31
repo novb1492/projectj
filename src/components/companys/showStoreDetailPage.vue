@@ -123,7 +123,6 @@ export default {
     }
   },
   created(){
-    console.log('555');
     modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
       console.log(result);
       if(!result.flag){
@@ -156,12 +155,12 @@ export default {
       configs.address=this.address;
       configs.storeDetailFlag=true;
       configs.radius=this.radius;
-      this.$EventBus.$emit('drawMap',configs); 
       //editor 
-      this.$EventBus.$emit('setEditor',infor.text);   
+      this.$EventBus.$emit('setEditor',infor.text);  
+      //kmap
+      this.$EventBus.$emit('drawMap',configs); 
+      //subsidevar 
       this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
-
-
     });
   },
   mounted(){

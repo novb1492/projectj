@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <k-map/>
+        <k-map :width="400" :height="512" :zoomLevel=5 />
       <br>
       </div>
       <div id="registStorePage4">
@@ -120,12 +120,6 @@ export default {
   mounted(){
     //기본 썸네일 출력
     this.thumbnail=this.$s3Path+"/jangbogo/test2.jpeg";  
-    //지도 호출
-    var configs=new Object();
-    configs.width=410;
-    configs.height=500;
-    configs.zoom=5;
-    this.$EventBus.$emit('drawMap',configs); 
     //에디터 컴포넌트 입력시 받아오기
     this.$EventBus.$on('editorText',get=>{
       this.text=get;

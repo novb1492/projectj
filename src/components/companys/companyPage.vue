@@ -1,14 +1,13 @@
 <template>
   <div id="container">
     <side-bar/>
-       <component v-bind:is="chooseComponet"></component>
-
+    <component v-bind:is="chooseComponet" ></component>
   </div>
 </template>
 <style>
 </style>
 <script>
-import * as modules from '../../jslib';
+//  import * as modules from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 
 export default {
@@ -26,8 +25,10 @@ export default {
       console.log('watch');
       console.log(to);
       console.log(from); 
+      this.choose=this.$route.params.id;
+
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
-      if(from.path=='/companyPage/2'){
+      /*if(from.path=='/companyPage/2'){
         this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
       }
       //뒤로가기 앞으로 가기 할때 마다 링크 이동 
@@ -35,17 +36,15 @@ export default {
         var loc=location.pathname;
         if(loc=='/companyPage/1'){
           this.choose=1;
-          //같은 페이지에서 뒤로가기시에만 콜하는것
-          if(to.path==from.path){
-            console.log(1);
-            //this.$EventBus.$emit('backSituationDetailPage',null);
-          }
+          //this.$EventBus.$emit('backSituationDetailPage',null);  
+
         }else if(loc=='/companyPage/0'){
           this.choose=0;
         }else if(loc=='/companyPage/2'){
           this.choose=2;
-        }
+        }*/
       //  location.href=location.protocol+"//"+window.location.host + window.location.pathname+location.search;//새로고침일어나게 이동
+    
     } 
   },
    components:{
@@ -71,20 +70,18 @@ export default {
     this.choose=this.$route.params.id;
     console.log(this.choose);
     //사이드바에서 클릭하면 여기로와서 컴포넌트 교체
-      this.$EventBus.$on('pageNum',pageArr=>{
+  /*    this.$EventBus.$on('pageNum',pageArr=>{
       console.log("pageNum");
       console.log(pageArr);
-      this.choose=pageArr.pageNum; 
-      if(this.choose==1){
+      if(pageArr.pageNum==1){
         this.$router.push('/companyPage/1?&page=1&keyword=null');
       }else{
-        this.$router.push('/companyPage/'+this.choose);
+        this.$router.push('/companyPage/'+pageArr.pageNum);
       }
     });
     //매장 목록에서 매장클릭시
     this.$EventBus.$on('showStoreDetail',arr=>{
       console.log(arr);
-      this.choose=2;
       if(modules.checkNull(arr.keyword)){
         arr.keyword=null;
       }
@@ -94,13 +91,12 @@ export default {
     //매장 디테일에서 목록 클릭시
     this.$EventBus.$on('outDetail',arr=>{
       console.log(arr);
-      this.choose=1;
       if(modules.checkNull(arr.keyword)){
         arr.keyword=null;
       }
      this.$router.push('/companyPage/1?page='+arr.page+'&keyword='+arr.keyword);
     });
-
+*/
 
   },
 

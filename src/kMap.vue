@@ -10,6 +10,7 @@
 import * as modules from './jslib';
 export default {
   name: 'kMapComponent',
+  props:['width','height','zoomLevel'],
     data() {
     return {
       //지도관련
@@ -20,8 +21,6 @@ export default {
       maketX:0,
       maketY:0,
       address:null,
-      width:0,
-      height:0,
       defalutZoom:0,
       resizeFlag:false,
       dragEventFlag:false,
@@ -52,21 +51,7 @@ export default {
     };
   },
   mounted(){
-    this.$EventBus.$on('drawMap',configs=>{
-        console.log(configs);
-        //페이지별 지정사이즈 받기
-        this.width=configs.width;
-        this.height=configs.height;
-        this.defalutZoom=configs.zoom;
-        this.resizeFlag=configs.resizeFlag;
-        this.dragEventFlag=configs.dragEventFlag;
-        this.dragEventNum=configs.dragEventNum;
-        this.positionEventFlag=configs.positionEventFlag;
-        this.storeDetailFlag=configs.storeDetailFlag;
-        if(this.storeDetailFlag){
-          this.address=configs.address;
-          this.radius=configs.radius;
-        }
+    console.log('kmap');
        //카카오 api head에넣기
         const script = document.createElement("script");
         /* global kakao */
@@ -82,7 +67,7 @@ export default {
         if(this.resizeFlag){
             this.resizeEvent();
         }
-    });
+    //});
     this.$EventBus.$on('callSearch',text=>{
       this.moveFlag=true;
       this.search(text);
@@ -122,11 +107,11 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: this.defalutZoom,
+        level: this.$props.zoomLevel,
       };
       this.map = new kakao.maps.Map(container, options);
       container.style.width = this.width+'px';
-      container.style.height = (this.height-this.$footerHeigth)+'px';
+      container.style.height = (this.$props.height-this.$footerHeigth)+'px';
       this.map.relayout();
       //드래그이벤트가 있는지 판별
       if(this.dragEventFlag){

@@ -57,8 +57,11 @@ export default {
     var page=modules.getParam('page');
     this.getStores(page,key);
     //뒤로가기대응 로직
+    var a=0;
     this.$EventBus.$on('backSituationDetailPage',()=>{
-      console.log(2)
+      a++;
+      console.log(a);
+      
       /*var keyword=modules.getParam('keyword');
       var page=modules.getParam('page');
       if(modules.checkNull(keyword)){
@@ -105,7 +108,7 @@ export default {
     },
     showStore(id){
       var arr = { id: id, page: this.page, keyword: this.keyword};
-      this.$EventBus.$emit('showStoreDetail',arr);  
+     this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));
@@ -123,7 +126,7 @@ export default {
       this.reqestServer(page,keyword).then(result=>{
         if(result){
           console.log("정상"+keyword);
-          this.$router.push(location.pathname+"?page="+this.page+"&keyword="+keyword);
+          modules.changeUrl(this.$domain+"/companyPage/1?page="+this.page+"&keyword="+keyword);
         }
       });
     },
