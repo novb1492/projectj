@@ -11,7 +11,7 @@ Vue.use( CKEditor );
 Vue.use(VueDaumPostcode)
 Vue.config.productionTip = false;
 Vue.prototype.$EventBus = new Vue();//컴포넌트간 통신위해
-Vue.prototype.$serverDomain = 'https://222.237.192.68:8080';
+Vue.prototype.$serverDomain = 'http://localhost:8080';
 Vue.prototype.$domain = 'http://localhost:3030';
 Vue.prototype.$s3Path='https://s3.ap-northeast-2.amazonaws.com';
 Vue.prototype.$ROLE_USER='ROLE_USER';
