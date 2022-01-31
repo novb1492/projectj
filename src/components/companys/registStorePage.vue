@@ -38,7 +38,7 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <editorComponent class="mt-2"/>
+        <editor class="mt-2" :text="null"/>
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
@@ -107,8 +107,9 @@
 <script>
 import * as modules from '../../jslib';
 import kMap from '../../kMap.vue';
+import Editor from '../editor.vue';
 export default {
-  components: { kMap },
+  components: { kMap, Editor },
   name: 'registStorePage',
   data(){
     return  {
