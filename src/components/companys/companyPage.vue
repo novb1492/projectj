@@ -25,6 +25,10 @@ export default {
       console.log('watch');
       console.log(to);
       console.log(from); 
+      //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
+      if(from.path=='/companyPage/2'){
+        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
+      }
       this.choose=this.$route.params.id;
 
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출

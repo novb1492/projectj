@@ -126,8 +126,6 @@ export default {
       console.log('에디터내용');
       console.log(this.text);
     });
-    //새로고침 대응
-    modules.changeUrl(this.$domain+'/companyPage/0');
   },
   methods:{
     tryInsertStore(){

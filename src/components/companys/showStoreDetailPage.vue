@@ -38,7 +38,9 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <editorComponent class="mt-2"/>
+        <span v-if="choose==1"><!--에디터 너무 빨리생성되지 않게-->
+          <editor class="mt-2" :text=text  />
+        </span>
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
@@ -110,8 +112,9 @@
 <script>
 import * as modules from '../../jslib';
 import kMap from '../../kMap.vue';
+import Editor from '../editor.vue';
 export default {
-  components: { kMap },
+  components: { kMap, Editor },
   name: 'showStoreDetailPage',
   data(){
     return  {
@@ -120,6 +123,8 @@ export default {
       radius:0,
       deliverRadiusFlag:true,
       id:0,
+      text:null,
+      choose:0,//editor 너무 빨리 생성되지 않게
     }
   },
   created(){
@@ -134,6 +139,8 @@ export default {
       this.address=infor.saddress;
       this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
+      this.text=infor.text; 
+      console.log(this.text);
       document.getElementById('thumbnail').src=infor.simg;
       this.id=modules.getParam('id');
       modules.changeValueById('storeName',infor.sname);
@@ -147,16 +154,7 @@ export default {
       modules.changeValueById('deliverRadius',infor.deliverRadius);
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
-      //지도 호출
-      var configs=new Object();
-      configs.width=410;
-      configs.height=500;
-      configs.zoom=5;
-      configs.address=this.address;
-      configs.storeDetailFlag=true;
-      configs.radius=this.radius;
-      //editor 
-      this.$EventBus.$emit('setEditor',infor.text);  
+      this.choose=1;//정보다 받고 에디터 생성
       //subsidevar 
       this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
     });
