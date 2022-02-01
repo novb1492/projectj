@@ -43,9 +43,9 @@ export default {
     $route(to,from){
       console.log('watch');
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
-      if(from.path=='/companyPage/2'){
+      if(from.path=='/companyPage/2'&&from.path!=to.path&&to.path!='/companyPage/3'){
         this.$refs.side_var.closeSubSide(this.$refs.store_detail.getSubSideVarIds());
-      }else if(from.path=='/companyPage/3'){
+      }else if(from.path=='/companyPage/3'&&from.path!=to.path&&to.path!='/companyPage/2'){
         this.$refs.side_var.closeSubSide(this.$refs.delivery_page.getSubSideVarIds());
       }
       ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
