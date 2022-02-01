@@ -58,20 +58,10 @@ export default {
         script.onload = () => kakao.maps.load(this.initMap);
         script.src ="//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=95292156744ab5c8586460536149fb32&libraries=services";
         document.head.appendChild(script);
-        this.$EventBus.$on('searchStore',text=>{
-        this.moveFlag=true;
-        console.log(text);
-        //this.search(text);
-        });
         //리사이즈 이벤트 판별
         if(this.resizeFlag){
             this.resizeEvent();
         }
-    //});
-    this.$EventBus.$on('callSearch',text=>{
-      this.moveFlag=true;
-      this.search(text);
-    });
     //사이드바 표시여부 조절
     document.getElementById('map').addEventListener('click',()=>{
       if(!this.sideFlag){
@@ -93,6 +83,10 @@ export default {
     });
   },
   methods:{
+    callSearch(text){
+      this.moveFlag=true;
+      this.search(text);
+    },
     resizeEvent(){
         window.onresize = ()=> {
             console.log('resize');

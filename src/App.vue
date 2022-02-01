@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <he />
-    <router-view></router-view>
+    <he v-on:searchStore="searchStore"/>
+    <router-view ref="router_view"></router-view>
     <foot />
   </div>
 </template>
@@ -16,6 +16,11 @@ export default {
     he,
     foot
     //HelloWorld
+  },
+  methods:{
+    searchStore(text){
+      this.$refs.router_view.callSearch(text);
+    }
   }
 }
 </script>

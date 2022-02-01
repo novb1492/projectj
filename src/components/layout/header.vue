@@ -147,7 +147,7 @@ export default {
     callFirstDoor(){
       var storeKeyword=modules.getValueById('search');
       sessionStorage.setItem('findStore',storeKeyword);
-      this.$EventBus.$emit('searchStore',storeKeyword);
+      this.$emit('searchStore',storeKeyword);
     },
     useHeader(){
         var showOrNot=true;
