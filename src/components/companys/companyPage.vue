@@ -1,11 +1,11 @@
 <template>
   <div id="container">
-    <side-bar/>
+    <side-bar ref="side_var"/>
     <span v-if="choose==1">
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
     <span v-else-if="choose==2">
-      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" />
+      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide"/>
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
@@ -77,7 +77,10 @@ export default {
       console.log(pageAndKeyword);
       this.page=pageAndKeyword.page;
       this.keyword=pageAndKeyword.keyword;
-    }
+    },
+    openSubSide(id){//storeDetailPage
+      this.$refs.side_var.openSubSideVar(id);
+    },
   }
 
 }

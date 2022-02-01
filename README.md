@@ -342,3 +342,8 @@ eventbus는 호출뒤 있는 함수만 당겨쓸때 사용해야한다
  vue가 뭔지 훨씬더 잘알게 된거같다  이제 새로고침 없이 자유롭게 페이지가 구현 가능 하겠다!  
 
 병합시도/병합성공  
+
+2022-02-01  
+1.불필요한 evnetbus제거
+->evnetbus->refs  
+storeDetailPage evnetbus제거완료  

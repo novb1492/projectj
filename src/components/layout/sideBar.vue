@@ -136,9 +136,6 @@ export default {
   },
   mounted(){
     document.getElementById('storeDetailSubSide').hidden=true;
-    this.$EventBus.$on('openSubSide',id=>{
-      document.getElementById(id).hidden=false;
-    });
     this.$EventBus.$on('closeSubSide',id=>{
       console.log('closesubsid');
       document.getElementById(id).hidden=true;
@@ -161,6 +158,9 @@ export default {
       }
 
     },
+    openSubSideVar(id){
+       document.getElementById(id).hidden=false;
+    }
   }
 }
 </script>

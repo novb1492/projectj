@@ -28,10 +28,6 @@ export default {
             if(!checkNull(this.text)){
               this.editor.setData(this.text);
             }
-            this.editor.model.document.on("change", () => {
-            this.$EventBus.$emit('editorText',this.editor.getData());
-     
-            });
           }
     );
   },
@@ -41,6 +37,9 @@ export default {
             // Configure the URL to the upload script in your back-end here!
             return new MyUploadAdapter( loader );
             };
+    },
+    getText(){
+      return this.editor.getData();
     },
   },
 }
