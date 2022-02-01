@@ -85,6 +85,13 @@ export default {
     openSubSide(id){//storeDetailPage
       this.$refs.side_var.openSubSideVar(id);
     },
+    checkLoginAndRoll(logingInfor){
+      console.log(logingInfor);
+      if(logingInfor.loginFlag==false||logingInfor.role!=this.$ROLE_COMPANY){
+        alert('기업회원이 아닙니다');
+        location.href='/';
+      }
+    }
   }
 
 }

@@ -351,3 +351,5 @@ eventbus는 호출뒤 있는 함수만 당겨쓸때 사용해야한다
 ->evnetbus->refs  
 
 제발 git pull하고 작업해  
+
+2.companyPage 권한/로그인 체크 구현  

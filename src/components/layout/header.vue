@@ -110,10 +110,10 @@ export default {
         this.loginFlag=false;
       }
       //로그인여부
-      this.$EventBus.$emit('loginInfor',this.getUserInfor());  
+      this.$emit('loginInfor',this.getUserInfor());  
       },error=>{
       console.log(error);
-      this.$EventBus.$emit('loginInfor',this.getUserInfor());  
+      this.$emit('loginInfor',this.getUserInfor());  
     });
     if(this.uri=='/'){
       this.searchflag=true;
@@ -121,15 +121,11 @@ export default {
   },
   methods : {
     getUserInfor(){
-      var arr=JSON.stringify({
-        "loginFlag":this.loginFlag,
-        "email":this.email,
-        "role":this.role,
-      });
-      if(this.role==this.$ROLE_COMPANY){
-        this.roleFlag=true;
-      }
-      return arr;
+      var logingInfor=new Object();
+      logingInfor.loginFlag=this.loginFlag;
+      logingInfor.email=this.email;
+      logingInfor.role=this.role;
+      return logingInfor;
     },
     logout(){
       modules.requestAsyncToGet(this.$serverDomain+'/auth/user/logout').then(result=>{

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <he v-on:searchStore="searchStore"/>
+    <he v-on:searchStore="searchStore" v-on:loginInfor="loginInfor"/>
     <router-view ref="router_view"></router-view>
     <foot />
   </div>
@@ -20,7 +20,10 @@ export default {
   methods:{
     searchStore(text){
       this.$refs.router_view.callSearch(text);
-    }
+    },
+    loginInfor(loginInfor){
+      this.$refs.router_view.checkLoginAndRoll(loginInfor);
+    },
   }
 }
 </script>
