@@ -38,7 +38,7 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <editor class="mt-2" :text="null"/>
+        <editor class="mt-2" :text="null" ref="ck_editor"/>
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
@@ -121,17 +121,11 @@ export default {
   mounted(){
     //기본 썸네일 출력
     this.thumbnail=this.$s3Path+"/jangbogo/test2.jpeg";  
-    //에디터 컴포넌트 입력시 받아오기
-    this.$EventBus.$on('editorText',get=>{
-      this.text=get;
-      console.log('에디터내용');
-      console.log(this.text);
-    });
   },
   methods:{
     tryInsertStore(){
       var thumbNail=decodeURI(document.getElementById('thumbnail').src);
-      var text=this.text;
+      var text=this.$refs.ck_editor.getText();
       var postcode=modules.getValueById('postcode');
       var address=modules.getValueById('address');
       var storeName=modules.getValueById('storeName');
