@@ -29,12 +29,14 @@ export default {
       roomId:0,
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
+      storeId:0,
     }
   },
   created(){
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
    console.log(this.deliveryFlag);
-    modules.requestAsyncToGet('http://localhost:8080/auth/store/gets/deliver/1/45/2022-01-28/2022-01-28').then(result=>{
+   this.storeId=modules.getParam('storeid');
+    modules.requestAsyncToGet('http://localhost:8080/auth/store/gets/deliver/1/'+this.storeId+'/2022-01-28/2022-01-28').then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -44,7 +46,7 @@ export default {
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
       //새로고침 대응
-      this.$emit('changeStoreId',modules.getParam('storeid'));
+      this.$emit('changeStoreId',this.storeId);
     })
   },
   methods : {
