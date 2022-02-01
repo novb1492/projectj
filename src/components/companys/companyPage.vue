@@ -1,11 +1,11 @@
 <template>
   <div id="container">
-    <side-bar ref="side_var"  v-on:clickDelivery="clickDelivery"/>
+    <side-bar ref="side_var"  v-on:clickDelivery="clickDelivery" v-on:clickStore="clickStore"/>
     <span v-if="choose==1">
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
     <span v-else-if="choose==2">
-      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide" ref="store_detail"/>
+      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" ref="store_detail"/>
     </span>
     <span v-else-if="choose==3">
       <delivery-page ref="delivery_page" />
@@ -36,6 +36,7 @@ export default {
         deliveryPage:1,
         deliveryKeyword:null,
         subSideVarIds:['storeDetailSubSide'],
+        storeId:0,
     }
   },
   watch:{ 
@@ -106,6 +107,12 @@ export default {
     },
     clickDelivery(){//storeDetailPage
       this.$refs.store_detail.clickDelivery();
+    },
+    changeStoreId(id){
+      this.storeId=id;
+    },
+    clickStore(){
+      this.$router.push('/companyPage/2?id='+this.storeId+'&page='+this.page+'&keyword='+this.keyword);
     }
   }
 

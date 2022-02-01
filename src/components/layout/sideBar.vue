@@ -110,7 +110,7 @@
           배달현황 
         </button>
       </li>
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage(3)">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(4)">
           매장정보 
         </button>
       </span>
@@ -154,6 +154,8 @@ export default {
         this.$router.push('/companyPage/1?page=1&keyword=null');
       }else if(pageNum==3){
         this.$emit('clickDelivery',null);
+      }else if(pageNum==4){
+        this.$emit('clickStore',null);
       }else{
         this.$router.push('/companyPage/'+pageNum);
       }

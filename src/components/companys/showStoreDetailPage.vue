@@ -162,11 +162,13 @@ export default {
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
       this.doneFlag=1;//정보다 받고 에디터,지도 생성
+      //사이드바 대응 위해 현재 보고 있는 매장 번호 전달
+      this.$emit('changeStoreId',this.id);
     });
   },
   methods:{
     clickDelivery(){
-      this.$router.push('/companyPage/3?&page=1&keyword=null');
+      this.$router.push('/companyPage/3?&page=1&keyword=null&storeid='+this.id);
     },
     leave(){
       //페이지 이탈시 이전 페이지번호,검색어 정보들고있기 
