@@ -37,7 +37,7 @@ export default {
       console.log('watch');
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
       if(from.path=='/companyPage/2'){
-        this.$EventBus.$emit('closeSubSide','storeDetailSubSide');
+        this.$refs.side_var.closeSubSide('storeDetailSubSide');
       }
       ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){

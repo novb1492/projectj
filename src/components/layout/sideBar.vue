@@ -136,10 +136,6 @@ export default {
   },
   mounted(){
     document.getElementById('storeDetailSubSide').hidden=true;
-    this.$EventBus.$on('closeSubSide',id=>{
-      console.log('closesubsid');
-      document.getElementById(id).hidden=true;
-    });
   },
   methods:{
     checkPage(){
@@ -160,7 +156,10 @@ export default {
     },
     openSubSideVar(id){
        document.getElementById(id).hidden=false;
-    }
+    },
+    closeSubSide(id){
+      document.getElementById(id).hidden=true;
+    },
   }
 }
 </script>

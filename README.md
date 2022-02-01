@@ -349,6 +349,5 @@ eventbus는 호출뒤 있는 함수만 당겨쓸때 사용해야한다
 2022-02-01  
 1.불필요한 evnetbus제거
 ->evnetbus->refs  
-storeDetailPage evnetbus제거완료  
 
 제발 git pull하고 작업해  
