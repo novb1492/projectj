@@ -344,4 +344,9 @@ eventbus는 호출뒤 있는 함수만 당겨쓸때 사용해야한다
 병합시도/병합성공  
 
 3.v-on and emit  
--아주쉽게 자식 에서 부모 컴포넌트에게 전달이 가능하다  
+-아주쉽게 자식 에서 부모 컴포넌트에게 전달이 가능하다
+  
+2022-02-01  
+1.불필요한 evnetbus제거
+->evnetbus->refs  
+storeDetailPage evnetbus제거완료  

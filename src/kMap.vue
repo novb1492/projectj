@@ -129,15 +129,6 @@ export default {
         data.deliverRadiusFlag=true;
         this.drawCicleAndMakerWithAddress(data);
       }
-      //한개만 마커를 그리는 기능 
-       this.$EventBus.$on('showOnlyOnePlace',data=>{
-            console.log(data);
-            this.drawCicleAndMakerWithAddress(data);
-        });
-        //원 한개만 그리기
-         this.$EventBus.$on('drawCircle',num=>{
-            this.drawCircle(num);
-        });
     },
     drawCicleAndMakerWithAddress(data){
       var geocoder = new kakao.maps.services.Geocoder();

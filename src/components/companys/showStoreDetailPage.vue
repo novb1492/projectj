@@ -39,7 +39,7 @@
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
         <span v-if="doneFlag==1"><!--에디터 너무 빨리생성되지 않게-->
-          <editor class="mt-2" :text=text  />
+          <editor class="mt-2" :text=text  ref="ck_editor" />
         </span>
       </div>
       <div id="registStorePage2" style="float: left;">
@@ -90,7 +90,7 @@
       </div>
       <div id="registStorePage3" >
         <span v-if="doneFlag==1"><!--지도 너무 빨리생성 되지 않게-->
-          <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius />
+          <k-map :width=400 :height=500 :address=address :storeDetailFlag=true :radius=radius ref="k_map" />
         </span>
       <br>
       </div>
@@ -162,28 +162,19 @@ export default {
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
       this.doneFlag=1;//정보다 받고 에디터,지도 생성
-      //subsidevar 
-      this.$EventBus.$emit('openSubSide','storeDetailSubSide');  
-    });
-  },
-  mounted(){
-     //에디터 컴포넌트 입력시 받아오기
-    this.$EventBus.$on('editorText',get=>{
-      this.text=get;
-      console.log('에디터내용');
-      console.log(this.text);
+      //subsidevar 호출
+      this.$emit('openSubSide','storeDetailSubSide');
     });
   },
   methods:{
     leave(){
-      //페이지 이탈시 이전 페이지번호,검색어 정보들고있기
-      var arr = {page: modules.getParam('page'), keyword: modules.getParam('keyword')};
-      this.$EventBus.$emit('outDetail',arr);  
+      //페이지 이탈시 이전 페이지번호,검색어 정보들고있기 
+      this.$router.push('/companyPage/1?&page='+modules.getParam('page')+'&keyword='+modules.getParam('keyword'));
     },
     tryUpdateStore(){
       var thumbNail=this.thumbnail;
       console.log(thumbNail);
-      var text=this.text;
+      var text=this.$refs.ck_editor.getText();
       var postcode=modules.getValueById('postcode');
       var address=modules.getValueById('address');
       var storeName=modules.getValueById('storeName');
@@ -213,11 +204,7 @@ export default {
       });
       modules.requestAsyncToPut(this.$serverDomain+"/auth/store/infor/change",data).then(result=>{
         alert(result.message);
-        if(result.flag){
-          location.reload();
-        }
       });
-
     },
      showAuthPage(type){
         var message='휴대폰을 입력해주세요';
@@ -258,7 +245,7 @@ export default {
       if(this.deliverRadiusFlag){
         data.radius=this.radius;
       }
-      this.$EventBus.$emit('showOnlyOnePlace',data); 
+      this.$refs.k_map.drawCicleAndMakerWithAddress(data);
     },
     showCircle(){
       var num=modules.getValueById('deliverRadius');
@@ -269,7 +256,7 @@ export default {
       }
       this.deliverRadiusFlag=true;
       this.radius=num;
-      this.$EventBus.$emit('drawCircle',num); 
+      this.$refs.k_map.drawCircle(num);
     },
      
   }
