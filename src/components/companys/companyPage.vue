@@ -8,7 +8,7 @@
       <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" ref="store_detail"/>
     </span>
     <span v-else-if="choose==3">
-      <delivery-page ref="delivery_page" />
+      <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" />
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
@@ -35,7 +35,6 @@ export default {
         keyword:null,
         deliveryPage:1,
         deliveryKeyword:null,
-        subSideVarIds:['storeDetailSubSide'],
         storeId:0,
     }
   },
@@ -45,7 +44,9 @@ export default {
       console.log('watch');
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
       if(from.path=='/companyPage/2'){
-        this.$refs.side_var.closeSubSide(this.subSideVarIds);
+        this.$refs.side_var.closeSubSide(this.$refs.store_detail.getSubSideVarIds());
+      }else if(from.path=='/companyPage/3'){
+        this.$refs.side_var.closeSubSide(this.$refs.delivery_page.getSubSideVarIds());
       }
       ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
@@ -54,10 +55,6 @@ export default {
         //목록에서 이동한다면 뒤로가기시 대응으로 현재 페이지검색어를 저장한다
         this.page=from.query.page;
         this.keyword=from.query.keyword;
-      }
-      //서브사이드바 열어주기
-      if(to.path=='/companyPage/2'||to.path=='/companyPage/3'){
-         this.$refs.side_var.openSubSideVar(this.subSideVarIds);
       }
       this.choose=this.$route.params.id;
     } 
@@ -95,8 +92,8 @@ export default {
       this.page=pageAndKeyword.page;
       this.keyword=pageAndKeyword.keyword;
     },
-    openSubSide(id){//storeDetailPage
-      this.$refs.side_var.openSubSideVar(id);
+    openSubSide(ids){//storeDetailPage
+      this.$refs.side_var.openSubSideVar(ids);
     },
     checkLoginAndRoll(logingInfor){//입장시 판별
       console.log(logingInfor);

@@ -28,6 +28,7 @@ export default {
       deliveryFlagText:'deliveryFlag',
       roomId:0,
       rooms:[],
+      subSideVarIds:['storeDetailSubSide'],
     }
   },
   created(){
@@ -40,9 +41,14 @@ export default {
         return;
       }
       this.rooms=result.message;
+      //사이드바 생성
+      this.$emit('openSubSide',this.subSideVarIds);
     })
   },
   methods : {
+    getSubSideVarIds(){//페이지 이탈시 사용
+      return this.subSideVarIds;
+    },
       connect(roomId) {
         this.roomId=roomId;
         console.log(roomId);

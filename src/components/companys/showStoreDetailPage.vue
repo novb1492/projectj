@@ -127,6 +127,7 @@ export default {
       id:0,
       text:null,
       doneFlag:0,//editor 너무 빨리 생성되지 않게
+      subSideVarIds:['storeDetailSubSide'],
     }
   },
   created(){
@@ -162,11 +163,16 @@ export default {
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
       this.doneFlag=1;//정보다 받고 에디터,지도 생성
+      //사이드바 생성
+      this.$emit('openSubSide',this.subSideVarIds);
       //사이드바 대응 위해 현재 보고 있는 매장 번호 전달
       this.$emit('changeStoreId',this.id);
     });
   },
   methods:{
+    getSubSideVarIds(){//페이지 이탈시 사용
+      return this.subSideVarIds;
+    },
     clickDelivery(){
       this.$router.push('/companyPage/3?&page=1&keyword=null&storeid='+this.id);
     },
