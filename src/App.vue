@@ -30,7 +30,7 @@ export default {
 
 <style>
 .marginLeftSideSize{margin-left: 250px;}
-.margintopNavSize{margin-top: 48px;}
+.margintopNavSize{margin-top: 55px;}
 .mr20{margin-right: 20px;}
 a{ text-decoration:none }
 .ml80{margin-left: 80px;}

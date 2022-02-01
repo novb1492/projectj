@@ -1,6 +1,12 @@
 <template>
   <div class="margintopNavSize">
-      
+      <ul>
+        <li v-for="(address,index) in this.destinationAddress" :key="index">
+            목적지 주소:{{address}}
+        </li>
+      </ul>
+        <br>
+      <input type="button" @click="connect" :value="roomId+'번배달 시작'">
   </div>
 </template>
 <style>
@@ -19,28 +25,26 @@ export default {
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
       storeId:0,
+      destinationAddress:null,
     }
   },
   created(){
-      alert(modules.getParam('deliverId'));
-   /* modules.requestAsyncToGet('http://localhost:8080/auth/store/get/deliver/'+modules.getParam('deliverId')+'/2022-01-28/2022-01-28').then(result=>{
+    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/deliver/'+this.roomId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
         return;
       }
-      this.rooms=result.message;
+      this.destinationAddress=result.message;
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
-    })*/
+    })
   },
   methods : {
     getSubSideVarIds(){//페이지 이탈시 사용
       return this.subSideVarIds;
     },
-      connect(roomId) {
-        this.roomId=roomId;
-        console.log(roomId);
+    connect() {
         this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();
         this.websocket.onerror = function(error) {
@@ -62,7 +66,7 @@ export default {
     socketOpen(){
       this.deliveryFlag=true;
       localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
-    this.websocket.onopen = e=> {
+      this.websocket.onopen = e=> {
         console.log(e);
         var options2 = {
           enableHighAccuracy: true,

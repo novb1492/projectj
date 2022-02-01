@@ -2,7 +2,7 @@
   <div class="margintopNavSize">
     <span v-for="(room,index) in this.rooms" :key="index">
       <span v-if="room.deliverRoomFlag==1">
-        <input type="button" :value="room.roomId+'배달완료'" @click="goDetailPage(room.roomId)" disabled>
+        <input type="button" :value="room.roomId+'배달완료'" @click="goDetailPage(room.roomId)" >
       </span>
       <span v-else-if="room.deliverRoomFlag==0">
         <input type="button" :value="room.roomId+'배달'" @click="goDetailPage(room.roomId)">
