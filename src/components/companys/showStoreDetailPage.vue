@@ -162,11 +162,12 @@ export default {
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
       this.doneFlag=1;//정보다 받고 에디터,지도 생성
-      //subsidevar 호출
-      this.$emit('openSubSide','storeDetailSubSide');
     });
   },
   methods:{
+    clickDelivery(){
+      this.$router.push('/companyPage/3?&page=1&keyword=null');
+    },
     leave(){
       //페이지 이탈시 이전 페이지번호,검색어 정보들고있기 
       this.$router.push('/companyPage/1?&page='+modules.getParam('page')+'&keyword='+modules.getParam('keyword'));

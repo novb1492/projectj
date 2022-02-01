@@ -106,10 +106,13 @@
       <li class="border-top my-3"></li>
       <span id="storeDetailSubSide" >
         <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage(1)">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(3)">
           배달현황 
         </button>
       </li>
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(3)">
+          매장정보 
+        </button>
       </span>
     </ul>
     </span>
@@ -149,16 +152,22 @@ export default {
     changePage(pageNum){
       if(pageNum==1){
         this.$router.push('/companyPage/1?page=1&keyword=null');
+      }else if(pageNum==3){
+        this.$emit('clickDelivery',null);
       }else{
         this.$router.push('/companyPage/'+pageNum);
       }
 
     },
-    openSubSideVar(id){
-       document.getElementById(id).hidden=false;
+    openSubSideVar(idArr){
+      for(var i=0;i<idArr.length;i++){
+         document.getElementById(idArr[i]).hidden=false
+      }
     },
-    closeSubSide(id){
-      document.getElementById(id).hidden=true;
+    closeSubSide(idArr){
+      for(var i=0;i<idArr.length;i++){
+        document.getElementById(idArr[i]).hidden=true
+      }
     },
   }
 }

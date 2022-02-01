@@ -1,11 +1,14 @@
 <template>
   <div id="container">
-    <side-bar ref="side_var"/>
+    <side-bar ref="side_var"  v-on:clickDelivery="clickDelivery"/>
     <span v-if="choose==1">
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
     <span v-else-if="choose==2">
-      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide"/>
+      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide" ref="store_detail"/>
+    </span>
+    <span v-else-if="choose==3">
+      <delivery-page ref="delivery_page" />
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
@@ -17,6 +20,7 @@
 <script>
 import {  getParam } from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
+import DeliveryPage from './deliveryPage.vue';
 import ShowSt from './showSt.vue';
 import ShowStoreDetailPage from './showStoreDetailPage.vue';
 
@@ -29,6 +33,9 @@ export default {
         beforePath:null,
         page:1,
         keyword:null,
+        deliveryPage:1,
+        deliveryKeyword:null,
+        subSideVarIds:['storeDetailSubSide'],
     }
   },
   watch:{ 
@@ -37,7 +44,7 @@ export default {
       console.log('watch');
       //매장 디테일에서 빠져 나올때 서브사이드바 지우는 함수 호출
       if(from.path=='/companyPage/2'){
-        this.$refs.side_var.closeSubSide('storeDetailSubSide');
+        this.$refs.side_var.closeSubSide(this.subSideVarIds);
       }
       ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
@@ -46,6 +53,10 @@ export default {
         //목록에서 이동한다면 뒤로가기시 대응으로 현재 페이지검색어를 저장한다
         this.page=from.query.page;
         this.keyword=from.query.keyword;
+      }
+      //서브사이드바 열어주기
+      if(to.path=='/companyPage/2'||to.path=='/companyPage/3'){
+         this.$refs.side_var.openSubSideVar(this.subSideVarIds);
       }
       this.choose=this.$route.params.id;
     } 
@@ -57,6 +68,7 @@ export default {
       SideBar,
       ShowSt,
       ShowStoreDetailPage,
+      DeliveryPage,
   },
   computed:{
     chooseComponet(){
@@ -77,7 +89,7 @@ export default {
     console.log(this.choose);
   },
   methods:{
-    changePageAndKeyword(pageAndKeyword){
+    changePageAndKeyword(pageAndKeyword){//storest
       console.log(pageAndKeyword);
       this.page=pageAndKeyword.page;
       this.keyword=pageAndKeyword.keyword;
@@ -85,12 +97,15 @@ export default {
     openSubSide(id){//storeDetailPage
       this.$refs.side_var.openSubSideVar(id);
     },
-    checkLoginAndRoll(logingInfor){
+    checkLoginAndRoll(logingInfor){//입장시 판별
       console.log(logingInfor);
       if(logingInfor.loginFlag==false||logingInfor.role!=this.$ROLE_COMPANY){
         alert('기업회원이 아닙니다');
         location.href='/';
       }
+    },
+    clickDelivery(){//storeDetailPage
+      this.$refs.store_detail.clickDelivery();
     }
   }
 
