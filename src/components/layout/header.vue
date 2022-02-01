@@ -23,7 +23,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div v-if="loginFlag">
                 <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
-              <div v-if="!roleFlag">
+              <div v-if="role==this.$ROLE_USER">
                 <!--일반회원 목록-->
                 <li><a class="dropdown-item" href="#">장바구니가기</a></li>
                 <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>

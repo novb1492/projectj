@@ -1,7 +1,7 @@
 <template>
     <div id="mapPage margintopNavSize">
       <side-bar id="side" hidden/>
-      <k-map :width=width :height=height :zoomLevel=9 :dragEventFlag=true :dragEventNum=1 :positionEventFlag=true ref="k_map"/>
+      <k-map :width=width :height=height :zoomLevel=9 :resizeFlag=true :dragEventFlag=true :dragEventNum=1 :positionEventFlag=true ref="k_map"/>
     </div>
 </template>
 <style>

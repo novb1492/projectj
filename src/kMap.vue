@@ -10,7 +10,7 @@
 import * as modules from './jslib';
 export default {
   name: 'kMapComponent',
-  props:['width','height','zoomLevel','positionEventFlag','dragEventFlag','dragEventNum','address','storeDetailFlag','radius'],
+  props:['width','height','zoomLevel','positionEventFlag','dragEventFlag','dragEventNum','address','storeDetailFlag','radius','resizeFlag'],
     data() {
     return {
       //지도관련
@@ -22,7 +22,7 @@ export default {
       maketY:0,
       //address:null,
       defalutZoom:0,
-      resizeFlag:false,
+     // resizeFlag:false,
       //positionEventFlag:false,
       //검색정보 마커윈도우
       searchMakers:[],
