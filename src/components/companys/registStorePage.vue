@@ -87,7 +87,7 @@
       <br>
       </div>
       <div id="registStorePage3" >
-        <k-map :width="400" :height="500" :zoomLevel=5 />
+        <k-map :width="400" :height="500" :zoomLevel=5 ref="k_map"/>
       <br>
       </div>
       <div id="registStorePage4">
@@ -198,9 +198,7 @@ export default {
       if(this.deliverRadiusFlag){
         data.radius=this.radius;
       }
-      this.$EventBus.$emit('showOnlyOnePlace',data); 
-      
-       
+      this.$refs.k_map.drawCicleAndMakerWithAddress(data);   
     },
     showCircle(){
       var num=modules.getValueById('deliverRadius');
@@ -211,7 +209,7 @@ export default {
       }
       this.deliverRadiusFlag=true;
       this.radius=num;
-      this.$EventBus.$emit('drawCircle',num); 
+      this.$refs.k_map.drawCircle(num);   
     },
   }
   
