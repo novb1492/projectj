@@ -1,5 +1,5 @@
 <template>
-  <div class="margintopNavSize">
+  <div class="margintopNavSize marginLeftSideSize">
     <span v-for="(room,index) in this.rooms" :key="index">
       <span v-if="room.deliverRoomFlag==1">
         <input type="button" :value="room.roomId+'배달완료'" @click="goDetailPage(room.roomId)" >

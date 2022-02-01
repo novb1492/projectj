@@ -1,12 +1,14 @@
 <template>
-  <div class="margintopNavSize">
-      <ul>
+  <div class="margintopNavSize marginLeftSideSize">
+      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;"/>
+      <ul >
         <li v-for="(address,index) in this.destinationAddress" :key="index">
             목적지 주소:{{address}}
         </li>
       </ul>
         <br>
       <input type="button" @click="connect" :value="roomId+'번배달 시작'">
+      <input type="button" @click="test2">
   </div>
 </template>
 <style>
@@ -14,7 +16,9 @@
 </style>
 <script>
 import * as modules from '../../jslib';
+import kMap from '../../kMap.vue';
 export default {
+  components: { kMap },
   name: 'deliveryPage',
    data() {
     return {
@@ -28,8 +32,8 @@ export default {
       destinationAddress:null,
     }
   },
-  created(){
-    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/deliver/'+this.roomId).then(result=>{
+  mounted(){
+        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/deliver/'+this.roomId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -38,9 +42,17 @@ export default {
       this.destinationAddress=result.message;
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
+
     })
+     
   },
   methods : {
+    test2(){
+        var size=this.destinationAddress.length;
+        for(var i=0;i<size;i++){
+            this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i]);
+        }
+     },
     getSubSideVarIds(){//페이지 이탈시 사용
       return this.subSideVarIds;
     },

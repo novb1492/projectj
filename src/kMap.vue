@@ -143,6 +143,18 @@ export default {
                 } 
             }); 
     },
+    drawMarkerByAddress(address){
+       var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(address, (result, status)=> {
+                if (status === kakao.maps.services.Status.OK) { 
+                    // 정상적으로 검색이 완료됐으면 
+                    //배달받을 주소표시
+                    this.showTextOnMaker(this.getMarker(new kakao.maps.LatLng(result[0].y, result[0].x)),'<div style="padding:5px;font-size:12px;">' +address + '</div>');
+                }else{
+                    alert('검색 내역이 없습니다');
+                } 
+            }); 
+    },
     positionEvent(){
         var options2 = {
         enableHighAccuracy: true,
