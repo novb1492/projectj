@@ -165,8 +165,6 @@ export default {
       this.doneFlag=1;//정보다 받고 에디터,지도 생성
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
-      //사이드바 대응 위해 현재 보고 있는 매장 번호 전달
-      this.$emit('changeStoreId',this.id);
     });
   },
   methods:{

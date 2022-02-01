@@ -43,6 +43,8 @@ export default {
       this.rooms=result.message;
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
+      //새로고침 대응
+      this.$emit('changeStoreId',modules.getParam('storeid'));
     })
   },
   methods : {
