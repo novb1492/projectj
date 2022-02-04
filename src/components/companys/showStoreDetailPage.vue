@@ -162,7 +162,7 @@ export default {
       modules.changeValueById('deliverRadius',infor.deliverRadius);
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
-      this.doneFlag=1;//정보다 받고 에디터,지도 생성
+      this.doneFlag=1;//정보다 받고 에디터,지도 생성 몸살 후 nexttick로 교체해보자 
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
     });
