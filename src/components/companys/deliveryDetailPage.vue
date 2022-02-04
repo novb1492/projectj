@@ -1,6 +1,6 @@
 <template>
   <div class="margintopNavSize marginLeftSideSize">
-      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;"/>
+      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;" @canplay="test2"/>
       <ul >
         <li v-for="(address,index) in this.destinationAddress" :key="index">
             목적지 주소:{{address}}
@@ -42,11 +42,18 @@ export default {
       this.destinationAddress=result.message;
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
-
+     //첫사용 타겟 태그 or 컴포넌트가 다 랜더되면 작동 짱이다 
+      this.$nextTick(()=>{
+        var size=this.destinationAddress.length;
+        for(var i=0;i<size;i++){
+            this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i]);
+        }
+      });
     })
      
   },
   methods : {
+   
     test2(){
         var size=this.destinationAddress.length;
         for(var i=0;i<size;i++){
