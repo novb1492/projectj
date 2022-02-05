@@ -41,6 +41,9 @@ export default {
     getText(){
       return this.editor.getData();
     },
+    setText(text){
+      this.editor.setData(text);
+    }
   },
 }
 </script>

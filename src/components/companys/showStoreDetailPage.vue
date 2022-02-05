@@ -38,9 +38,7 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <span v-if="doneFlag==1"><!--에디터 너무 빨리생성되지 않게-->
-          <editor class="mt-2" :text=text  ref="ck_editor" />
-        </span>
+          <editor class="mt-2"   ref="ck_editor" />
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
@@ -147,8 +145,6 @@ export default {
       this.address=infor.saddress;
       this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
-      this.text=infor.text; 
-      console.log(this.text);
       document.getElementById('thumbnail').src=infor.simg;
       this.id=modules.getParam('id');
       modules.changeValueById('storeName',infor.sname);
@@ -162,6 +158,7 @@ export default {
       modules.changeValueById('deliverRadius',infor.deliverRadius);
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
+      this.$refs.ck_editor.setText(infor.text);
       this.doneFlag=1;//정보다 받고 에디터,지도 생성 몸살 후 nexttick로 교체해보자 
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
