@@ -66,6 +66,7 @@ export default {
       console.log(result);
       if(!result.flag){
         alert(result.message);
+        this.rooms=[];
         return;
       }
       this.rooms=result.message;
