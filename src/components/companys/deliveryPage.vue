@@ -15,6 +15,10 @@
     <div>
       <input type="button" value="다음" id="nextButton" @click="changePage(1)">
       <input type="button" value="이전" id="beforeButton" @click="changePage(-1)">
+      <br>
+      <input type="date" id="start">
+      <input type="date" id="end">
+      <input type="button" value="기간으로 검색하기" @click="changeDate">
     </div>
   </div>
 </template>
@@ -33,7 +37,7 @@ export default {
       roomId:0,
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
-      storeId:0,
+      storeId:modules.getParam('storeid'),
       page:0,
       start:modules.getParam('start'),
       end:modules.getParam('end'),
@@ -43,13 +47,17 @@ export default {
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
    console.log(this.deliveryFlag);
     this.$emit('openSubSide',this.subSideVarIds);
-    this.storeId=modules.getParam('storeid');
     //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
     this.requestServer(modules.getParam('page'),this.start,this.end);
 
   },
   methods : {
+    changeDate(){
+      this.start=modules.getValueById('start');
+      this.end=modules.getValueById('end');
+      this.$router.push("/companyPage/3?page=1&start="+this.start+'&end='+this.end+'&storeid='+this.storeId);
+    },
     backEvent(page,start,end){
       this.requestServer(page,start,end);
     },
