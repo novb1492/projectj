@@ -50,7 +50,14 @@ export default {
     //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
     this.requestServer(modules.getParam('page'),this.start,this.end);
-
+  },
+  mounted(){
+    if(!modules.checkNull(this.start)){
+      modules.changeValueById('start',this.start);
+    }
+    if(!modules.checkNull(this.end)){
+      modules.changeValueById('end',this.end);
+    }
   },
   methods : {
     changeDate(){
