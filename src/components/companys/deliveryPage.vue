@@ -72,6 +72,13 @@ export default {
       this.page=page;
       if(page<=1){
         modules.disabledById('beforeButton',true);
+      }else{
+        modules.disabledById('beforeButton',false);
+      }
+      if(page>=result.totalPage){
+        modules.disabledById('nextButton',true);
+      }else{
+        modules.disabledById('nextButton',false);
       }
     })
     },
