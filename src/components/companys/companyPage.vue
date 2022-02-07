@@ -118,9 +118,6 @@ export default {
         location.href='/';
       }
     },
-    clickDelivery(){//storeDetailPage
-      this.$refs.store_detail.clickDelivery();
-    },
     changeStoreId(id){
       this.storeId=id;
     },

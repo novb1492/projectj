@@ -153,7 +153,7 @@ export default {
       if(pageNum==1){
         this.$router.push('/companyPage/1?page=1&keyword=null');
       }else if(pageNum==3){
-        this.$emit('clickDelivery',null);
+      this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+45);
       }else if(pageNum==4){
         this.$emit('clickStore',null);
       }else{
