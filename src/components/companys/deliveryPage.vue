@@ -64,7 +64,7 @@ export default {
     })
     },
     changePage(num){
-      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end);
+      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId);
     },
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
