@@ -38,7 +38,8 @@ export default {
         page:1,
         keyword:null,
         deliveryPage:1,
-        deliveryKeyword:null,
+        deliveryStart:null,
+        deliveryEnd:null,
         storeId:0,
     }
   },

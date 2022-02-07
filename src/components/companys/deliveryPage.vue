@@ -1,19 +1,20 @@
 <template>
   <div class="margintopNavSize marginLeftSideSize">
     <span v-for="(room,index) in this.rooms" :key="index">
-      <span v-if="room.deliverRoomFlag==1">
-        <input type="button" :value="room.roomId+'배달완료'" @click="goDetailPage(room.roomId)" >
+      <span v-if="room.deliver_rooms_flag==1">
+        <input type="button" :value="room.room_id+'배달완료'" @click="goDetailPage(room.room_id)" >
       </span>
-      <span v-else-if="room.deliverRoomFlag==0">
-        <input type="button" :value="room.roomId+'배달'" @click="goDetailPage(room.roomId)">
+      <span v-else-if="room.deliver_rooms_flag==0">
+        <input type="button" :value="room.room_id+'배달'" @click="goDetailPage(room.room_id)">
       </span>
-      <span v-else-if="room.deliverRoomFlag==2">
-        <input type="button" :value="room.roomId+'배달중'" @click="goDetailPage(room.roomId)">
+      <span v-else-if="room.deliver_rooms_flag==2">
+        <input type="button" :value="room.room_id+'배달중'" @click="goDetailPage(room.room_id)">
       </span>
     </span>
     <br>
     <div>
-      <input type="button" value="다음" @click="changePage(1)">
+      <input type="button" value="다음" id="nextButton" @click="changePage(1)">
+      <input type="button" value="이전" id="beforeButton" @click="changePage(-1)">
     </div>
   </div>
 </template>
@@ -61,6 +62,9 @@ export default {
       }
       this.rooms=result.message;
       this.page=page;
+      if(page<=1){
+        modules.disabledById('beforeButton',true);
+      }
     })
     },
     changePage(num){
