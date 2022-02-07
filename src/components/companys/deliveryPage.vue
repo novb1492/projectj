@@ -11,6 +11,10 @@
         <input type="button" :value="room.roomId+'배달중'" @click="goDetailPage(room.roomId)">
       </span>
     </span>
+    <br>
+    <div>
+      <input type="button" value="다음" @click="changePage(1)">
+    </div>
   </div>
 </template>
 <style>
@@ -29,26 +33,39 @@ export default {
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
       storeId:0,
+      page:0,
+      start:modules.getParam('start'),
+      end:modules.getParam('end'),
     }
   },
   created(){
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
    console.log(this.deliveryFlag);
-   this.storeId=modules.getParam('storeid');
-    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/1/'+this.storeId+'/2022-01-28/2022-01-28').then(result=>{
+    this.$emit('openSubSide',this.subSideVarIds);
+    this.storeId=modules.getParam('storeid');
+    //새로고침 대응
+    this.$emit('changeStoreId',this.storeId);
+    this.requestServer(modules.getParam('page'),this.start,this.end);
+
+  },
+  methods : {
+    backEvent(page,start,end){
+      this.requestServer(page,start,end);
+    },
+    requestServer(page,start,end){
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+this.storeId+'/'+start+'/'+end).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
         return;
       }
       this.rooms=result.message;
-      //사이드바 생성
-      this.$emit('openSubSide',this.subSideVarIds);
-      //새로고침 대응
-      this.$emit('changeStoreId',this.storeId);
+      this.page=page;
     })
-  },
-  methods : {
+    },
+    changePage(num){
+      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end);
+    },
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
     },

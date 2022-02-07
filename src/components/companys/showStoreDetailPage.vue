@@ -169,7 +169,7 @@ export default {
       return this.subSideVarIds;
     },
     clickDelivery(){
-      this.$router.push('/companyPage/3?&page=1&keyword=null&storeid='+this.id);
+      this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+this.id);
     },
     leave(){
       //페이지 이탈시 이전 페이지번호,검색어 정보들고있기 

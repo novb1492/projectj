@@ -8,7 +8,7 @@
       <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide" ref="store_detail"/>
     </span>
     <span v-else-if="choose==3">
-      <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId" />
+      <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId"  />
     </span>
     <span v-else-if="choose==4">
         <delivery-detail-page />
@@ -48,14 +48,7 @@ export default {
       console.log('watch');
       //서브사이드바 지우는 함수 호출
       this.subSideVarOnOff(to,from);
-      ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
-      if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
-        this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
-      }else if(from.path=='/companyPage/1'&&to.path!='/companyPage/1'){
-        //목록에서 이동한다면 뒤로가기시 대응으로 현재 페이지검색어를 저장한다
-        this.page=from.query.page;
-        this.keyword=from.query.keyword;
-      }
+      this.paging(to,from);
       this.choose=this.$route.params.id;
     } 
   },
@@ -88,6 +81,18 @@ export default {
     console.log(this.choose);
   },
   methods:{
+    paging(to,from){
+       ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
+      if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
+        this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
+      }else if(from.path=='/companyPage/1'&&to.path!='/companyPage/1'){
+        //목록에서 이동한다면 뒤로가기시 대응으로 현재 페이지검색어를 저장한다
+        this.page=from.query.page;
+        this.keyword=from.query.keyword;
+      }else if(to.path=='/companyPage/3'&&from.path=='/companyPage/3'){
+        this.$refs.delivery_page.backEvent(getParam('page'),getParam('start'),getParam('end'));
+      }
+    },
     subSideVarOnOff(to,from){
        if(from.path=='/companyPage/2'&&from.path!=to.path&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
         this.$refs.side_var.closeSubSide(this.$refs.store_detail.getSubSideVarIds());
