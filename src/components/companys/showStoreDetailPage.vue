@@ -134,7 +134,7 @@ export default {
     pageAndKeyWord.page=modules.getParam('page');
     pageAndKeyWord.keyword=modules.getParam('keyword');//companypage watch에서 일괄대응
     this.$emit('changePageAndKeyword',pageAndKeyWord);*///매장클릭시 부모 page/keyword 바꿔줘야 뒤로가기시 잘작동함
-    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('id')).then(result=>{
+    modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/'+modules.getParam('storeid')).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -146,7 +146,7 @@ export default {
       this.radius=infor.deliverRadius;
       this.thumbnail=infor.simg;
       document.getElementById('thumbnail').src=infor.simg;
-      this.id=modules.getParam('id');
+      this.id=modules.getParam('storeid');
       modules.changeValueById('storeName',infor.sname);
       modules.changeValueById('num',infor.snum);
       modules.changeValueById('openTime',infor.openTime);
@@ -162,15 +162,17 @@ export default {
       this.doneFlag=1;//정보다 받고 에디터,지도 생성 몸살 후 nexttick로 교체해보자 
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
+      //매장별 목록들어갈때 대응
+      this.$emit('changeStoreId',this.id);
     });
   },
   methods:{
     getSubSideVarIds(){//페이지 이탈시 사용
       return this.subSideVarIds;
     },
-    clickDelivery(){
+    /*clickDelivery(){
       this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+this.id);
-    },
+    },사이드바로 기능이동*/
     leave(){
       //페이지 이탈시 이전 페이지번호,검색어 정보들고있기 
       this.$router.push('/companyPage/1?&page='+modules.getParam('page')+'&keyword='+modules.getParam('keyword'));

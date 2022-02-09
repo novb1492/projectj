@@ -106,7 +106,7 @@ export default {
     },
     showStore(id){
      var arr = { id: id, page: this.inPage, keyword: this.inKeyword};
-     this.$router.push('/companyPage/2?id='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+     this.$router.push('/companyPage/2?storeid='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     },
     search(){
       this.getStores(1,modules.getValueById('searchinput'));

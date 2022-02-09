@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <side-bar ref="side_var"  v-on:clickDelivery="clickDelivery" v-on:clickStore="clickStore"/>
+    <side-bar ref="side_var"  v-on:clickStore="clickStore"/>
     <span v-if="choose==1">
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
@@ -122,7 +122,7 @@ export default {
       this.storeId=id;
     },
     clickStore(){
-      this.$router.push('/companyPage/2?id='+this.storeId+'&page='+this.page+'&keyword='+this.keyword);
+      this.$router.push('/companyPage/2?storeid='+this.storeId+'&page='+this.page+'&keyword='+this.keyword);
     }
   }
 
