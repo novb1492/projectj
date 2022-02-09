@@ -102,7 +102,7 @@
       <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="휴대폰인증(번호수정시)" />
       <input type="button" value="가맹점 수정" @click="tryUpdateStore">
       <br>
-      <input type="button" value="전단지 등록" >
+      <input type="button" :value="sleepComent" @click="sleepStore">
       <input type="button" @click="leave" value="이전으로 가기">
       </div>
   </div>
@@ -126,6 +126,8 @@ export default {
       text:null,
       doneFlag:0,//editor 너무 빨리 생성되지 않게
       subSideVarIds:['storeDetailSubSide'],
+      sleepFlag:0,
+      sleepComent:"매장 영업중지",
     }
   },
   created(){
@@ -159,14 +161,40 @@ export default {
       modules.changeValueById('phone',infor.sphone);
       modules.changeValueById('tel',infor.stel);
       this.$refs.ck_editor.setText(infor.text);
+      this.sleepFlag=infor.ssleep;
       this.doneFlag=1;//정보다 받고 에디터,지도 생성 몸살 후 nexttick로 교체해보자 
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
       //매장별 목록들어갈때 대응
       this.$emit('changeStoreId',this.id);
+      this.$nextTick(()=>{
+        if(this.sleepFlag==1){
+          this.sleepComent="매장엽업 재개";
+        }
+      });
     });
   },
   methods:{
+    sleepStore(){
+      var flag=0;
+      if(this.sleepFlag==0){
+        flag=1;
+      }else{
+        flag=0;
+      }
+      modules.requestAsyncToPut(this.$serverDomain+'/auth/store/infor/sleep/'+flag+'/'+modules.getParam('storeid'),null).then(result=>{
+        if(result.flag){
+          this.sleepFlag=flag;
+          if(this.sleepFlag==0){
+            this.sleepComent="매장 영업중지";
+          }else{
+            this.sleepComent="매장 영업재개";
+          }
+        }
+        alert(result.message);
+        
+      })
+    },
     getSubSideVarIds(){//페이지 이탈시 사용
       return this.subSideVarIds;
     },
