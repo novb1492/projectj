@@ -110,9 +110,16 @@
           배달현황 
         </button>
       </li>
+        <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded" @click="changePage(4)">
           매장정보 
         </button>
+        </li>
+                <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(5)">
+          전단목록(상품목록) 
+        </button>
+        </li>
       </span>
     </ul>
     </span>
