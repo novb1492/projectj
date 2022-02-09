@@ -4,9 +4,9 @@
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
         <br>
-        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png">
-        <br>
-        <input type="button" class="mt-2"  value="업로드"  @click="uploadThumbNail">
+        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadThumbNail">
+        <!--<br>
+        <input type="button" class="mt-2"  value="업로드"  @click="uploadThumbNail">-->
         <br>
          <span class="mt-2" >상호</span>
         <input

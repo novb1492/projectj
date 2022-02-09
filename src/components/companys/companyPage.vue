@@ -57,6 +57,7 @@ export default {
       'registStorePage': () => import('./registStorePage.vue'),
       //'showSt': () => import('./showSt.vue'),
       'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
+      'registFlyerPage':()=>import('./registFlyerPage.vue'),
       SideBar,
       ShowSt,
       ShowStoreDetailPage,
@@ -67,6 +68,8 @@ export default {
     chooseComponet(){
       if(this.choose==0){
         return 'registStorePage';
+      }else if(this.choose==6){
+        return 'registFlyerPage';
       }
       //잘못된경로로 왔을때
       return 'registStorePage';
