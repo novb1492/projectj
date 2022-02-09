@@ -170,6 +170,8 @@ export default {
       this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+getParam('storeid'));
       }else if(pageNum==4){
         this.$emit('clickStore',null);
+      }else if(pageNum==6){
+        this.$router.push('/companyPage/6?storeid='+getParam('storeid'));
       }else{
         this.$router.push('/companyPage/'+pageNum);
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="margintopNavSize marginLeftSideSize">
-      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;" @canplay="test2"/>
+      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;" @canplay="showDestiantions"/>
       <ul >
         <li v-for="(address,index) in this.destinationAddress" :key="index">
             목적지 주소:{{address}}
@@ -8,7 +8,6 @@
       </ul>
         <br>
       <input type="button" @click="connect" :value="roomId+'번배달 시작'">
-      <input type="button" @click="test2">
   </div>
 </template>
 <style>
@@ -53,8 +52,7 @@ export default {
      
   },
   methods : {
-   
-    test2(){
+    showDestiantions(){
         var size=this.destinationAddress.length;
         for(var i=0;i<size;i++){
             this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i]);

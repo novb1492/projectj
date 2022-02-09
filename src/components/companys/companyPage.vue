@@ -11,7 +11,7 @@
       <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId"  />
     </span>
     <span v-else-if="choose==4">
-        <delivery-detail-page />
+        <delivery-detail-page ref="deliver_detail"/>
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ></component>
@@ -98,12 +98,14 @@ export default {
       }
     },
     subSideVarOnOff(to,from){
-       if(from.path=='/companyPage/2'&&from.path!=to.path&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
+       if(from.path=='/companyPage/2'&&from.path!=to.path&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'&&to.path!='/companyPage/6'){
         this.$refs.side_var.closeSubSide(this.$refs.store_detail.getSubSideVarIds());
-      }else if(from.path=='/companyPage/3'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/4'){
+      }else if(from.path=='/companyPage/3'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/4'&&to.path!='/companyPage/6'){
         this.$refs.side_var.closeSubSide(this.$refs.delivery_page.getSubSideVarIds());
-      }else if(from.path=='/companyPage/4'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'){
-        console.log(from);
+      }else if(from.path=='/companyPage/4'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/6'){
+       this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
+      }else if(from.path=='/companyPage/6'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
+        this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
       }
     },
     changePageAndKeyword(pageAndKeyword){//storest
