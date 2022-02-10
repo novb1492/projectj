@@ -4,9 +4,7 @@
         <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  src=""  id="thumbnail" class="storeThumbnail">
         <br>
-        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" value="123">
-        <br>
-        <input type="button" class="mt-2"  value="업로드"  @click="uploadThumbNail">
+        <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadThumbNail">
         <br>
          <span class="mt-2" >상호</span>
         <input
@@ -260,9 +258,9 @@ export default {
       console.log(frm);
       modules.requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
         console.log(result);
-        if(result.uploaded){
-          document.getElementById('thumbnail').src=result.url;
-          this.thumbnail=result.url;
+        if(result.flag){
+          document.getElementById('thumbnail').src=result.message;
+          this.thumbnail=result.message;
           return;
         }
         alert('파일 업로드에 실패했습니다');
