@@ -5,7 +5,7 @@
       <show-st :page=page :keyword=keyword  ref="show_st"  />
     </span>
     <span v-else-if="choose==2">
-      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:openSubSide="openSubSide" ref="store_detail"/>
+      <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" ref="store_detail"/>
     </span>
     <span v-else-if="choose==3">
       <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId"  />
@@ -13,8 +13,11 @@
     <span v-else-if="choose==4">
         <delivery-detail-page ref="deliver_detail"/>
     </span>
+    <span v-else-if="choose==6">
+      <regist-flyer-page ref="regist_flyer" v-on:changeStoreId="changeStoreId" />
+    </span>
     <span v-else>
-      <component v-bind:is="chooseComponet" ref="childComponet"></component>
+      <component v-bind:is="chooseComponet" ref="childComponet" ></component>
     </span>
   </div>
 </template>
@@ -25,6 +28,7 @@ import {  getParam } from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import DeliveryDetailPage from './deliveryDetailPage.vue';
 import DeliveryPage from './deliveryPage.vue';
+import RegistFlyerPage from './registFlyerPage.vue';
 import ShowSt from './showSt.vue';
 import ShowStoreDetailPage from './showStoreDetailPage.vue';
 
@@ -57,19 +61,17 @@ export default {
       'registStorePage': () => import('./registStorePage.vue'),
       //'showSt': () => import('./showSt.vue'),
       'showStoreDetailPage':()=> import('./showStoreDetailPage.vue'),
-      'registFlyerPage':()=>import('./registFlyerPage.vue'),
       SideBar,
       ShowSt,
       ShowStoreDetailPage,
       DeliveryPage,
       DeliveryDetailPage,
+      RegistFlyerPage,
   },
   computed:{
     chooseComponet(){
       if(this.choose==0){
         return 'registStorePage';
-      }else if(this.choose==6){
-        return 'registFlyerPage';
       }
       //잘못된경로로 왔을때
       return 'registStorePage';
@@ -105,7 +107,7 @@ export default {
       }else if(from.path=='/companyPage/4'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/6'){
        this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
       }else if(from.path=='/companyPage/6'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
-        this.$refs.side_var.closeSubSide(this.$refs.childComponet.getSubSideVarIds());
+        this.$refs.side_var.closeSubSide(this.$refs.regist_flyer.getSubSideVarIds());
       }
     },
     changePageAndKeyword(pageAndKeyword){//storest

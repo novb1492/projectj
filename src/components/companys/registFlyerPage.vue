@@ -23,7 +23,7 @@ export default {
   name: 'insertFlyerPage',
    data() {
     return {
-      storeId:getParam('storeId'),
+      storeId:getParam('storeid'),
       imgPath:null,
       subSideVarIds:['storeDetailSubSide'],
       text:'',
@@ -33,6 +33,8 @@ export default {
   created(){
     //사이드바 생성
     this.$emit('openSubSide',this.subSideVarIds);
+       //새로고침 대응
+    this.$emit('changeStoreId',this.storeId);
   },
   methods:{
     getSubSideVarIds(){
