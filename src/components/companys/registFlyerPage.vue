@@ -2,7 +2,7 @@
     <div class="marginLeftSideSize margintopNavSize">
       <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
       <br>
-       <img :src="imgPath" alt="이미지를 업로드해주세요">
+       <img :src="imgPath" id="flyerImg" alt="이미지를 업로드해주세요">
        <br>
        {{defaultText}}
        <div>
@@ -15,7 +15,7 @@
 </template>
 <style>
 #textArea{width: 100%;}
-img{ width: 100%; height: 100%;}
+#flyerImg{ width: 100%; height: 100%;}
 </style>
 <script>
 import {  getParam, requestFormAsyncToPost } from '../../jslib'
