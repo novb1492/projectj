@@ -48,8 +48,8 @@ export default {
      this.defaultText='글자를 추출중입니다 시간이 걸리니 페이지를 벗어나지 마세요';
       requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet',frm).then(result=>{
         console.log(result);
-        if(result.uploaded){
-          this.imgPath=result.url;
+        if(result.flag){
+          this.imgPath=result.message;
           this.defaultText='';
           alert(result.ocr.message.length);
           this.text=result.ocr.message;
