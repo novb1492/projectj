@@ -35,6 +35,9 @@ export default {
     this.$emit('openSubSide',this.subSideVarIds);
   },
   methods:{
+    getSubSideVarIds(){
+      return this.subSideVarIds;
+    },
     uploadAndGetProducts(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);

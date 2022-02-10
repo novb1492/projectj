@@ -14,7 +14,7 @@
         <delivery-detail-page ref="deliver_detail"/>
     </span>
     <span v-else>
-      <component v-bind:is="chooseComponet" ></component>
+      <component v-bind:is="chooseComponet" ref="childComponet"></component>
     </span>
   </div>
 </template>
@@ -105,7 +105,7 @@ export default {
       }else if(from.path=='/companyPage/4'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/6'){
        this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
       }else if(from.path=='/companyPage/6'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
-        this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
+        this.$refs.side_var.closeSubSide(this.$refs.childComponet.getSubSideVarIds());
       }
     },
     changePageAndKeyword(pageAndKeyword){//storest
