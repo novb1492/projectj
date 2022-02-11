@@ -10,7 +10,7 @@
           <input type="text" placeholder="전단이름" id="flyerName"/>
        {{defaultText}}
       </div>
-       <div id="insertProductArea" ><!--hidden-->
+       <div id="insertProductArea" hidden><!--hidden-->
        <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
          <select style="width:200px;">
