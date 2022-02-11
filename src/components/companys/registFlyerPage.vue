@@ -6,9 +6,11 @@
           <br>
           <img :src="imgPath" id="flyerImg" hidden>
           <br>
+          <h5>전단이름을입력해주세요</h5>
+          <input type="text" placeholder="전단이름" id="flyerName"/>
        {{defaultText}}
       </div>
-       <div id="insertProductArea" hidden><!--hidden-->
+       <div id="insertProductArea" ><!--hidden-->
        <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
          <select style="width:200px;">
@@ -42,11 +44,11 @@
             <br>
             (가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000)
             <br>
-            <input type="text" placeholder="ex)1,000" />
+            <input type="text" id="price" placeholder="ex)1,000" />
             <br>
             원산지를 입력해주세요
             <br>
-            <input type="text" placeholder="원산지"/>
+            <input type="text" id="origin" placeholder="원산지"/>
             <br>
             간단한 상품설명을 입력해주세요(필수아님)
             <editor  class="mt-2" :text="null" ref="ck_editor" />
@@ -98,6 +100,7 @@ export default {
       dateArr:[],
       defaultText2:'',
       productImgPath:'',
+      ids:['productName','price','origin','img2','eventDate'],
     }
   },
   created(){
@@ -134,9 +137,24 @@ export default {
           }
         }
       }
+      //다음 상품등록을 위해 전단 제외 비워주기
+      this.clearEvent();
+      this.clearValues();
+      this.dateArr=[];
+      this.$refs.ck_editor.setText('');
+      this.productImgPath=null;
+
+    },
+    clearValues(){
+      for(var i=0;i<this.ids.length;i++){
+        changeValueById(this.ids[i],'');
+      }
+    },
+    clearEvent(){
+      if(this.eventFlag){
+        document.getElementById('eventPriceArea').innerHTML='';
+      }
       this.closeEvent();
-      changeValueById('productName','');
-      alert('vv');
 
     },
     saveDate(){
@@ -149,17 +167,25 @@ export default {
       dateAndPrice.price=0;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
+       console.log(this.dateArr);
       //가격 입력창만들기
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1,000' id='"+chooseDate+"' class='eventPrice' /> ";
-      p2.innerHTML="<input type='button' id='"+chooseDate+"delete' value='삭제'  />";
+      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1,000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{
+        //랜더제거
         document.getElementById(chooseDate).remove();
         document.getElementById(chooseDate+'delete').remove();
         document.getElementById(chooseDate+'text').remove();
+        //해당 데이터 지우기
+        for(var i=0;i<this.dateArr.length;i++){
+          if(this.dateArr[i].date==chooseDate){
+            this.dateArr.splice(i,1);
+          }
+        }
         //남은 이벤트 개수확인
         var len=document.getElementsByClassName('eventPrice').length;
         //0개라면 플래그 꺼주기
