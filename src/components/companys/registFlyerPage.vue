@@ -22,7 +22,7 @@
          </select>
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" @change="doEvent">
+              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
               <div id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
@@ -45,7 +45,7 @@
             간단한 상품설명을 입력해주세요(필수아님)
             <editor  class="mt-2" :text="null" ref="ck_editor" />
          </div>
-      
+          <input type="button" value="상품등록"  @click="insert" />
        </div>
        <br>
        <br>
@@ -92,16 +92,46 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
+    deleteOneEvent(date){
+      alert(date);
+    },
+    insert(){
+      if(this.eventFlag){
+        var events=document.getElementsByClassName('eventPrice');
+        alert(events.length);
+      }
+    },
     saveDate(){
       this.defaultText2='가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000';
       var dateAndPrice=new Object;
+      //날짜 가져오기
       var chooseDate=getValueById('eventDate');
+      //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
+      //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
+      //가격 입력창만들기
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
-      p.innerHTML=chooseDate+"날의 가격"+"<input type='text' placeholder='ex)1,000' id='"+dateAndPrice.date+"' class='eventPrice' />"
+      var p2=document.createElement('p');
+      p.innerHTML="<span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1,000' id='"+chooseDate+"' class='eventPrice' /> ";
+      p2.innerHTML="<input type='button' id='"+chooseDate+"delete' value='삭제'  />";
+      //삭제버튼 이벤트 리스너 넣기
+      p2.addEventListener("click",()=>{
+        document.getElementById(chooseDate).remove();
+        document.getElementById(chooseDate+'delete').remove();
+        document.getElementById(chooseDate+'text').remove();
+        //남은 이벤트 개수확인
+        var len=document.getElementsByClassName('eventPrice').length;
+        //0개라면 플래그 꺼주기
+        if(len==0){
+          document.getElementById("eventCheck").checked = false;
+          this.eventFlag=false;
+          document.getElementById('eventInfor').hidden=true;
+        }
+      });
       eventPriceArea.appendChild(p);
+      eventPriceArea.appendChild(p2);
     },
     doEvent(){
       if(this.eventFlag){
