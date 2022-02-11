@@ -69,7 +69,7 @@ export default {
       this.requestServer(page,start,end);
     },
     requestServer(page,start,end){
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+this.storeId+'/'+start+'/'+end).then(result=>{
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+this.storeId+'/'+start+'/'+end+'/'+modules.getParam('state')).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -91,7 +91,7 @@ export default {
     })
     },
     changePage(num){
-      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId);
+      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
