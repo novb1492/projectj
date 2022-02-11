@@ -8,7 +8,7 @@
           <br>
        {{defaultText}}
       </div>
-       <div id="insertProductArea" ><!--hidden-->
+       <div id="insertProductArea" hidden><!--hidden-->
        <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
          <select style="width:200px;">
@@ -20,6 +20,12 @@
             <option value="공산품(비)">비식품</option>
             <option value="잡화">잡화</option>
          </select>
+         <h5>상품이름</h5>
+         전체 이름을 입력해주세요 
+         <br>
+         ex)소고기 150g
+         <br>
+         <input type="text" placeholder="상품이름을 입력해주세요">
          <div id="eventArea">
               <h5>행사 여부</h5>
               진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
@@ -45,6 +51,14 @@
             간단한 상품설명을 입력해주세요(필수아님)
             <editor  class="mt-2" :text="null" ref="ck_editor" />
          </div>
+         <br>
+          <div id="productImgArea">
+            <h5>상품이미지를 업로드해주세요</h5>
+              <img :src="productImgPath" id="productImg"  >
+              <br>
+              <input type="file" id="img2" class="mt-2" name="img2" accept=".gif, .jpg, .png" @change="imgUpload" >
+              <br>
+          </div>
           <input type="button" value="상품등록"  @click="insert" />
        </div>
        <br>
@@ -83,6 +97,7 @@ export default {
       eventFlag:false,
       dateArr:[],
       defaultText2:'',
+      productImgPath:'',
     }
   },
   created(){
@@ -92,13 +107,32 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
-    deleteOneEvent(date){
-      alert(date);
+   imgUpload(){
+      const frm = new FormData();
+      frm.append("upload",document.getElementById('img2').files[0]);
+      requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
+        console.log(result);
+        if(result.flag){
+          this.productImgPath=result.message;
+          return;
+        }
+        alert('파일 업로드에 실패했습니다');
+
+      });
     },
     insert(){
+      //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){
         var events=document.getElementsByClassName('eventPrice');
-        alert(events.length);
+        var len=this.dateArr.length;
+        for(var i=0;i<events.length;i++){
+          for(var ii=0;ii<len;ii++){
+            if(this.dateArr[ii].date==events[i].id){
+              this.dateArr[ii].price=events[i].value;
+              break;
+            }
+          }
+        }
       }
     },
     saveDate(){
@@ -108,6 +142,7 @@ export default {
       var chooseDate=getValueById('eventDate');
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
+      dateAndPrice.price=0;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
       //가격 입력창만들기
