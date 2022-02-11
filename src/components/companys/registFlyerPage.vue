@@ -1,11 +1,13 @@
 <template>
     <div class="marginLeftSideSize margintopNavSize">
-       <h3>전단이미지를 등록해주세요</h3>
-      <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
-      <br>
-       <img :src="imgPath" id="flyerImg" hidden>
-       <br>
+      <div>
+         <h3>전단이미지를 등록해주세요</h3>
+          <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
+          <br>
+          <img :src="imgPath" id="flyerImg" hidden>
+          <br>
        {{defaultText}}
+      </div>
        <div id="insertProductArea" ><!--hidden-->
        <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
@@ -18,15 +20,32 @@
             <option value="공산품(비)">비식품</option>
             <option value="잡화">잡화</option>
          </select>
-         <h5>행사 여부</h5>
-          진행함<input type="checkbox" value="1" @change="doEvent">
-          <div id="eventInfor" hidden>
-            이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
-            <br>
-            <div id="eventPriceArea" >
-              {{defaultText2}}
-            </div>
+         <div id="eventArea">
+              <h5>행사 여부</h5>
+              진행함<input type="checkbox" value="1" @change="doEvent">
+              <div id="eventInfor" hidden>
+                이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
+                <br>
+                <div id="eventPriceArea" >
+                  {{defaultText2}}
+                </div>
           </div>
+         </div>
+         <div id="inforArea">
+            기본 가격을 입력해주세요
+            <br>
+            (가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000)
+            <br>
+            <input type="text" placeholder="ex)1,000" />
+            <br>
+            원산지를 입력해주세요
+            <br>
+            <input type="text" placeholder="원산지"/>
+            <br>
+            간단한 상품설명을 입력해주세요(필수아님)
+            <editor  class="mt-2" :text="null" ref="ck_editor" />
+         </div>
+      
        </div>
        <br>
        <br>
@@ -50,7 +69,9 @@
 </style>
 <script>
 import {  getParam, getValueById, requestFormAsyncToPost } from '../../jslib'
+import editor from '../editor.vue';
 export default {
+  components: { editor },
   name: 'insertFlyerPage',
    data() {
     return {
