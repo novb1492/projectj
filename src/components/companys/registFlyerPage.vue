@@ -1,12 +1,32 @@
 <template>
     <div class="marginLeftSideSize margintopNavSize">
+       <h3>전단이미지를 등록해주세요</h3>
       <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
       <br>
-       <img :src="imgPath" id="flyerImg" alt="이미지를 업로드해주세요">
+       <img :src="imgPath" id="flyerImg" hidden>
        <br>
        {{defaultText}}
-       <div id="insertProductArea" hidden>
-         
+       <div id="insertProductArea" ><!--hidden-->
+       <h3>상품을 등록해주세요</h3>
+        <h5>상품카테고리</h5>
+         <select style="width:200px;">
+            <option value="공산품">공산품</option>
+            <option value="청과야채">청과/야채</option>
+            <option value="수산물">수산물</option>
+            <option value="축산물">축산물</option>
+            <option value="공산품(식)">식품</option>
+            <option value="공산품(비)">비식품</option>
+            <option value="잡화">잡화</option>
+         </select>
+         <h5>행사 여부</h5>
+          진행함<input type="checkbox" value="1" @change="doEvent">
+          <div id="eventInfor" hidden>
+            이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
+            <br>
+            <div id="eventPriceArea" >
+              {{defaultText2}}
+            </div>
+          </div>
        </div>
        <br>
        <br>
@@ -26,10 +46,10 @@
 </template>
 <style>
 #textArea{width: 100%;}
-#flyerImg{ width: 100%; height: 100%;}
+#flyerImg{ width: 100%; height: 600px;}
 </style>
 <script>
-import {  getParam, requestFormAsyncToPost } from '../../jslib'
+import {  getParam, getValueById, requestFormAsyncToPost } from '../../jslib'
 export default {
   name: 'insertFlyerPage',
    data() {
@@ -39,6 +59,9 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       text:'',
       defaultText:'',
+      eventFlag:false,
+      dateArr:[],
+      defaultText2:'',
     }
   },
   created(){
@@ -48,6 +71,27 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
+    saveDate(){
+      this.defaultText2='가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000';
+      var dateAndPrice=new Object;
+      var chooseDate=getValueById('eventDate');
+      dateAndPrice.date=chooseDate;
+      this.dateArr[this.dateArr.length]=dateAndPrice;
+      var eventPriceArea = document.getElementById('eventPriceArea');
+      var p=document.createElement('p');
+      p.innerHTML=chooseDate+"날의 가격"+"<input type='text' placeholder='ex)1,000' id='"+dateAndPrice.date+"' class='eventPrice' />"
+      eventPriceArea.appendChild(p);
+    },
+    doEvent(){
+      if(this.eventFlag){
+        document.getElementById('eventInfor').hidden=true;
+        this.eventFlag=false;
+      }else{
+        //false 일때 check가되고 flag->true가됨 그래서 false일때 히든해제
+        document.getElementById('eventInfor').hidden=false;
+        this.eventFlag=true;
+      }
+    },
     getSubSideVarIds(){
       return this.subSideVarIds;
     },
@@ -60,6 +104,7 @@ export default {
       requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet',frm).then(result=>{
         console.log(result);
         if(result.flag){
+          document.getElementById('flyerImg').hidden=false;
           this.imgPath=result.message;
           this.defaultText='';
           this.text=result.ocr.message;
