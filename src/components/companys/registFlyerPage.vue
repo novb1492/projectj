@@ -5,8 +5,19 @@
        <img :src="imgPath" id="flyerImg" alt="이미지를 업로드해주세요">
        <br>
        {{defaultText}}
+       <div id="insertProductArea" hidden>
+         
+       </div>
+       <br>
+       <br>
        <div>
          추출한 글자들
+         <br>
+         원래 이글자들로 전단이 클릭되면 반응 하게 하려했으나
+         <br>
+         말도안되는 기술이라는걸 깨닫고 포기하고.. 
+         <br>
+         맛보기 ocr 만 구축 해논 상태입니다
        </div>
         <div>
           {{text}}
@@ -51,8 +62,8 @@ export default {
         if(result.flag){
           this.imgPath=result.message;
           this.defaultText='';
-          alert(result.ocr.message.length);
           this.text=result.ocr.message;
+          document.getElementById('insertProductArea').hidden=false;
           return;
         }
         alert('파일 업로드에 실패했습니다');
