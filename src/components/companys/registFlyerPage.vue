@@ -25,7 +25,7 @@
          <br>
          ex)소고기 150g
          <br>
-         <input type="text" placeholder="상품이름을 입력해주세요">
+         <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
          <div id="eventArea">
               <h5>행사 여부</h5>
               진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
@@ -82,7 +82,7 @@
 #flyerImg{ width: 100%; height: 600px;}
 </style>
 <script>
-import {  getParam, getValueById, requestFormAsyncToPost } from '../../jslib'
+import {  changeValueById, getParam, getValueById, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
   components: { editor },
@@ -134,6 +134,10 @@ export default {
           }
         }
       }
+      this.closeEvent();
+      changeValueById('productName','');
+      alert('vv');
+
     },
     saveDate(){
       this.defaultText2='가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000';
@@ -160,13 +164,16 @@ export default {
         var len=document.getElementsByClassName('eventPrice').length;
         //0개라면 플래그 꺼주기
         if(len==0){
-          document.getElementById("eventCheck").checked = false;
-          this.eventFlag=false;
-          document.getElementById('eventInfor').hidden=true;
+          this.closeEvent();
         }
       });
       eventPriceArea.appendChild(p);
       eventPriceArea.appendChild(p2);
+    },
+    closeEvent(){
+      document.getElementById("eventCheck").checked = false;
+      this.eventFlag=false;
+      document.getElementById('eventInfor').hidden=true;
     },
     doEvent(){
       if(this.eventFlag){
