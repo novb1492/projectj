@@ -134,6 +134,7 @@ export default {
           }
         }
       }
+      ㄴㄴㄴ
       this.closeEvent();
       changeValueById('productName','');
       alert('vv');
