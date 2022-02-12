@@ -42,9 +42,9 @@
          <div id="inforArea">
             기본 가격을 입력해주세요
             <br>
-            (가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000)
+            (가격은 한글없이 입력해주세요 ex)1000)
             <br>
-            <input type="text" id="price" placeholder="ex)1,000" />
+            <input type="text" id="price" placeholder="ex)1000" />
             <br>
             원산지를 입력해주세요
             <br>
@@ -139,10 +139,14 @@ export default {
         }
         
       }
+      var eFlag=0;
+      if(this.eventFlag){
+        eFlag=1;
+      }
       var category=document.getElementById("category");
       let data=JSON.stringify({
         "productName":getValueById('productName'),
-        "eventFlag":this.eventFlag,
+        "eventFlag":eFlag,
         "eventInfors":this.dateArr,
         "price":getValueById('price'),
         "text":this.$refs.ck_editor.getText(),
@@ -181,7 +185,7 @@ export default {
 
     },
     saveDate(){
-      this.defaultText2='가격은 한글없이 ,(쉼표)로 구분해서 입력해주세요 ex)1,000';
+      this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
       //날짜 가져오기
       var chooseDate=getValueById('eventDate');
