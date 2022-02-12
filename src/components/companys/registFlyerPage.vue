@@ -7,6 +7,7 @@
           <img :src="imgPath" id="flyerImg" hidden>
           <br>
           <h5>전단고유번호</h5>
+          (업로드시 자동발급)
           <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
        {{defaultText}}
       </div>
@@ -199,7 +200,7 @@ export default {
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1,000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
       p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{
