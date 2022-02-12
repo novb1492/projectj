@@ -8,6 +8,7 @@
           <br>
           <h5>전단고유번호</h5>
           (업로드시 자동발급)
+          <br>
           <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
        {{defaultText}}
       </div>
