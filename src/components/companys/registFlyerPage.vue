@@ -6,11 +6,11 @@
           <br>
           <img :src="imgPath" id="flyerImg" hidden>
           <br>
-          <h5>전단이름을입력해주세요</h5>
-          <input type="text" placeholder="전단이름" id="flyerName"/>
+          <h5>전단고유번호</h5>
+          <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" disabled/>
        {{defaultText}}
       </div>
-       <div id="insertProductArea" ><!--hidden-->
+       <div id="insertProductArea" hidden><!--hidden-->
        <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
          <select id="category" style="width:200px;">
@@ -101,6 +101,7 @@ export default {
       defaultText2:'',
       productImgPath:'',
       ids:['productName','price','origin','img2','eventDate'],
+      flyerId:'',
     }
   },
   created(){
@@ -117,6 +118,7 @@ export default {
         console.log(result);
         if(result.flag){
           this.productImgPath=result.message;
+          this.flyerId=result.id;
           return;
         }
         alert('파일 업로드에 실패했습니다');
@@ -146,7 +148,7 @@ export default {
         "price":getValueById('price'),
         "text":this.$refs.ck_editor.getText(),
         "category":category.options[category.selectedIndex].value,
-        "flyerName":getValueById('flyerName'),
+        "flyerId":this.flyerId,
         "flyerPath":this.imgPath,
         "productImgPath":this.productImgPath,
         "origin":getValueById('origin'),
@@ -240,6 +242,7 @@ export default {
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
       frm.append("upload",document.getElementById('img').files[0]);
+      frm.append("storeId",this.storeId);
       console.log(frm);
      this.defaultText='글자를 추출중입니다 시간이 걸리니 페이지를 벗어나지 마세요';
       requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet',frm).then(result=>{
