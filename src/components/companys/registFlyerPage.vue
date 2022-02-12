@@ -7,7 +7,7 @@
           <img :src="imgPath" id="flyerImg" hidden>
           <br>
           <h5>전단고유번호</h5>
-          <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" disabled/>
+          <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
        {{defaultText}}
       </div>
        <div id="insertProductArea" hidden><!--hidden-->
@@ -118,7 +118,6 @@ export default {
         console.log(result);
         if(result.flag){
           this.productImgPath=result.message;
-          this.flyerId=result.id;
           return;
         }
         alert('파일 업로드에 실패했습니다');
@@ -245,13 +244,14 @@ export default {
       frm.append("storeId",this.storeId);
       console.log(frm);
      this.defaultText='글자를 추출중입니다 시간이 걸리니 페이지를 벗어나지 마세요';
-      requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet',frm).then(result=>{
+      requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet/'+this.storeId,frm).then(result=>{
         console.log(result);
         if(result.flag){
           document.getElementById('flyerImg').hidden=false;
           this.imgPath=result.message;
           this.defaultText='';
           this.text=result.ocr.message;
+          this.flyerId=result.id;
           document.getElementById('insertProductArea').hidden=false;
           return;
         }
