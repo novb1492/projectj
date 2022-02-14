@@ -14,13 +14,13 @@ export default {
   name: 'flyerStPage',
   data() {
     return {
-      storeId:getParam('storeId'),
+      storeId:getParam('storeid'),
       page:getParam('page'),
       keyword:getParam('keyword'),
     }
   },
   mounted(){
-    requestAsyncToGet(this.$serverDomain+'/auth/store/gets/flyers/'+this.storeId+'/'+this.page+'/'+this.keyword).then(result=>{
+    requestAsyncToGet(this.$serverDomain+'/auth/store/gets/flyers/'+this.page+'/'+null+','+null+'?storeId='+this.storeId).then(result=>{
       console.log(result);
     });
   }
