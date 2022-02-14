@@ -72,7 +72,7 @@ export default {
       this.reqestServer(page,keyword);
     },
     reqestServer(page,keyword){
-     return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/'+page+'/'+keyword).then(result=>{
+     return modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/stores/'+page+'/'+keyword).then(result=>{
         console.log(result);
         //예외발생 혹은 검색결과없을때
         if(!result.flag){

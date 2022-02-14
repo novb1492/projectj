@@ -34,6 +34,7 @@ export default {
       websocket:null,
       deliveryFlag:false,
       deliveryFlagText:'deliveryFlag',
+      state:modules.getParam('state'),
       roomId:0,
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
@@ -63,13 +64,13 @@ export default {
     changeDate(){
       this.start=modules.getValueById('start');
       this.end=modules.getValueById('end');
-      this.$router.push("/companyPage/3?page=1&start="+this.start+'&end='+this.end+'&storeid='+this.storeId);
+      this.$router.push("/companyPage/3?page=1&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+this.state);
     },
     backEvent(page,start,end){
       this.requestServer(page,start,end);
     },
     requestServer(page,start,end){
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+this.storeId+'/'+start+'/'+end+'/'+modules.getParam('state')).then(result=>{
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+start+','+end+'?state='+this.state+'&storeId='+this.storeId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
@@ -91,7 +92,7 @@ export default {
     })
     },
     changePage(num){
-      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
+      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+this.state);
     },
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
