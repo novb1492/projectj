@@ -42,7 +42,6 @@ export default {
   },
   created(){
    this.deliveryFlag=localStorage.getItem(this.deliveryFlagText);
-   console.log(this.deliveryFlag);
     this.$emit('openSubSide',this.subSideVarIds);
     //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
@@ -50,9 +49,7 @@ export default {
   },
   methods : {
     changeDate(){
-      this.start=modules.getValueById('start');
-      this.end=modules.getValueById('end');
-      this.$router.push("/companyPage/3?page=1&start="+this.getStart()+'&end='+this.getEnd()+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
+      this.$router.push("/companyPage/3?page=1&start="+modules.getValueById('start')+'&end='+modules.getValueById('end')+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
     backEvent(page,start,end){
       this.requestServer(page,start,end);
@@ -98,6 +95,7 @@ export default {
     getPage(){
       return modules.getParam('page');
     }
+    
   }
 }
 </script>
