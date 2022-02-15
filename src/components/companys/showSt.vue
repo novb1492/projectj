@@ -53,7 +53,7 @@ export default {
     }
   },
   created(){
-      this.reqestServer(modules.getParam('page'),modules.getParam('keyword'));
+      this.reqestServer(this.getPage(),this.getKeyword());
     
   },
   mounted(){
@@ -98,11 +98,10 @@ export default {
       });
     },
     showStore(id){
-     var arr = { id: id, page: this.page, keyword: this.keyword};
-     this.$router.push('/companyPage/2?storeid='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
+     this.$router.push('/companyPage/2?storeid='+id+'&page='+this.getPage()+'&keyword='+this.getKeyword());
     },
     search(){
-      this.getStores(1,modules.getValueById('searchinput'));
+     this.$router.push('/companyPage/1?&page=1&keyword='+modules.getValueById('searchinput'));
     },
     changePage(num){
       console.log(num);
@@ -111,12 +110,11 @@ export default {
       }  
       this.$router.push("/companyPage/1?page="+(this.page*1+num)+"&keyword="+this.keyword);
     },
-    getStores(page,keyword){
-      this.reqestServer(page,keyword).then(result=>{
-        if(result){
-          this.$router.push("/companyPage/1?page="+page+"&keyword="+keyword);
-        }
-      });
+    getPage(){
+      return modules.getParam('page');
+    },
+    getKeyword(){
+      return modules.getParam('keyword');
     },
   },
 }

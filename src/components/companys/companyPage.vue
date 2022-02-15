@@ -2,7 +2,7 @@
   <div id="container">
     <side-bar ref="side_var"  v-on:clickStore="clickStore"/>
     <span v-if="choose==1">
-      <show-st :page=page :keyword=keyword  ref="show_st"  />
+      <show-st ref="show_st"  />
     </span>
     <span v-else-if="choose==2">
       <show-store-detail-page v-on:changePageAndKeyword="changePageAndKeyword" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" ref="store_detail"/>
