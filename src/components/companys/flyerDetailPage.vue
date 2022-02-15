@@ -10,18 +10,23 @@
 
 </style>
 <script>
-import { getParam } from '../../jslib'
+import { getParam, requestAsyncToGet } from '../../jslib'
 export default {
   name: 'flyerDetailPage',
    data() {
     return {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
-      flyerArr:[],
     }
   },
   created(){
-
+    //사이드바 생성
+    this.$emit('openSubSide',this.subSideVarIds);
+    //새로고침 대응
+    this.$emit('changeStoreId',this.storeId);
+    requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')).then(result=>{
+        console.log(result);
+    });
   },
   methods:{
 
