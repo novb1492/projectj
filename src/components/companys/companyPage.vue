@@ -96,10 +96,6 @@ export default {
        ///companyPage/1는 같은 라우터내에서 뒤로/앞으로가기시 페이지별로 내용이 달라야한다
       if(to.path=='/companyPage/1'&&from.path=='/companyPage/1'){
         this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
-      }else if(from.path=='/companyPage/1'&&to.path!='/companyPage/1'){
-        //목록에서 이동한다면 뒤로가기시 대응으로 현재 페이지검색어를 저장한다
-        this.page=from.query.page;
-        this.keyword=from.query.keyword;
       }else if(to.path=='/companyPage/3'&&from.path=='/companyPage/3'){
         this.$refs.delivery_page.backEvent(getParam('page'),getParam('start'),getParam('end'));
       }

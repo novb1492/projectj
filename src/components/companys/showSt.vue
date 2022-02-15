@@ -23,7 +23,7 @@
     </ul> 
    <div id="buttonArea">
     <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
-    <span>{{inPage}}</span>/<span>{{totalPage}}</span>
+    <span>{{page}}</span>/<span>{{totalPage}}</span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
     <br>
     <input type="text" id="searchinput" @keyup.enter="search"> 
@@ -40,7 +40,6 @@ img{width: 150px;height: 150px;}
 import * as modules from '../../jslib';
 export default {  
   name: 'showStorsPage',
-  props:['page','keyword'],
   data() {
     return {
         email:null,
@@ -48,20 +47,14 @@ export default {
         totalPage:null,
         shops:[],
         sessionStorageName:'showSt',
-        inPage:this.page,
-        inKeyword:this.keyword,
+        page:1,
+        keyword:null,
         
     }
   },
   created(){
-    //비정상접근시/사이드바에서 접근시 페이지,키워드임의로 부여
-    if(modules.checkNull(this.inPage)){
-      this.inPage=1;
-      this.inKeyword=null;
-      this.getStores(this.inPage,this.inKeyword);
-    }else{//정상적인접근일때
-      this.reqestServer(this.inPage,this.inKeyword);
-    }
+      this.reqestServer(modules.getParam('page'),modules.getParam('keyword'));
+    
   },
   mounted(){
     document.getElementById('showStorsPage').style.left=this.$sideVarWitdh+'px';
@@ -79,33 +72,33 @@ export default {
           alert(result.message);
           return false;
         }
-        this.inPage=page;
-        this.inKeyword=keyword;
+        this.page=page;
+        this.keyword=keyword;
         this.shops=result.message.message;
         this.totalPage=result.message.totalPage;
-        if(this.inPage>=this.totalPage){
+        if(this.page>=this.totalPage){
           modules.disabledById('nextbutton',true);
         }else{
           modules.disabledById('nextbutton',false);
         } 
-        if(this.inPage<=1){
+        if(this.page<=1){
           modules.disabledById('beforebutton',true);
         }else{
           modules.disabledById('beforebutton',false);
         }
         //null인경우 공백으로 표시
         var k=null;
-        if(this.inKeyword=="null"){
+        if(this.keyword=="null"){
           k="";
         }else{
-          k=this.inKeyword;
+          k=this.keyword;
         }
         document.getElementById('searchinput').value=k; 
         return true;
       });
     },
     showStore(id){
-     var arr = { id: id, page: this.inPage, keyword: this.inKeyword};
+     var arr = { id: id, page: this.page, keyword: this.keyword};
      this.$router.push('/companyPage/2?storeid='+arr.id+'&page='+arr.page+'&keyword='+arr.keyword);
     },
     search(){
@@ -113,10 +106,10 @@ export default {
     },
     changePage(num){
       console.log(num);
-      if(this.inPage==null){
+      if(this.page==null){
         return;
       }  
-      this.$router.push("/companyPage/1?page="+(this.inPage*1+num)+"&keyword="+this.inKeyword);
+      this.$router.push("/companyPage/1?page="+(this.page*1+num)+"&keyword="+this.keyword);
     },
     getStores(page,keyword){
       this.reqestServer(page,keyword).then(result=>{

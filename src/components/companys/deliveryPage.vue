@@ -38,9 +38,6 @@ export default {
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
       storeId:modules.getParam('storeid'),
-      page:0,
-      start:modules.getParam('start'),
-      end:modules.getParam('end'),
     }
   },
   created(){
@@ -49,26 +46,13 @@ export default {
     this.$emit('openSubSide',this.subSideVarIds);
     //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
-    this.requestServer(modules.getParam('page'),this.start,this.end);
-  },
-  mounted(){
-    if(!modules.checkNull(this.start)){
-      modules.changeValueById('start',this.start);
-    }else{
-      modules.changeValueById('start',"");
-    }
-    if(!modules.checkNull(this.end)){
-      modules.changeValueById('end',this.end);
-    }else{
-      modules.changeValueById('end',"");
-    }
-    
+    this.requestServer(this.getPage(),this.getStart(),this.getEnd());
   },
   methods : {
     changeDate(){
       this.start=modules.getValueById('start');
       this.end=modules.getValueById('end');
-      this.$router.push("/companyPage/3?page=1&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
+      this.$router.push("/companyPage/3?page=1&start="+this.getStart()+'&end='+this.getEnd()+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
     backEvent(page,start,end){
       this.requestServer(page,start,end);
@@ -82,7 +66,6 @@ export default {
         return;
       }
       this.rooms=result.message;
-      this.page=page;
       if(page<=1){
         modules.disabledById('beforeButton',true);
       }else{
@@ -93,17 +76,28 @@ export default {
       }else{
         modules.disabledById('nextButton',false);
       }
+      modules.changeValueById('start',this.getStart());
+      modules.changeValueById('end',this.getEnd());
     })
     },
     changePage(num){
-      this.$router.push("/companyPage/3?page="+(this.page*1+num*1)+"&start="+this.start+'&end='+this.end+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
+      this.$router.push("/companyPage/3?page="+(this.getPage()*1+num*1)+"&start="+this.getStart()+'&end='+this.getEnd()+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
     },
-    getSubSideVarIds(){//페이지 이탈시 사용
+    getSubSideVarIds(){
       return this.subSideVarIds;
     },
+    getStart(){
+      return modules.getParam('start');
+    },
+    getEnd(){
+      return modules.getParam('end');
+    },
+    getPage(){
+      return modules.getParam('page');
+    }
   }
 }
 </script>
