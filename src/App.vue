@@ -17,6 +17,20 @@ export default {
     foot
     //HelloWorld
   },
+  created() {
+    //부트스트랩
+    var recaptchaScript = document.createElement('script');
+    recaptchaScript.setAttribute('src', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js');
+    recaptchaScript.setAttribute('integrity', 'sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM');
+    recaptchaScript.setAttribute('crossorigin','anonymous');
+    document.head.appendChild(recaptchaScript);
+    recaptchaScript = document.createElement('link');
+    recaptchaScript.setAttribute('href', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css');
+    recaptchaScript.setAttribute('rel', 'stylesheet');
+    recaptchaScript.setAttribute('integrity','sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC');
+    recaptchaScript.setAttribute('crossorigin','anonymous');
+    document.head.appendChild(recaptchaScript);
+  },
   methods:{
     searchStore(text){
       this.$refs.router_view.callSearch(text);

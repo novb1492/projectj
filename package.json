@@ -17,6 +17,7 @@
     "sockjs-client": "^1.5.2",
     "vue": "^2.6.11",
     "vue-daum-postcode": "^0.10.0",
+    "vue-head": "^2.2.0",
     "vue-router": "^3.5.3",
     "vue2-datepicker": "^3.10.4",
     "webstomp-client": "^1.2.6"
