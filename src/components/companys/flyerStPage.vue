@@ -4,13 +4,13 @@
              <span v-for="(flyer,index) in this.flyerArr" :key="index">
                <li style="float: left; margin-left: 10px;" > 
                  <a href="#" >
-                  <img :src="flyer.img_path" style="width: 200px;"  alt="">
+                  <img :src="flyer.flyer_img_path" style="width: 200px;"  alt="">
                   <br>
                   전단고유번호:
-                  {{flyer.fid}}
+                  {{flyer.flyer_id}}
                   <br>
                   업로드일:
-                  {{flyer.fcreated}}
+                  {{flyer.flyer_created}}
                 </a>
               </li>
              </span>
@@ -76,7 +76,7 @@ export default {
           disabledById('nextbutton',false);
         }
         document.getElementById('nowPage').innerHTML=page;
-        document.getElementById('totalPage').innerHTML=5;
+        document.getElementById('totalPage').innerHTML=result.totalPage;
         changeValueById('start',start);
         changeValueById('end',end);
       });
