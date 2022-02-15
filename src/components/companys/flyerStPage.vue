@@ -3,7 +3,7 @@
         <ul id="listArea">
              <span v-for="(flyer,index) in this.flyerArr" :key="index">
                <li style="float: left; margin-left: 10px;" > 
-                 <a href="#" >
+                 <a href="#" @click="goDetail(flyer.flyer_id)">
                   <img :src="flyer.flyer_img_path" style="width: 200px;"  alt="">
                   <br>
                   전단고유번호:
@@ -48,6 +48,9 @@ export default {
     this.requestServer(this.getPage(),this.getStart(),this.getEnd());
   },
   methods:{
+    goDetail(id){
+      this.$router.push("/companyPage/7?storeid="+this.storeId+"&page="+this.getPage()+"&start="+getValueById('start')+"&end="+getValueById('end')+"&flyerid="+id);
+    },
     changeDate(){
       this.$router.push("/companyPage/5?storeid="+this.storeId+"&page=1&start="+getValueById('start')+"&end="+getValueById('end'));
     },

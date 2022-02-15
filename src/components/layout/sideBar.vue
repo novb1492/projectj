@@ -77,7 +77,7 @@
           모든매장보기
         </button>
       </li>
-      <li class="mb-1">
+      <!--<li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
           주문조회
         </button>
@@ -89,7 +89,7 @@
             <li><a href="#" class="link-dark rounded">환불된주문</a></li>
           </ul>
         </div>
-      </li>
+      </li>-->
       <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
           매출차트보기
@@ -97,9 +97,7 @@
         <div class="collapse" id="orders-collapse" style="">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="#" class="link-dark rounded">기간별</a></li>
-            <li><a href="#" class="link-dark rounded">품목별</a></li>
-            <li><a href="#" class="link-dark rounded">Shipped</a></li>
-            <li><a href="#" class="link-dark rounded">Returned</a></li>
+            <li><a href="#" class="link-dark rounded">매장별</a></li>
           </ul>
         </div>
       </li>

@@ -19,6 +19,9 @@
     <span v-else-if="choose==6">
       <regist-flyer-page ref="regist_flyer" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
     </span>
+    <span v-else-if="choose==7">
+      <flyer-detail-page ref="flyer_detail" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
+    </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ref="childComponet" ></component>
     </span>
@@ -31,6 +34,7 @@ import {  getParam } from '../../jslib';
 import SideBar from '../layout/sideBar.vue';
 import DeliveryDetailPage from './deliveryDetailPage.vue';
 import DeliveryPage from './deliveryPage.vue';
+import FlyerDetailPage from './flyerDetailPage.vue';
 import FlyerStPage from './flyerStPage.vue';
 import RegistFlyerPage from './registFlyerPage.vue';
 import ShowSt from './showSt.vue';
@@ -72,6 +76,7 @@ export default {
       DeliveryDetailPage,
       RegistFlyerPage,
       FlyerStPage,
+      FlyerDetailPage,
   },
   computed:{
     chooseComponet(){
