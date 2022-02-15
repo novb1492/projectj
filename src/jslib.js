@@ -35,7 +35,7 @@ export function wrongAccese(){
     location.href='/';
 }
 export function checkNull(val){
-    if(val==null||val==undefined||val==''){
+    if(val==null||val==undefined||val==''||val=='null'){
         return true;
     }
 }

@@ -23,7 +23,7 @@
     </ul> 
    <div id="buttonArea">
     <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
-    <span>{{page}}</span>/<span>{{totalPage}}</span>
+    <span id="nowPage" ></span>/<span id="totalPage" ></span>
     <input type="button" @click="changePage(-1)" id="beforebutton" value="뒤로">
     <br>
     <input type="text" id="searchinput" @keyup.enter="search"> 
@@ -46,10 +46,7 @@ export default {
         storesArr:null,
         totalPage:null,
         shops:[],
-        sessionStorageName:'showSt',
-        page:1,
-        keyword:null,
-        
+        sessionStorageName:'showSt',        
     }
   },
   created(){
@@ -72,28 +69,26 @@ export default {
           alert(result.message);
           return false;
         }
-        this.page=page;
-        this.keyword=keyword;
         this.shops=result.message.message;
-        this.totalPage=result.message.totalPage;
-        if(this.page>=this.totalPage){
+        var totalPage=result.message.totalPage;
+        if(page>=totalPage){
           modules.disabledById('nextbutton',true);
         }else{
           modules.disabledById('nextbutton',false);
         } 
-        if(this.page<=1){
+        if(page<=1){
           modules.disabledById('beforebutton',true);
         }else{
           modules.disabledById('beforebutton',false);
         }
         //null인경우 공백으로 표시
-        var k=null;
-        if(this.keyword=="null"){
-          k="";
-        }else{
-          k=this.keyword;
+        var keyword=this.getKeyword();
+        if(modules.checkNull(keyword)){
+          keyword="";
         }
-        document.getElementById('searchinput').value=k; 
+        document.getElementById('searchinput').value=keyword; 
+        document.getElementById('nowPage').innerHTML=page;
+        document.getElementById('totalPage').innerHTML=totalPage;
         return true;
       });
     },
@@ -104,11 +99,7 @@ export default {
      this.$router.push('/companyPage/1?&page=1&keyword='+modules.getValueById('searchinput'));
     },
     changePage(num){
-      console.log(num);
-      if(this.page==null){
-        return;
-      }  
-      this.$router.push("/companyPage/1?page="+(this.page*1+num)+"&keyword="+this.keyword);
+      this.$router.push("/companyPage/1?page="+(this.getPage()*1+num)+"&keyword="+this.getKeyword());
     },
     getPage(){
       return modules.getParam('page');
