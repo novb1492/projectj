@@ -14,7 +14,7 @@
         <delivery-detail-page ref="deliver_detail"/>
     </span>
     <span v-else-if="choose==5">
-        <flyer-st-page ref="flyer_st" />
+        <flyer-st-page ref="flyer_st"  v-on:openSubSide="openSubSide" />
     </span>
     <span v-else-if="choose==6">
       <regist-flyer-page ref="regist_flyer" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
@@ -98,6 +98,8 @@ export default {
         this.$refs.show_st.backEvent(getParam('page'),getParam('keyword'));
       }else if(to.path=='/companyPage/3'&&from.path=='/companyPage/3'){
         this.$refs.delivery_page.backEvent(getParam('page'),getParam('start'),getParam('end'));
+      }else if(to.path=='/companyPage/5'&&from.path=='/companyPage/5'){
+        this.$refs.flyer_st.backEvent(getParam('page'),getParam('start'),getParam('end'));
       }
     },
     subSideVarOnOff(to,from){

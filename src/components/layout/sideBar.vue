@@ -187,7 +187,7 @@ export default {
       }else if(pageNum==4){
         this.$emit('clickStore',null);
       }else if(pageNum==5){
-        this.$router.push('/companyPage/5?storeid='+getParam('storeid')+'&page=1&keyword=null');
+        this.$router.push('/companyPage/5?storeid='+getParam('storeid')+'&page=1&start=null&end=null');
       }else if(pageNum==6){
         this.$router.push('/companyPage/6?storeid='+getParam('storeid'));
       }else{

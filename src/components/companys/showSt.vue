@@ -5,7 +5,7 @@
       <span v-for="(shop,index) in this.shops" :key="index">
         <li style="float: left; margin-left: 10px;">
           <a href="#" @click="showStore(shop.sid)">
-            <img :src="shop.thumb_nail" alt="">
+            <img :src="shop.thumb_nail" id="shopImg" alt="">
             <br>
             {{shop.store_name}}
             <br>
@@ -34,7 +34,7 @@
   </div>
 </template>
 <style>
-img{width: 150px;height: 150px;}
+#shopImg{width: 150px;height: 150px;}
 </style>
 <script>
 import * as modules from '../../jslib';
