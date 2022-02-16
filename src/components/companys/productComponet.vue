@@ -105,8 +105,7 @@ export default {
         for(var i=0;i<this.productAndEvents.event.length;i++){
           //false 여야함
          // this.eventFlag=!this.productAndEvents.product.eventFlag;
-          this.saveDateCore(this.productAndEvents.event[i].date);
-         // document.getElementById('eventCheck').checked=true;
+          this.saveDateCore(this.productAndEvents.event[i].date,this.productAndEvents.event[i].eventPrice);
           this.eventInfor=this.eventInfor+this.productAndEvents.event[i].id;
         }
       }
@@ -202,14 +201,14 @@ export default {
       });
     },
     saveDate(){
-      this.saveDateCore(getValueById('eventDate'));
+      this.saveDateCore(getValueById('eventDate'),'');
     },
-    saveDateCore(chooseDate){
+    saveDateCore(chooseDate,price){
       this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
-      dateAndPrice.price=0;
+      dateAndPrice.price=price;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
        console.log(this.dateArr);
@@ -217,7 +216,7 @@ export default {
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' value="+price+" /></span>";
       p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{
