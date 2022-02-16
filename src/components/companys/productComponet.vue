@@ -33,7 +33,7 @@
             <br>
             (가격은 한글없이 입력해주세요 ex)1000)
             <br>
-            <input type="text" id="price" placeholder="ex)1000" />
+            <input type="text" id="price" placeholder="ex)1000" :value="price" />
             <br>
             원산지를 입력해주세요
             <br>
@@ -78,13 +78,15 @@ export default {
       defaultText2:'',
       productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
+      price:0,
     }
   },
   mounted(){
     if(this.flag){
       console.log(this.product);
       this.productImgPath=this.product.productImgPath;
-      changeValueById('price',this.product.price);
+      this.price=this.product.price;
+      changeValueById('price',this.price);
     }
     
   },
