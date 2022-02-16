@@ -59,13 +59,13 @@
     </div>
 </template>
 <style>
-
+#productImg{width: 300px;}
 </style>
 <script>
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag','product'],
+  props:['flyerId','storeId','flag','product','events'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -81,7 +81,12 @@ export default {
     }
   },
   mounted(){
-    console.log(this.product);
+    if(this.flag){
+      console.log(this.product);
+      this.productImgPath=this.product.productImgPath;
+      changeValueById('price',this.product.price);
+    }
+    
   },
   methods:{
     insert(){
