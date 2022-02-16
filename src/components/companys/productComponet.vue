@@ -65,7 +65,7 @@
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag','product','events'],
+  props:['flyerId','storeId','flag','productAndEvents','events'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -88,14 +88,19 @@ export default {
   },
   mounted(){
     if(this.flag){
-      console.log(this.product);
-      this.productImgPath=this.product.productImgPath;
-      this.price=this.product.price;
-      this.origin=this.product.origin;
-      this.productName=this.product.productName;
-      this.editorText=this.product.text;
-      this.category=this.product.category;
-      console.log(this.events);
+      console.log(this.productAndEvents.product);
+      this.productImgPath=this.productAndEvents.product.productImgPath;
+      this.price=this.productAndEvents.product.price;
+      this.origin=this.productAndEvents.product.origin;
+      this.productName=this.productAndEvents.product.productName;
+      this.editorText=this.productAndEvents.product.text;
+      this.category=this.productAndEvents.product.category;
+      if(this.productAndEvents.product.eventFlag){
+        console.log(this.productAndEvents.event);
+        for(var i=0;i<this.productAndEvents.event.length;i++){
+          this.saveDateCore(this.productAndEvents.event[i].date);
+        }
+      }
     }
     
   },
@@ -187,10 +192,11 @@ export default {
       });
     },
     saveDate(){
+      this.saveDateCore(getValueById('eventDate'));
+    },
+    saveDateCore(chooseDate){
       this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
-      //날짜 가져오기
-      var chooseDate=getValueById('eventDate');
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
       dateAndPrice.price=0;

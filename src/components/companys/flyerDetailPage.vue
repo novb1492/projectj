@@ -12,9 +12,9 @@
             <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
             {{defaultText}}
          <ul>
-            <span v-for="(product,index) in products.length" :key="index">
+            <span v-for="(product,index) in productAndEvents.length" :key="index">
             <li style="float: left; margin-left: 10px;">
-                <product-componet :flag="true" :flyerId="flyerId" :storeId="storeId" ref="product_com" :product="products[index]" />
+                <product-componet :flag="true" :flyerId="flyerId" :storeId="storeId" ref="product_com" :productAndEvents="productAndEvents[index]" />
             </li>
           </span>
          </ul>
@@ -35,7 +35,7 @@ export default {
       return {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
-      products:[],
+      productAndEvents:0,
       flyerImgPath:null,
       events:null,
       flyerId:0,
@@ -60,7 +60,8 @@ export default {
         this.flyerImgPath=result.flyer.img_path;
         this.flyerId=result.flyer.id;
         if(result.productFlag){
-          this.products=result.products;
+          this.productAndEvents=result.productAndEvents;
+        
         }
         if(result.eventFlag){
           this.events=result.events;
