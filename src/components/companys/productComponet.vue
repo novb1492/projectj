@@ -50,15 +50,17 @@
               <input type="file" id="img2" class="mt-2" name="img2" accept=".gif, .jpg, .png" @change="imgUpload" >
               <br>
           </div>
+           <input type="button" value="상품등록"  @click="insert" />
     </div>
 </template>
 <style>
 
 </style>
 <script>
-import {   getValueById, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
+  props:['flyerId','storeId','flag'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -72,10 +74,72 @@ export default {
       defaultText2:'',
       productImgPath:'',
       ids:['productName','price','origin','img2','eventDate'],
-      flyerId:'',
     }
   },
   methods:{
+    insert(){
+      //이번트 날짜에 입력한 가격부여
+      if(this.eventFlag){
+        var events=document.getElementsByClassName('eventPrice');
+        var len=this.dateArr.length;
+        for(var i=0;i<events.length;i++){
+          for(var ii=0;ii<len;ii++){
+            if(this.dateArr[ii].date==events[i].id){
+              this.dateArr[ii].price=events[i].value;
+              break;
+            }
+          }
+        }
+        
+      }
+      var eFlag=0;
+      if(this.eventFlag){
+        eFlag=1;
+      }
+      var category=document.getElementById("category");
+      let data=JSON.stringify({
+        "productName":getValueById('productName'),
+        "eventFlag":eFlag,
+        "eventInfors":this.dateArr,
+        "price":getValueById('price'),
+        "text":this.$refs.ck_editor.getText(),
+        "category":category.options[category.selectedIndex].value,
+        "flyerId":this.flyerId,
+        "productImgPath":this.productImgPath,
+        "origin":getValueById('origin'),
+        "storeId":this.storeId
+      });
+      console.log(data);
+      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',data).then(result=>{
+        alert(result.message);
+        if(result.flag){
+          //다음 상품등록을 위해 전단 제외 비워주기
+          this.clearEvent();
+          this.clearValues();
+          this.dateArr=[];
+          this.$refs.ck_editor.setText('');
+          this.productImgPath=null;
+        }
+      });
+    },
+    clearValues(){
+      for(var i=0;i<this.ids.length;i++){
+        changeValueById(this.ids[i],'');
+      }
+    },
+    clearEvent(){
+      if(this.eventFlag){
+        document.getElementById('eventPriceArea').innerHTML='';
+      }
+      this.closeEvent();
+
+    },
+
+    closeEvent(){
+      document.getElementById("eventCheck").checked = false;
+      this.eventFlag=false;
+      document.getElementById('eventInfor').hidden=true;
+    },
       doEvent(){
       if(this.eventFlag){
         document.getElementById('eventInfor').hidden=true;
