@@ -41,6 +41,8 @@ export default {
       this.destinationAddress=result.message;
       //사이드바 생성
       this.$emit('openSubSide',this.subSideVarIds);
+       //새로고침 대응
+    this.$emit('changeStoreId',this.storeId);
      //첫사용 타겟 태그 or 컴포넌트가 다 랜더되면 작동 짱이다 
       this.$nextTick(()=>{
         var size=this.destinationAddress.length;

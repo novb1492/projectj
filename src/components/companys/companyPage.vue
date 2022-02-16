@@ -11,10 +11,10 @@
       <delivery-page ref="delivery_page" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId"  />
     </span>
     <span v-else-if="choose==4">
-        <delivery-detail-page ref="deliver_detail"/>
+        <delivery-detail-page ref="deliver_detail"  v-on:openSubSide="openSubSide"  v-on:changeStoreId="changeStoreId" />
     </span>
     <span v-else-if="choose==5">
-        <flyer-st-page ref="flyer_st"  v-on:openSubSide="openSubSide" />
+        <flyer-st-page ref="flyer_st"  v-on:openSubSide="openSubSide"  v-on:changeStoreId="changeStoreId"/>
     </span>
     <span v-else-if="choose==6">
       <regist-flyer-page ref="regist_flyer" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
