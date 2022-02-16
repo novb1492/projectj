@@ -4,7 +4,7 @@
       <ul style="float: left; text-align: center;">
       <span v-for="(shop,index) in this.shops" :key="index">
         <li style="float: left; margin-left: 10px;">
-          <a href="#" @click="showStore(shop.sid)">
+          <a href="#" @click="showStore(shop.store_id)">
             <img :src="shop.thumb_nail" id="shopImg" alt="">
             <br>
             {{shop.store_name}}

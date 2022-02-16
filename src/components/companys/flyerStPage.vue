@@ -73,7 +73,7 @@ export default {
         }else{
           disabledById('beforebutton',false);
         }
-        if(page==5){
+        if(page==result.totalPage){
           disabledById('nextbutton',true);
         }else{
           disabledById('nextbutton',false);
