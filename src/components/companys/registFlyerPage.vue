@@ -13,56 +13,7 @@
        {{defaultText}}
       </div>
        <div id="insertProductArea" hidden><!--hidden-->
-       <h3>상품을 등록해주세요</h3>
-        <h5>상품카테고리</h5>
-         <select id="category" style="width:200px;">
-            <option value="공산품">공산품</option>
-            <option value="청과야채">청과/야채</option>
-            <option value="수산물">수산물</option>
-            <option value="축산물">축산물</option>
-            <option value="공산품(식)">식품</option>
-            <option value="공산품(비)">비식품</option>
-            <option value="잡화">잡화</option>
-         </select>
-         <h5>상품이름</h5>
-         전체 이름을 입력해주세요 
-         <br>
-         ex)소고기 150g
-         <br>
-         <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
-         <div id="eventArea">
-              <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
-              <div id="eventInfor" hidden>
-                이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
-                <br>
-                <div id="eventPriceArea" >
-                  {{defaultText2}}
-                </div>
-          </div>
-         </div>
-         <div id="inforArea">
-            기본 가격을 입력해주세요
-            <br>
-            (가격은 한글없이 입력해주세요 ex)1000)
-            <br>
-            <input type="text" id="price" placeholder="ex)1000" />
-            <br>
-            원산지를 입력해주세요
-            <br>
-            <input type="text" id="origin" placeholder="원산지"/>
-            <br>
-            간단한 상품설명을 입력해주세요(필수아님)
-            <editor  class="mt-2" :text="null" ref="ck_editor" />
-         </div>
-         <br>
-          <div id="productImgArea">
-            <h5>상품이미지를 업로드해주세요</h5>
-              <img :src="productImgPath" id="productImg"  >
-              <br>
-              <input type="file" id="img2" class="mt-2" name="img2" accept=".gif, .jpg, .png" @change="imgUpload" >
-              <br>
-          </div>
+          <product-componet />
           <input type="button" value="상품등록"  @click="insert" />
        </div>
        <br>
@@ -87,9 +38,9 @@
 </style>
 <script>
 import {  changeValueById, getParam, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
-import editor from '../editor.vue';
+import ProductComponet from './productComponet.vue';
 export default {
-  components: { editor },
+  components: { ProductComponet },
   name: 'insertFlyerPage',
    data() {
     return {
@@ -186,59 +137,11 @@ export default {
       this.closeEvent();
 
     },
-    saveDate(){
-      this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
-      var dateAndPrice=new Object;
-      //날짜 가져오기
-      var chooseDate=getValueById('eventDate');
-      //날짜 연관배열에넣기
-      dateAndPrice.date=chooseDate;
-      dateAndPrice.price=0;
-      //연관배열 일반배열에 넣기
-      this.dateArr[this.dateArr.length]=dateAndPrice;
-       console.log(this.dateArr);
-      //가격 입력창만들기
-      var eventPriceArea = document.getElementById('eventPriceArea');
-      var p=document.createElement('p');
-      var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
-      p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
-      //삭제버튼 이벤트 리스너 넣기
-      p2.addEventListener("click",()=>{
-        //랜더제거
-        document.getElementById(chooseDate).remove();
-        document.getElementById(chooseDate+'delete').remove();
-        document.getElementById(chooseDate+'text').remove();
-        //해당 데이터 지우기
-        for(var i=0;i<this.dateArr.length;i++){
-          if(this.dateArr[i].date==chooseDate){
-            this.dateArr.splice(i,1);
-          }
-        }
-        //남은 이벤트 개수확인
-        var len=document.getElementsByClassName('eventPrice').length;
-        //0개라면 플래그 꺼주기
-        if(len==0){
-          this.closeEvent();
-        }
-      });
-      eventPriceArea.appendChild(p);
-      eventPriceArea.appendChild(p2);
-    },
+
     closeEvent(){
       document.getElementById("eventCheck").checked = false;
       this.eventFlag=false;
       document.getElementById('eventInfor').hidden=true;
-    },
-    doEvent(){
-      if(this.eventFlag){
-        document.getElementById('eventInfor').hidden=true;
-        this.eventFlag=false;
-      }else{
-        //false 일때 check가되고 flag->true가됨 그래서 false일때 히든해제
-        document.getElementById('eventInfor').hidden=false;
-        this.eventFlag=true;
-      }
     },
     getSubSideVarIds(){
       return this.subSideVarIds;
