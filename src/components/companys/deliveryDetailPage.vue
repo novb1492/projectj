@@ -27,7 +27,7 @@ export default {
       roomId:modules.getParam("deliverId"),
       rooms:[],
       subSideVarIds:['storeDetailSubSide'],
-      storeId:0,
+      storeId:modules.getParam('storeid'),
       destinationAddress:null,
     }
   },
