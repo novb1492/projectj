@@ -13,7 +13,7 @@
        {{defaultText}}
       </div>
        <div id="insertProductArea" hidden><!--hidden-->
-          <product-componet :flyerId="flyerId" :storeId="storeId" :flyerPath="imgPath" />
+          <product-componet :flyerId="flyerId" :storeId="storeId" :flyerPath="imgPath" :flag="true" />
        </div>
        <br>
        <br>
@@ -48,9 +48,6 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       text:'',
       defaultText:'',
-      defaultText2:'',
-      productImgPath:'',
-      ids:['productName','price','origin','img2','eventDate'],
       flyerId:'',
     }
   },

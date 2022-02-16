@@ -50,7 +50,12 @@
               <input type="file" id="img2" class="mt-2" name="img2" accept=".gif, .jpg, .png" @change="imgUpload" >
               <br>
           </div>
-           <input type="button" value="상품등록"  @click="insert" />
+          <span v-if="flag">
+            <input type="button" value="상품등록"  @click="insert" />
+          </span>
+          <span v-else>
+            <input type="button" value="상품수정"  @click="insert" />
+          </span>
     </div>
 </template>
 <style>
@@ -60,19 +65,18 @@
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag'],
+  props:['flyerId','storeId','flag','updateArr','upproductImgPath'],
   components: { editor },
   name: 'productComponet',
   data() {
     return {
-      imgPath:null,
       subSideVarIds:['storeDetailSubSide'],
       text:'',
       defaultText:'',
       eventFlag:false,
-      dateArr:[],
+      dateArr:this.updateArr,
       defaultText2:'',
-      productImgPath:'',
+      productImgPath:this.upproductImgPath,
       ids:['productName','price','origin','img2','eventDate'],
     }
   },
