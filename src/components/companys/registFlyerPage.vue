@@ -58,10 +58,6 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
-  
-    getSubSideVarIds(){
-      return this.subSideVarIds;
-    },
     uploadAndGetProducts(){
       const frm = new FormData();
       console.log(document.getElementById('img').files[0]);

@@ -48,9 +48,6 @@ export default {
     this.requestServer(this.getPage(),this.getStart(),this.getEnd());
   },
   methods:{
-    getSubSideVarIds(){
-      return this.subSideVarIds;
-    },
     goDetail(id){
       this.$router.push("/companyPage/7?storeid="+this.storeId+"&page="+this.getPage()+"&start="+getValueById('start')+"&end="+getValueById('end')+"&flyerid="+id+"&page=1&keyword=null");
     },

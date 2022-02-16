@@ -83,9 +83,6 @@ export default {
     goDetailPage(deliverid){
       this.$router.push('/companyPage/4?storeid='+this.storeId+'&page='+1+'&keyword='+null+'&deliverId='+deliverid);
     },
-    getSubSideVarIds(){
-      return this.subSideVarIds;
-    },
     getStart(){
       return modules.getParam('start');
     },

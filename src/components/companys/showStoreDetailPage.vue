@@ -193,9 +193,6 @@ export default {
         
       })
     },
-    getSubSideVarIds(){//페이지 이탈시 사용
-      return this.subSideVarIds;
-    },
     /*clickDelivery(){
       this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+this.id);
     },사이드바로 기능이동*/
