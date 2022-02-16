@@ -81,6 +81,9 @@ export default {
     }
   },
   methods:{
+    setById(id,value){
+      changeValueById(id,value);
+    },
     insert(){
       //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){
