@@ -1,6 +1,6 @@
 <template>
     <div class="margintopNavSize marginLeftSideSize">
-        <ul id="listArea">
+        <ul id="listArea" style="float: left; text-align: center;">
              <span v-for="(flyer,index) in this.flyerArr" :key="index">
                <li style="float: left; margin-left: 10px;" > 
                  <a href="#" @click="goDetail(flyer.flyer_id)">
@@ -49,7 +49,7 @@ export default {
   },
   methods:{
     goDetail(id){
-      this.$router.push("/companyPage/7?storeid="+this.storeId+"&page="+this.getPage()+"&start="+getValueById('start')+"&end="+getValueById('end')+"&flyerid="+id);
+      this.$router.push("/companyPage/7?storeid="+this.storeId+"&page="+this.getPage()+"&start="+getValueById('start')+"&end="+getValueById('end')+"&flyerid="+id+"&page=1&keyword=null");
     },
     changeDate(){
       this.$router.push("/companyPage/5?storeid="+this.storeId+"&page=1&start="+getValueById('start')+"&end="+getValueById('end'));
