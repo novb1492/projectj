@@ -19,8 +19,12 @@
          <input type="text" id="productName" placeholder="상품이름을 입력해주세요" :value="productName">
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck"  @change="doEvent" >
-              <div id="eventInfor" hidden>
+              진행함
+              <span>
+
+              </span>
+              <input type="checkbox" value="1" id="eventCheck"  @change="doEvent" >
+              <div :id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
                 <div id="eventPriceArea" >
@@ -84,6 +88,7 @@ export default {
       editorText:'',
       category:"공산품",
       check:'',
+      eventInfor:'eventInfor',
     }
   },
   mounted(){
@@ -98,7 +103,11 @@ export default {
       if(this.productAndEvents.product.eventFlag){
         console.log(this.productAndEvents.event);
         for(var i=0;i<this.productAndEvents.event.length;i++){
+          //false 여야함
+         // this.eventFlag=!this.productAndEvents.product.eventFlag;
           this.saveDateCore(this.productAndEvents.event[i].date);
+         // document.getElementById('eventCheck').checked=true;
+          this.eventInfor=this.eventInfor+this.productAndEvents.event[i].id;
         }
       }
     }
@@ -166,17 +175,18 @@ export default {
     closeEvent(){
       document.getElementById("eventCheck").checked = false;
       this.eventFlag=false;
-      document.getElementById('eventInfor').hidden=true;
+      document.getElementById(this.eventInfor).hidden=true;
     },
       doEvent(){
       if(this.eventFlag){
-        document.getElementById('eventInfor').hidden=true;
+        document.getElementById(this.eventInfor).hidden=true;
         this.eventFlag=false;
       }else{
         //false 일때 check가되고 flag->true가됨 그래서 false일때 히든해제
-        document.getElementById('eventInfor').hidden=false;
+        document.getElementById(this.eventInfor).hidden=false;
         this.eventFlag=true;
       }
+
     },
       imgUpload(){
       const frm = new FormData();
