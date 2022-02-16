@@ -65,7 +65,7 @@
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag'],
+  props:['flyerId','storeId','flag','product'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -80,10 +80,10 @@ export default {
       ids:['productName','price','origin','img2','eventDate'],
     }
   },
+  mounted(){
+    console.log(this.product);
+  },
   methods:{
-    setById(id,value){
-      changeValueById(id,value);
-    },
     insert(){
       //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){

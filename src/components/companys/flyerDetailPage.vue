@@ -14,7 +14,7 @@
          <ul>
             <span v-for="(product,index) in products.length" :key="index">
             <li style="float: left; margin-left: 10px;">
-                <product-componet :flag="true" :flyerId="flyerId" :storeId="storeId" ref="product_com"/>
+                <product-componet :flag="true" :flyerId="flyerId" :storeId="storeId" ref="product_com" :product="products[index]"/>
             </li>
           </span>
          </ul>
