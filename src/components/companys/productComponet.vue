@@ -2,7 +2,7 @@
     <div>
                <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
-         <select id="category" style="width:200px;">
+         <select id="category" style="width:200px;" :value="category">
             <option value="공산품">공산품</option>
             <option value="청과야채">청과/야채</option>
             <option value="수산물">수산물</option>
@@ -16,10 +16,10 @@
          <br>
          ex)소고기 150g
          <br>
-         <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
+         <input type="text" id="productName" placeholder="상품이름을 입력해주세요" :value="productName">
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
+              진행함<input type="checkbox" value="1" id="eventCheck"  @change="doEvent" >
               <div id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
@@ -37,10 +37,10 @@
             <br>
             원산지를 입력해주세요
             <br>
-            <input type="text" id="origin" placeholder="원산지"/>
+            <input type="text" id="origin" placeholder="원산지" :value="origin"/>
             <br>
             간단한 상품설명을 입력해주세요(필수아님)
-            <editor  class="mt-2" :text="null" ref="ck_editor" />
+            <editor  class="mt-2" :text="editorText" ref="ck_editor" />
          </div>
          <br>
           <div id="productImgArea">
@@ -78,7 +78,12 @@ export default {
       defaultText2:'',
       productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
-      price:0,
+      price:'',
+      origin:'',
+      productName:'',
+      editorText:'',
+      category:"공산품",
+      check:'',
     }
   },
   mounted(){
@@ -86,7 +91,11 @@ export default {
       console.log(this.product);
       this.productImgPath=this.product.productImgPath;
       this.price=this.product.price;
-      changeValueById('price',this.price);
+      this.origin=this.product.origin;
+      this.productName=this.product.productName;
+      this.editorText=this.product.text;
+      this.category=this.product.category;
+      console.log(this.events);
     }
     
   },
