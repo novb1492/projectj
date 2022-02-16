@@ -13,7 +13,7 @@
        {{defaultText}}
       </div>
        <div id="insertProductArea" hidden><!--hidden-->
-          <product-componet :flyerId="flyerId" :storeId="storeId" :flyerPath="imgPath" :flag="true" />
+          <product-componet :flyerId="flyerId" :storeId="storeId" :flyerPath="imgPath" />
        </div>
        <br>
        <br>

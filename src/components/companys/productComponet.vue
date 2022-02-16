@@ -51,10 +51,10 @@
               <br>
           </div>
           <span v-if="flag">
-            <input type="button" value="상품등록"  @click="insert" />
+            <input type="button" value="상품수정"  @click="insert" />
           </span>
           <span v-else>
-            <input type="button" value="상품수정"  @click="insert" />
+            <input type="button" value="상품등록"  @click="insert" />
           </span>
     </div>
 </template>
@@ -65,7 +65,7 @@
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag','updateArr','upproductImgPath'],
+  props:['flyerId','storeId','flag'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -74,9 +74,9 @@ export default {
       text:'',
       defaultText:'',
       eventFlag:false,
-      dateArr:this.updateArr,
+      dateArr:[],
       defaultText2:'',
-      productImgPath:this.upproductImgPath,
+      productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
     }
   },
