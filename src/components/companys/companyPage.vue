@@ -22,6 +22,9 @@
     <span v-else-if="choose==7">
       <flyer-detail-page ref="flyer_detail" v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
     </span>
+    <span v-else-if="choose==8">
+      <product-detail-page v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
+    </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ref="childComponet" ></component>
     </span>
@@ -36,6 +39,7 @@ import DeliveryDetailPage from './deliveryDetailPage.vue';
 import DeliveryPage from './deliveryPage.vue';
 import FlyerDetailPage from './flyerDetailPage.vue';
 import FlyerStPage from './flyerStPage.vue';
+import ProductDetailPage from './productDetailPage.vue';
 import RegistFlyerPage from './registFlyerPage.vue';
 import ShowSt from './showSt.vue';
 import ShowStoreDetailPage from './showStoreDetailPage.vue';
@@ -53,6 +57,7 @@ export default {
         deliveryStart:null,
         deliveryEnd:null,
         storeId:0,
+        storeSubSidePageArr:['/companyPage/2','/companyPage/3','/companyPage/4','/companyPage/5','/companyPage/6','/companyPage/7','/companyPage/8'],
     }
   },
   watch:{ 
@@ -77,6 +82,7 @@ export default {
       RegistFlyerPage,
       FlyerStPage,
       FlyerDetailPage,
+      ProductDetailPage,
   },
   computed:{
     chooseComponet(){
@@ -108,14 +114,9 @@ export default {
       }
     },
     subSideVarOnOff(to,from){
-       if(from.path=='/companyPage/2'&&from.path!=to.path&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'&&to.path!='/companyPage/6'){
-        this.$refs.side_var.closeSubSide(this.$refs.store_detail.getSubSideVarIds());
-      }else if(from.path=='/companyPage/3'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/4'&&to.path!='/companyPage/6'){
-        this.$refs.side_var.closeSubSide(this.$refs.delivery_page.getSubSideVarIds());
-      }else if(from.path=='/companyPage/4'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/6'){
-       this.$refs.side_var.closeSubSide(this.$refs.deliver_detail.getSubSideVarIds());
-      }else if(from.path=='/companyPage/6'&&from.path!=to.path&&to.path!='/companyPage/2'&&to.path!='/companyPage/3'&&to.path!='/companyPage/4'){
-        this.$refs.side_var.closeSubSide(this.$refs.regist_flyer.getSubSideVarIds());
+       if(this.storeSubSidePageArr.includes(from.path)&&!this.storeSubSidePageArr.includes(to.path)){
+        var subSideVarIds=['storeDetailSubSide'];
+        this.$refs.side_var.closeSubSide(subSideVarIds);
       }
     },
     changePageAndKeyword(pageAndKeyword){//storest
