@@ -78,9 +78,6 @@ export default {
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id);
     },
-    getSubSideVarIds(){
-      return this.subSideVarIds;
-    },
     getPage(){
       return getParam('page');
     },
