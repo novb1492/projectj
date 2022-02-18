@@ -11,10 +11,22 @@
             <br>
             <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
             {{defaultText}}
-         <ul>
-            <span v-for="(product,index) in productAndEvents.length" :key="index">
+            <br>
+            <ul style="float: left; text-align: center;">
+            <span v-for="(product,index) in products" :key="index">
             <li style="float: left; margin-left: 10px;">
-                <product-componet :flag="true" :flyerId="flyerId" :storeId="storeId" ref="product_com" :productAndEvents="productAndEvents[index]" />
+              <a href="#" @click="productDetail(product.product_id)">
+                <img id="productImg" :src=product.product_img_path alt="">
+                <br>
+                <div id="productName">{{product.productName}}</div>
+                원산지:<span id="origin">{{product.origin}}</span>
+                <br>
+                가격:<span id="price">{{product.price}}</span>
+                <span v-if="product.event_state==1">
+                  <br>
+                  이벤트 일정이 있는 상품
+                </span>
+              </a>
             </li>
           </span>
          </ul>
@@ -23,21 +35,18 @@
     </div>
 </template>
 <style>
-
+#productImg{width: 300px;}
 </style>
 <script>
 import { getParam, requestAsyncToGet, requestFormAsyncToPost } from '../../jslib'
-import ProductComponet from './productComponet.vue'
 export default {
   name: 'flyerDetailPage',
-  components: { ProductComponet },
    data() {
       return {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
-      productAndEvents:0,
+      products:0,
       flyerImgPath:null,
-      events:null,
       flyerId:0,
       len:0,
       text:'',
@@ -57,20 +66,23 @@ export default {
           alert(result.message);
           return;
         }
-        this.flyerImgPath=result.flyer.img_path;
-        this.flyerId=result.flyer.id;
+        this.flyerImgPath=result.flyer.flyer_img_path;
+        this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
-          this.productAndEvents=result.productAndEvents;
+          this.products=result.products;
         
-        }
-        if(result.eventFlag){
-          this.events=result.events;
         }
     });
   },
   methods:{
-    getSubSideVarIds(){
-      return this.subSideVarIds;
+    productDetail(id){
+      this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id);
+    },
+    getPage(){
+      return getParam('page');
+    },
+    getKeyword(){
+      return getParam('start');
     },
     uploadAndGetProducts(){
       const frm = new FormData();

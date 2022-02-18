@@ -60,9 +60,6 @@ export default {
             this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i]);
         }
      },
-    getSubSideVarIds(){//페이지 이탈시 사용
-      return this.subSideVarIds;
-    },
     connect() {
         this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
         this.socketOpen();
