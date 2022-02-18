@@ -5,7 +5,8 @@
     <foot />
   </div>
 </template>
-
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>Pi.init({ version: "2.0" })</script>
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
 import he from './components/layout/header.vue';
@@ -38,6 +39,18 @@ export default {
     loginInfor(loginInfor){
       this.$refs.router_view.checkLoginAndRoll(loginInfor);
     },
+    onIncompletePaymentFound(payment){ 
+      console.log(payment);
+      /* ... */ 
+    },
+    pitest(){
+      Pi.authenticate('payments', onIncompletePaymentFound).then(function(auth) {
+        console.log(auth);
+        console.log(`Hi there! You're ready to make payments!`);
+      }).catch(function(error) {
+        console.error(error);
+      });
+    }
   }
 }
 </script>
