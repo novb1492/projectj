@@ -16,13 +16,13 @@
             <span v-for="(product,index) in products" :key="index">
             <li style="float: left; margin-left: 10px;">
               <a href="#" @click="productDetail(product.id)">
-                <img id="productImg" :src=product.productImgPath alt="">
+                <img id="productImg" :src=product.product_img_path alt="">
                 <br>
                 <div id="productName">{{product.productName}}</div>
                 원산지:<span id="origin">{{product.origin}}</span>
                 <br>
                 가격:<span id="price">{{product.price}}</span>
-                <span v-if="product.eventFlag==1">
+                <span v-if="product.event_state==1">
                   <br>
                   이벤트 일정이 있는 상품
                 </span>
