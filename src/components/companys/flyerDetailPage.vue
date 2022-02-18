@@ -18,7 +18,7 @@
               <a href="#" @click="productDetail(product.product_id)">
                 <img id="productImg" :src=product.product_img_path alt="">
                 <br>
-                <div id="productName">{{product.productName}}</div>
+                <div id="productName">{{product.product_name}}</div>
                 원산지:<span id="origin">{{product.origin}}</span>
                 <br>
                 가격:<span id="price">{{product.price}}</span>
@@ -76,7 +76,7 @@ export default {
   },
   methods:{
     productDetail(id){
-      this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id);
+      this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
     },
     getPage(){
       return getParam('page');

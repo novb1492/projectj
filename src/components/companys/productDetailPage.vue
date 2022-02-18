@@ -1,13 +1,13 @@
 <template>
     <div class="margintopNavSize marginLeftSideSize">
-        <product-componet />
+        <product-componet ref="product_com" :flag="true" />
     </div>
 </template>
 <style>
 
 </style>
 <script>
-import { getParam } from '../../jslib';
+import { getParam, requestAsyncToGet } from '../../jslib';
 import productComponet from './productComponet.vue'
 export default {
   components: { productComponet },
@@ -16,6 +16,8 @@ export default {
       return {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
+      productId:getParam('productid'),
+      flyerId:getParam('flyerid'),
     }
   },
   created(){
@@ -24,5 +26,16 @@ export default {
     //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
   },
+  mounted(){
+    requestAsyncToGet(this.$serverDomain+'/auth/store/get/product/'+this.productId+'?store_id='+this.storeId).then(result=>{
+      console.log(result);
+      if(!result.flag){
+        alert(result.message);
+        return;
+      }
+      this.$refs.product_com.detailPage(result.message.product,result.message.events,result.message.event_flag);
+    });
+  },
+
 }
 </script>

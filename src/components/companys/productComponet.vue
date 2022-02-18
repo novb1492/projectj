@@ -65,7 +65,7 @@
 import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag','product','events'],
+  props:['flyerId','storeId','flag'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -80,16 +80,19 @@ export default {
       ids:['productName','price','origin','img2','eventDate'],
     }
   },
-  mounted(){
-    if(this.flag){
-      console.log(this.product);
-      this.productImgPath=this.product.productImgPath;
-      changeValueById('price',this.product.price);
-      changeValueById('productName',this.product.productName);
-    }
-    
-  },
-  methods:{
+  
+methods:{
+    detailPage(product,events,eventFlag){
+      this.productImgPath=product.product_img_path;
+      changeValueById('price',product.price);
+      changeValueById('productName',product.product_name);
+      changeValueById('origin',product.origin);
+      this.$refs.ck_editor.setText(product.text);
+      if(eventFlag){
+        console.log(events);
+        
+      }
+    },
     insert(){
       //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){
