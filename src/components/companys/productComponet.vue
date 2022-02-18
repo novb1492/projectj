@@ -2,7 +2,7 @@
     <div>
                <h3>상품을 등록해주세요</h3>
         <h5>상품카테고리</h5>
-         <select id="category" style="width:200px;">
+         <select id="category" style="width:200px;" :value="category">
             <option value="공산품">공산품</option>
             <option value="청과야채">청과/야채</option>
             <option value="수산물">수산물</option>
@@ -16,11 +16,15 @@
          <br>
          ex)소고기 150g
          <br>
-         <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
+         <input type="text" id="productName" placeholder="상품이름을 입력해주세요" :value="productName">
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
-              <div id="eventInfor" hidden>
+              진행함
+              <span>
+
+              </span>
+              <input type="checkbox" value="1" id="eventCheck"  @change="doEvent" >
+              <div :id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
                 <div id="eventPriceArea" >
@@ -33,14 +37,14 @@
             <br>
             (가격은 한글없이 입력해주세요 ex)1000)
             <br>
-            <input type="text" id="price" placeholder="ex)1000" />
+            <input type="text" id="price" placeholder="ex)1000" :value="price" />
             <br>
             원산지를 입력해주세요
             <br>
-            <input type="text" id="origin" placeholder="원산지"/>
+            <input type="text" id="origin" placeholder="원산지" :value="origin"/>
             <br>
             간단한 상품설명을 입력해주세요(필수아님)
-            <editor  class="mt-2" :text="null" ref="ck_editor" />
+            <editor  class="mt-2" :text="editorText" ref="ck_editor" />
          </div>
          <br>
           <div id="productImgArea">
@@ -50,41 +54,138 @@
               <input type="file" id="img2" class="mt-2" name="img2" accept=".gif, .jpg, .png" @change="imgUpload" >
               <br>
           </div>
+          <span v-if="flag">
+            <input type="button" value="상품수정"  @click="insert" />
+          </span>
+          <span v-else>
+            <input type="button" value="상품등록"  @click="insert" />
+          </span>
     </div>
 </template>
 <style>
-
+#productImg{width: 300px;}
 </style>
 <script>
-import {   getValueById, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
+  props:['flyerId','storeId','flag','productAndEvents','events'],
   components: { editor },
   name: 'productComponet',
   data() {
     return {
-      imgPath:null,
       subSideVarIds:['storeDetailSubSide'],
       text:'',
       defaultText:'',
       eventFlag:false,
       dateArr:[],
       defaultText2:'',
-      productImgPath:'',
+      productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
-      flyerId:'',
+      price:'',
+      origin:'',
+      productName:'',
+      editorText:'',
+      category:"공산품",
+      check:'',
+      eventInfor:'eventInfor',
     }
   },
+  mounted(){
+    if(this.flag){
+      console.log(this.productAndEvents.product);
+      this.productImgPath=this.productAndEvents.product.productImgPath;
+      this.price=this.productAndEvents.product.price;
+      this.origin=this.productAndEvents.product.origin;
+      this.productName=this.productAndEvents.product.productName;
+      this.editorText=this.productAndEvents.product.text;
+      this.category=this.productAndEvents.product.category;
+      if(this.productAndEvents.product.eventFlag){
+        console.log(this.productAndEvents.event);
+        for(var i=0;i<this.productAndEvents.event.length;i++){
+          //false 여야함
+         // this.eventFlag=!this.productAndEvents.product.eventFlag;
+          this.saveDateCore(this.productAndEvents.event[i].date,this.productAndEvents.event[i].eventPrice);
+          this.eventInfor=this.eventInfor+this.productAndEvents.event[i].id;
+        }
+      }
+    }
+    
+  },
   methods:{
+    insert(){
+      //이번트 날짜에 입력한 가격부여
+      if(this.eventFlag){
+        var events=document.getElementsByClassName('eventPrice');
+        var len=this.dateArr.length;
+        for(var i=0;i<events.length;i++){
+          for(var ii=0;ii<len;ii++){
+            if(this.dateArr[ii].date==events[i].id){
+              this.dateArr[ii].price=events[i].value;
+              break;
+            }
+          }
+        }
+        
+      }
+      var eFlag=0;
+      if(this.eventFlag){
+        eFlag=1;
+      }
+      var category=document.getElementById("category");
+      let data=JSON.stringify({
+        "productName":getValueById('productName'),
+        "eventFlag":eFlag,
+        "eventInfors":this.dateArr,
+        "price":getValueById('price'),
+        "text":this.$refs.ck_editor.getText(),
+        "category":category.options[category.selectedIndex].value,
+        "flyerId":this.flyerId,
+        "productImgPath":this.productImgPath,
+        "origin":getValueById('origin'),
+        "storeId":this.storeId
+      });
+      console.log(data);
+      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',data).then(result=>{
+        alert(result.message);
+        if(result.flag){
+          //다음 상품등록을 위해 전단 제외 비워주기
+          this.clearEvent();
+          this.clearValues();
+          this.dateArr=[];
+          this.$refs.ck_editor.setText('');
+          this.productImgPath=null;
+        }
+      });
+    },
+    clearValues(){
+      for(var i=0;i<this.ids.length;i++){
+        changeValueById(this.ids[i],'');
+      }
+    },
+    clearEvent(){
+      if(this.eventFlag){
+        document.getElementById('eventPriceArea').innerHTML='';
+      }
+      this.closeEvent();
+
+    },
+
+    closeEvent(){
+      document.getElementById("eventCheck").checked = false;
+      this.eventFlag=false;
+      document.getElementById(this.eventInfor).hidden=true;
+    },
       doEvent(){
       if(this.eventFlag){
-        document.getElementById('eventInfor').hidden=true;
+        document.getElementById(this.eventInfor).hidden=true;
         this.eventFlag=false;
       }else{
         //false 일때 check가되고 flag->true가됨 그래서 false일때 히든해제
-        document.getElementById('eventInfor').hidden=false;
+        document.getElementById(this.eventInfor).hidden=false;
         this.eventFlag=true;
       }
+
     },
       imgUpload(){
       const frm = new FormData();
@@ -100,13 +201,14 @@ export default {
       });
     },
     saveDate(){
+      this.saveDateCore(getValueById('eventDate'),'');
+    },
+    saveDateCore(chooseDate,price){
       this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
-      //날짜 가져오기
-      var chooseDate=getValueById('eventDate');
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
-      dateAndPrice.price=0;
+      dateAndPrice.price=price;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
        console.log(this.dateArr);
@@ -114,7 +216,7 @@ export default {
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' value="+price+" /></span>";
       p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{

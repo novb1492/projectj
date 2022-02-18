@@ -13,8 +13,7 @@
        {{defaultText}}
       </div>
        <div id="insertProductArea" hidden><!--hidden-->
-          <product-componet />
-          <input type="button" value="상품등록"  @click="insert" />
+          <product-componet :flyerId="flyerId" :storeId="storeId" :flyerPath="imgPath" />
        </div>
        <br>
        <br>
@@ -37,7 +36,7 @@
 #flyerImg{ width: 100%; height: 600px;}
 </style>
 <script>
-import {  changeValueById, getParam, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
+import {  getParam, requestFormAsyncToPost } from '../../jslib'
 import ProductComponet from './productComponet.vue';
 export default {
   components: { ProductComponet },
@@ -49,11 +48,6 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       text:'',
       defaultText:'',
-      eventFlag:false,
-      dateArr:[],
-      defaultText2:'',
-      productImgPath:'',
-      ids:['productName','price','origin','img2','eventDate'],
       flyerId:'',
     }
   },
@@ -64,85 +58,7 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
-   imgUpload(){
-      const frm = new FormData();
-      frm.append("upload",document.getElementById('img2').files[0]);
-      requestFormAsyncToPost(this.$serverDomain+'/auth/file/upload',frm).then(result=>{
-        console.log(result);
-        if(result.flag){
-          this.productImgPath=result.message;
-          return;
-        }
-        alert('파일 업로드에 실패했습니다');
-
-      });
-    },
-    insert(){
-      //이번트 날짜에 입력한 가격부여
-      if(this.eventFlag){
-        var events=document.getElementsByClassName('eventPrice');
-        var len=this.dateArr.length;
-        for(var i=0;i<events.length;i++){
-          for(var ii=0;ii<len;ii++){
-            if(this.dateArr[ii].date==events[i].id){
-              this.dateArr[ii].price=events[i].value;
-              break;
-            }
-          }
-        }
-        
-      }
-      var eFlag=0;
-      if(this.eventFlag){
-        eFlag=1;
-      }
-      var category=document.getElementById("category");
-      let data=JSON.stringify({
-        "productName":getValueById('productName'),
-        "eventFlag":eFlag,
-        "eventInfors":this.dateArr,
-        "price":getValueById('price'),
-        "text":this.$refs.ck_editor.getText(),
-        "category":category.options[category.selectedIndex].value,
-        "flyerId":this.flyerId,
-        "flyerPath":this.imgPath,
-        "productImgPath":this.productImgPath,
-        "origin":getValueById('origin'),
-        "storeId":this.storeId
-      });
-      console.log(data);
-      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',data).then(result=>{
-        alert(result.message);
-        if(result.flag){
-          //다음 상품등록을 위해 전단 제외 비워주기
-          this.clearEvent();
-          this.clearValues();
-          this.dateArr=[];
-          this.$refs.ck_editor.setText('');
-          this.productImgPath=null;
-        }
-      });
-      
-
-    },
-    clearValues(){
-      for(var i=0;i<this.ids.length;i++){
-        changeValueById(this.ids[i],'');
-      }
-    },
-    clearEvent(){
-      if(this.eventFlag){
-        document.getElementById('eventPriceArea').innerHTML='';
-      }
-      this.closeEvent();
-
-    },
-
-    closeEvent(){
-      document.getElementById("eventCheck").checked = false;
-      this.eventFlag=false;
-      document.getElementById('eventInfor').hidden=true;
-    },
+  
     getSubSideVarIds(){
       return this.subSideVarIds;
     },
