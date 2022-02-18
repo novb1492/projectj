@@ -66,8 +66,8 @@ export default {
           alert(result.message);
           return;
         }
-        this.flyerImgPath=result.flyer.img_path;
-        this.flyerId=result.flyer.id;
+        this.flyerImgPath=result.flyer.flyer_img_path;
+        this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
           this.products=result.products;
         
