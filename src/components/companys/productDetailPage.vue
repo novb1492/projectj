@@ -27,7 +27,7 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   mounted(){
-    requestAsyncToGet(this.$serverDomain+'/auth/store/get/product/'+this.productId+'?store_id='+this.storeId).then(result=>{
+    requestAsyncToGet(this.$serverDomain+'/auth/store/get/product/'+this.productId+'?storeId='+this.storeId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);

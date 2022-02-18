@@ -32,7 +32,7 @@ export default {
     }
   },
   mounted(){
-        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/deliver/'+this.roomId).then(result=>{
+        modules.requestAsyncToGet(this.$serverDomain+'/auth/store/get/deliver/'+this.roomId+'?storeId='+this.storeId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
