@@ -56,8 +56,8 @@
               <br>
           </div>
           <span v-if="flag">
-            <input type="button" value="상품수정"  @click="insert" />
-            <input type="button" value="상품삭제"  @click="insert" />
+            <input type="button" value="상품수정"  @click="update" />
+            <input type="button" value="상품삭제"  @click="deleteProduct" />
           </span>
           <span v-else>
             <input type="button" value="상품등록"  @click="insert" />
@@ -88,6 +88,12 @@ export default {
   },
   
 methods:{
+  update(){
+
+  },
+  deleteProduct(){
+
+  },
     detailPage(product,events,eventFlag){
       this.productImgPath=product.product_img_path;
       changeValueById('price',product.price);
