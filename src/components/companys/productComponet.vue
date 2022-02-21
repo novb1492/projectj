@@ -57,6 +57,7 @@
           </div>
           <span v-if="flag">
             <input type="button" value="상품수정"  @click="insert" />
+            <input type="button" value="상품삭제"  @click="insert" />
           </span>
           <span v-else>
             <input type="button" value="상품등록"  @click="insert" />
