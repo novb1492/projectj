@@ -19,7 +19,12 @@
          <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
+              <span v-if="eventFlag">
+                진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent" checked>
+              </span>
+              <span v-else>
+                진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
+              </span>
               <div id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
@@ -90,7 +95,14 @@ methods:{
       this.$refs.ck_editor.setText(product.text);
       if(eventFlag){
         console.log(events);
-        
+        this.eventFlag=true;
+        this.$nextTick(()=>{
+          document.getElementById('eventInfor').hidden=false;
+          var len=events.length;
+          for(var i=0;i<len;i++){
+            this.saveDateCore(events[i].event_date,events[i].event_price);
+          }
+        });
       }
     },
     insert(){
@@ -180,13 +192,16 @@ methods:{
       });
     },
     saveDate(){
+      this.saveDateCore(getValueById('eventDate'),null);
+    },
+    saveDateCore(date,price){
       this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
       //날짜 가져오기
-      var chooseDate=getValueById('eventDate');
+      var chooseDate=date;
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
-      dateAndPrice.price=0;
+      dateAndPrice.price=price;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
        console.log(this.dateArr);
