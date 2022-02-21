@@ -68,7 +68,7 @@
 #productImg{width: 300px;}
 </style>
 <script>
-import { changeValueById, checkNull, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, checkNull, getValueById, requestAsyncToPost, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
   props:['flyerId','storeId','flag'],
@@ -84,17 +84,21 @@ export default {
       defaultText2:'',
       productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
+      productId:0,
     }
   },
   
 methods:{
   update(){
-
+    requestAsyncToPut(this.$serverDomain+'/auth/store/product/update/'+this.productId+'?storeId='+this.storeId,this.getJson()).then(result=>{
+      console.log(result);
+    });
   },
   deleteProduct(){
 
   },
     detailPage(product,events,eventFlag){
+      this.productId=product.id;
       this.productImgPath=product.product_img_path;
       changeValueById('price',product.price);
       changeValueById('productName',product.product_name);
@@ -113,7 +117,7 @@ methods:{
         });
       }
     },
-    insert(){
+    getJson(){
       //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){
         var events=document.getElementsByClassName('eventPrice');
@@ -133,7 +137,7 @@ methods:{
         eFlag=1;
       }
       var category=document.getElementById("category");
-      let data=JSON.stringify({
+      return JSON.stringify({
         "productName":getValueById('productName'),
         "eventFlag":eFlag,
         "eventInfors":this.dateArr,
@@ -145,8 +149,9 @@ methods:{
         "origin":getValueById('origin'),
         "storeId":this.storeId
       });
-      console.log(data);
-      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',data).then(result=>{
+    },
+    insert(){
+      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',this.getJson()).then(result=>{
         alert(result.message);
         if(result.flag){
           //다음 상품등록을 위해 전단 제외 비워주기

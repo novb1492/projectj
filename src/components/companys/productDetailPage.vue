@@ -1,6 +1,6 @@
 <template>
     <div class="margintopNavSize marginLeftSideSize">
-        <product-componet ref="product_com" :flag="true" />
+        <product-componet ref="product_com" :flag="true" :storeId="storeId"/>
     </div>
 </template>
 <style>
