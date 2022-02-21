@@ -67,7 +67,7 @@
 #productImg{width: 300px;}
 </style>
 <script>
-import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, checkNull, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
   props:['flyerId','storeId','flag'],
@@ -92,6 +92,7 @@ methods:{
       changeValueById('price',product.price);
       changeValueById('productName',product.product_name);
       changeValueById('origin',product.origin);
+      changeValueById('price',product.price);
       this.$refs.ck_editor.setText(product.text);
       if(eventFlag){
         console.log(events);
@@ -209,7 +210,11 @@ methods:{
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      if(!checkNull(price)){
+        p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' value='"+price+"' /></span>";
+      }else{
+        p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      }
       p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{
