@@ -7,7 +7,7 @@
           <br>
           <div id="imgArea" hidden>
               <span v-for="(path,index) in imgPath" :key="index ">
-                <button type="button" class="btn-close" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
+                <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
                  <img :src="path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
               </span>
           </div>
@@ -90,9 +90,9 @@ export default {
        disabledById('uploadButton',true);
        disabledById('img',true);
        document.getElementById('insertProductArea').hidden=false;
-       for(var i=0;i<this.imgPath.length;i++){
-         console.log(i);
-         document.getElementById('deleteFlyer'+i).remove();
+       var deleteFlyerButtons=document.getElementsByClassName('deleteFlyerButton');
+       for(var i=0;i<deleteFlyerButtons.length;i++){
+         deleteFlyerButtons[i].remove();
        }
        
       })
