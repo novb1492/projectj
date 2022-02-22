@@ -5,8 +5,9 @@
           <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts" multiple>
           <br>
           <div id="imgArea" hidden>
-              <span v-for="(path,index) in this.imgPath" :key="index ">
-                 <img :src="path" :id="'flyerImg'+index" >
+              <span v-for="(path,index) in imgPath" :key="index ">
+                <button type="button" class="btn-close" aria-label="Close" @click="deleteFlyer(index)"></button>
+                 <img :src="path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
               </span>
           </div>
           <br>
@@ -55,6 +56,7 @@ export default {
       texts:[],
       defaultText:'',
       flyerId:'',
+     
     }
   },
   created(){
@@ -64,8 +66,14 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
+    defaultFlyer(index){
+      alert(index);
+    },
     deleteFlyer(index){
       alert(index);
+      console.log(this.imgPath);
+      this.imgPath.splice(index,index+1,null);
+      console.log(this.imgPath);
     },
     uploadAndGetProducts(){
       const frm = new FormData();
