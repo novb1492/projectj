@@ -2,6 +2,7 @@
     <div class="marginLeftSideSize margintopNavSize">
       <div>
          <h3>전단이미지를 등록해주세요</h3>
+         <span>사진을 클릭하면 전단 썸네일이 설정됩니다</span>
           <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts" multiple>
           <br>
           <div id="imgArea" hidden>
@@ -11,6 +12,8 @@
               </span>
           </div>
           <br>
+         <input type="checkbox" value="1" id="eventCheck" />기본전단으로 지정
+          <input type="button" value="전단업로드" @click="insert"/>
           <h5>전단고유번호</h5>
           (업로드시 자동발급)
           <br>
@@ -56,7 +59,7 @@ export default {
       texts:[],
       defaultText:'',
       flyerId:'',
-     
+      defaultImg:null,
     }
   },
   created(){
@@ -66,14 +69,17 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   methods:{
+    insert(){
+      alert(this.defaultImg);
+    },
     defaultFlyer(index){
-      alert(index);
+      this.defaultImg=this.imgPath[index];
     },
     deleteFlyer(index){
-      alert(index);
-      console.log(this.imgPath);
+      if(this.imgPath[index]==this.defaultImg){
+        this.defaultImg=null;
+      }
       this.imgPath.splice(index,index+1,null);
-      console.log(this.imgPath);
     },
     uploadAndGetProducts(){
       const frm = new FormData();
