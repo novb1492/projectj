@@ -101,17 +101,12 @@ export default {
       this.defaultImg=this.imgPath[index];
     },
     deleteFlyer(index){
-      console.log(this.imgPath);
-      console.log(index);
       if(this.imgPath[index]==this.defaultImg){
         this.defaultImg=null;
       }
       Vue.set(this.imgPath, index, null);
-      
+      Vue.set(this.texts, index, null);
       document.getElementById('deleteFlyer'+index).remove();
-      console.log(this.imgPath);
-
-
     },
     uploadAndGetProducts(){
       const frm = new FormData();
