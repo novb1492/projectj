@@ -7,7 +7,7 @@
           <br>
           <div id="imgArea" hidden>
               <span v-for="(path,index) in imgPath" :key="index ">
-                <button type="button" class="btn-close" aria-label="Close" @click="deleteFlyer(index)"></button>
+                <button type="button" class="btn-close" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
                  <img :src="path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
               </span>
           </div>
@@ -46,7 +46,8 @@
 #flyerImg{ width: 100%; height: 600px;}
 </style>
 <script>
-import {  disabledById, getParam, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
+import Vue from 'vue';
+import {  changeValueById, disabledById, getParam, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import ProductComponet from './productComponet.vue';
 export default {
   components: { ProductComponet },
@@ -60,6 +61,7 @@ export default {
       defaultText:'',
       flyerId:'',
       defaultImg:null,
+      deleteNum:0,
     }
   },
   created(){
@@ -86,7 +88,12 @@ export default {
         }
        this.flyerId=result.message;
        disabledById('uploadButton',true);
+       disabledById('img',true);
        document.getElementById('insertProductArea').hidden=false;
+       for(var i=0;i<this.imgPath.length;i++){
+         document.getElementById('deleteFlyer'+i).remove();
+       }
+       
       })
       alert(this.defaultImg);
     },
@@ -94,10 +101,17 @@ export default {
       this.defaultImg=this.imgPath[index];
     },
     deleteFlyer(index){
+      console.log(this.imgPath);
+      console.log(index);
       if(this.imgPath[index]==this.defaultImg){
         this.defaultImg=null;
       }
-      this.imgPath.splice(index,index+1,null);
+      Vue.set(this.imgPath, index, null);
+      
+      document.getElementById('deleteFlyer'+index).remove();
+      console.log(this.imgPath);
+
+
     },
     uploadAndGetProducts(){
       const frm = new FormData();
@@ -119,6 +133,7 @@ export default {
           }
           document.getElementById('imgArea').hidden=false;
           this.defaultText='';
+          changeValueById('img',null);
           return;
         }
         alert('파일 업로드에 실패했습니다');
