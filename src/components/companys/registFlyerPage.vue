@@ -13,7 +13,7 @@
           </div>
           <br>
          <input type="checkbox" value="1" id="eventCheck" />기본전단으로 지정
-          <input type="button" value="전단업로드" @click="insert"/>
+          <input type="button" value="전단업로드" id="uploadButton" @click="insert"/>
           <h5>전단고유번호</h5>
           (업로드시 자동발급)
           <br>
@@ -46,7 +46,7 @@
 #flyerImg{ width: 100%; height: 600px;}
 </style>
 <script>
-import {  getParam, requestFormAsyncToPost } from '../../jslib'
+import {  disabledById, getParam, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
 import ProductComponet from './productComponet.vue';
 export default {
   components: { ProductComponet },
@@ -70,6 +70,24 @@ export default {
   },
   methods:{
     insert(){
+      var defaultNum=0;
+      if(document.getElementById('eventCheck').checked){
+        defaultNum=1;
+      }
+      let data=JSON.stringify({
+        "flyerImgs":this.imgPath,
+        "defaultFlag":defaultNum,
+        "thumbNail":this.defaultImg
+      });
+      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert/'+this.storeId,data).then(result=>{
+        if(!result.flag){
+          alert(result.message);
+          return;
+        }
+       this.flyerId=result.message;
+       disabledById('uploadButton',true);
+       document.getElementById('insertProductArea').hidden=false;
+      })
       alert(this.defaultImg);
     },
     defaultFlyer(index){
@@ -101,7 +119,6 @@ export default {
           }
           document.getElementById('imgArea').hidden=false;
           this.defaultText='';
-          this.flyerId=result.id;
           return;
         }
         alert('파일 업로드에 실패했습니다');
