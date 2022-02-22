@@ -91,11 +91,11 @@ export default {
        disabledById('img',true);
        document.getElementById('insertProductArea').hidden=false;
        for(var i=0;i<this.imgPath.length;i++){
+         console.log(i);
          document.getElementById('deleteFlyer'+i).remove();
        }
        
       })
-      alert(this.defaultImg);
     },
     defaultFlyer(index){
       this.defaultImg=this.imgPath[index];
