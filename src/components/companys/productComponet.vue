@@ -90,7 +90,7 @@ export default {
   
 methods:{
   update(){
-    requestAsyncToPut(this.$serverDomain+'/auth/store/product/update/'+this.productId+'?storeId='+this.storeId,this.getJson()).then(result=>{
+    requestAsyncToPut(this.$serverDomain+'/auth/store/product/update/'+this.productId+'/'+this.storeId,this.getJson()).then(result=>{
       console.log(result);
       alert(result.message)
     });

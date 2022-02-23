@@ -5,8 +5,10 @@
           <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
             <br>
             <span v-for="(flyerDetail,index) in flyerDetails " :key="index">
-                  <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
-                  <img :src="flyerDetail.flyer_img_path" id="flyerImg" >
+                  <span v-if="flyerDetail!=null">
+                    <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(flyerDetail.id,index)"></button>
+                    <img :src="flyerDetail.flyer_img_path" id="flyerImg" >
+                </span>
             </span>
             <br>
             <h5>전단고유번호</h5>
@@ -41,7 +43,8 @@
 #productImg{width: 300px;}
 </style>
 <script>
-import { getParam, requestAsyncToGet, requestFormAsyncToPost } from '../../jslib'
+import Vue from 'vue';
+import { getParam, requestAsyncToDelete, requestAsyncToGet, requestFormAsyncToPost } from '../../jslib'
 export default {
   name: 'flyerDetailPage',
    data() {
@@ -79,8 +82,13 @@ export default {
     });
   },
   methods:{
-    deleteFlyer(index){
-      console.log(index);
+    deleteFlyer(id,index){
+      requestAsyncToDelete(this.$serverDomain+'/auth/store/flyerDetail/'+this.storeId+'/'+id).then(result=>{
+        alert(result.message);
+        if(result.flag){
+          Vue.set(this.flyerDetails, index, null);
+        }
+      })
     },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
