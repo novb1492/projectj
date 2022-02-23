@@ -3,6 +3,9 @@
         <div>
          <h3>전단이미지</h3>
           <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
+          <br>
+          <input type="button" value="전단상품 전체삭제" @click="deleteFlyerAll"/>
+          <input type="button" value="전단 수정" />
             <br>
             <span v-for="(flyerDetail,index) in flyerDetails " :key="index">
                   <span v-if="flyerDetail!=null">
@@ -82,6 +85,11 @@ export default {
     });
   },
   methods:{
+    deleteFlyerAll(){
+      requestAsyncToDelete(this.$serverDomain+'/auth/store/flyer/'+this.storeId+'/'+this.flyerId).then(result=>{
+        alert(result.message);
+      })
+    },
     deleteFlyer(id,index){
       requestAsyncToDelete(this.$serverDomain+'/auth/store/flyerDetail/'+this.storeId+'/'+id).then(result=>{
         alert(result.message);
