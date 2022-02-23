@@ -105,6 +105,7 @@ methods:{
       changeValueById('productName',product.product_name);
       changeValueById('origin',product.origin);
       changeValueById('price',product.price);
+      changeValueById('category',product.category);
       this.$refs.ck_editor.setText(product.text);
       if(eventFlag){
         console.log(events);
