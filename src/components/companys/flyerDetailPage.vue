@@ -64,7 +64,7 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   mounted(){
-    requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')).then(result=>{
+    requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
         console.log(result);
         if(!result.flyerFlag){
           alert(result.message);
