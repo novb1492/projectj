@@ -152,7 +152,7 @@ methods:{
       });
     },
     insert(){
-      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',this.getJson()).then(result=>{
+      requestAsyncToPost(this.$serverDomain+'/auth/store/product/insert/'+this.storeId,this.getJson()).then(result=>{
         alert(result.message);
         if(result.flag){
           //다음 상품등록을 위해 전단 제외 비워주기
