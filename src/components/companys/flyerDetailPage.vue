@@ -4,7 +4,10 @@
          <h3>전단이미지</h3>
           <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
             <br>
-            <img :src="flyerImgPath" id="flyerImg" >
+            <span v-for="(flyerDetail,index) in flyerDetails " :key="index">
+                  <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
+                  <img :src="flyerDetail.flyer_img_path" id="flyerImg" >
+            </span>
             <br>
             <h5>전단고유번호</h5>
             (업로드시 자동발급)
@@ -51,6 +54,7 @@ export default {
       len:0,
       text:'',
       defaultText:'',
+      flyerDetails:[],
     }
   },
   created(){
@@ -66,7 +70,7 @@ export default {
           alert(result.message);
           return;
         }
-        this.flyerImgPath=result.flyer.flyer_img_path;
+        this.flyerDetails=result.flyerDetail;
         this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
           this.products=result.products;
@@ -75,6 +79,9 @@ export default {
     });
   },
   methods:{
+    deleteFlyer(index){
+      console.log(index);
+    },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
     },
