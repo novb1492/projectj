@@ -68,7 +68,7 @@
 #productImg{width: 300px;}
 </style>
 <script>
-import { changeValueById, checkNull, getValueById, requestAsyncToPost, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, checkNull, getValueById, requestAsyncToDelete, requestAsyncToPost, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
   props:['flyerId','storeId','flag'],
@@ -96,7 +96,9 @@ methods:{
     });
   },
   deleteProduct(){
-
+    requestAsyncToDelete(this.$serverDomain+'/auth/store/product/'+this.storeId+'/'+this.productId).then(result=>{
+      alert(result.message);
+    });
   },
     detailPage(product,events,eventFlag){
       this.productId=product.id;
