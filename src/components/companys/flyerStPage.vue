@@ -4,7 +4,7 @@
              <span v-for="(flyer,index) in this.flyerArr" :key="index">
                <li style="float: left; margin-left: 10px;" > 
                  <a href="#" @click="goDetail(flyer.flyer_id)">
-                  <img :src="flyer.flyer_img_path" style="width: 200px;"  alt="">
+                  <img :src="flyer.flyer_thumb_nail" style="width: 200px;"  alt="">
                   <br>
                   전단고유번호:
                   {{flyer.flyer_id}}
