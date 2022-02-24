@@ -73,14 +73,16 @@ export default {
     requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
         console.log(result);
         if(!result.flyerFlag){
-          alert(result.message);
-          return;
+          alert(result.flyerMessage);
+        }else{
+          this.flyerDetails=result.flyerDetail;
+          this.flyerId=result.flyer.flyer_id;
         }
-        this.flyerDetails=result.flyerDetail;
-        this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
           this.products=result.products;
         
+        }else{
+          alert(result.productMessage);
         }
     });
   },
