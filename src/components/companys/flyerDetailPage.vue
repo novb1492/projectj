@@ -8,9 +8,10 @@
           <input type="button" value="전단 수정" @click="updateFlyer" />
             <div id="imgArea" hidden>
                <input type="checkbox" value="1" id="eventCheck" />기본전단으로 지정
-              <span v-for="(path,index) in imgPath" :key="index ">
+              <span v-for="(flyerDetail,index) in flyerDetails" :key="index ">
                 <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
-                 <img :src="path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
+                 <img :src="flyerDetail.flyer_img_path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
+                 <br>
               </span>
           </div>
             <br>
@@ -49,8 +50,8 @@
          맛보기 ocr 만 구축 해논 상태입니다
        </div>
         <div>
-          <span v-for="(text,index) in texts" :key="index ">
-                      {{text}}
+          <span v-for="(flyerDetail,index) in flyerDetails" :key="index ">
+                      {{flyerDetail.text}}
           </span>
         </div>
     </div>
@@ -60,7 +61,7 @@
 </style>
 <script>
 import Vue from 'vue';
-import { changeValueById, getParam, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, checkNull, getParam, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
 export default {
   name: 'flyerDetailPage',
    data() {
@@ -68,8 +69,6 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
       products:0,
-      imgPath:[],
-      texts:[],
       flyerId:0,
       len:0,
       text:'',
@@ -85,20 +84,18 @@ export default {
     this.$emit('changeStoreId',this.storeId);
   },
   mounted(){
-    requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
+     requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
         console.log(result);
         if(!result.flyerFlag){
           alert(result.flyerMessage);
         }else{
           var len=result.flyerDetail.length;
           for(var i=0;i<len;i++){
-            this.imgPath[this.imgPath.length]=result.flyerDetail[i].flyer_img_path;
+            this.flyerDetails[this.flyerDetails.length]=result.flyerDetail[i];
             if(result.flyerDetail[i].default){
               this.defaultImg=result.flyerDetail[i].flyer_img_path;
             }
-            this.texts[this.texts.length]=null;
           }
-          console.log(this.texts);
           document.getElementById('imgArea').hidden=false;
         }
         this.flyerId=result.flyer.flyer_id;
@@ -115,14 +112,35 @@ export default {
       if(document.getElementById('eventCheck').checked){
         defaultNum=1;
       }
-      console.log(this.imgPath);
+      var imgPaths=[];
+      for(var i in this.flyerDetails){
+        imgPaths[imgPaths.length]=this.flyerDetails[i].flyer_img_path;
+      }
       let data=JSON.stringify({
-        "flyerImgs":this.imgPath,
+        "flyerImgs":imgPaths,
         "defaultFlag":defaultNum,
         "thumbNail":this.defaultImg
       });
       requestAsyncToPut(this.$serverDomain+'/auth/store/flyer/update/'+this.flyerId+'/'+this.storeId,data).then(result=>{
         alert(result.message);
+        if(result.flag){
+           requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
+              console.log(result);
+              if(!result.flyerFlag){
+                alert(result.flyerMessage);
+              }else{
+                var len=result.flyerDetail.length;
+                 var arr=[];
+                for(var i=0;i<len;i++){
+                  arr[arr.length]=result.flyerDetail[i];
+                  if(result.flyerDetail[i].default){
+                    this.defaultImg=result.flyerDetail[i].flyer_img_path;
+                  }
+                }
+                 this.flyerDetails=arr;
+              }
+          });
+        }
       });
     },
     deleteFlyerAll(){
@@ -134,15 +152,24 @@ export default {
       this.defaultImg=this.imgPath[index];
     },
     deleteFlyer(index){
-      console.log(this.texts);
-      if(this.imgPath[index]==this.defaultImg){
-        this.defaultImg=null;
+      if(!checkNull(this.flyerDetails[index].id)){
+         requestAsyncToDelete(this.$serverDomain+'/flyerDetail/'+this.storeId+'/'+this.flyerDetails[index].id).then(result=>{
+           alert(result.message);
+           if(result.flag){
+             this.requestSelect();
+            }
+         })
+          return;
       }
-      Vue.set(this.imgPath, index, null);
-      Vue.set(this.texts, index, null);
-      document.getElementById('deleteFlyer'+index).remove();
-            console.log(this.texts);
-
+      this.deleteSuc(index);
+    },
+    deleteSuc(index){
+        if(this.imgPath[index]==this.defaultImg){
+                this.defaultImg=null;
+              }
+              Vue.set(this.flyerDetails, index, null);
+              Vue.set(this.texts, index, null);
+              document.getElementById('deleteFlyer'+index).remove();
     },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
@@ -168,8 +195,11 @@ export default {
         if(result.flag){
           var resultMessageArr=result.message;
           for(var i=0;i<resultMessageArr.length;i++){
-            this.imgPath[this.imgPath.length]=result.message[i].message;
-            this.texts[this.texts.length]=result.message[i].ocr.message;
+            var object=new Object;
+            object.flyer_img_path=result.message[i].message;
+            object.id=null;
+            object.text=result.message[i].ocr.message;
+            this.flyerDetails[this.flyerDetails.length]=object;
           }
           document.getElementById('imgArea').hidden=false;
           this.defaultText='';
