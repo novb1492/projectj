@@ -164,6 +164,7 @@ methods:{
           this.dateArr=[];
           this.$refs.ck_editor.setText('');
           this.productImgPath=null;
+          this.$emit("changeProduct",null);
         }
       });
     },

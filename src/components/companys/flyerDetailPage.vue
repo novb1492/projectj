@@ -20,7 +20,7 @@
             <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
             {{defaultText}}
             <br>
-            <product-componet :flyerId="flyerId" :storeId="storeId" />
+            <product-componet :flyerId="flyerId" :storeId="storeId"  v-on:changeProduct="changeProduct" />
             <ul style="float: left; text-align: center;">
             <span v-for="(product,index) in products" :key="index">
             <li style="float: left; margin-left: 10px;">
@@ -103,13 +103,41 @@ export default {
         }
         this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
-          this.products=result.products;
+          var a=result.products;
+          this.products=a;
         }else{
           alert(result.productMessage);
         }
     });
   },
   methods:{
+    reRender(){
+      requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
+              console.log(result);
+              if(!result.flyerFlag){
+                alert(result.flyerMessage);
+              }else{
+                var len=result.flyerDetail.length;
+                 var arr=[];
+                for(var i=0;i<len;i++){
+                  arr[arr.length]=result.flyerDetail[i];
+                  if(result.flyerDetail[i].default){
+                    this.defaultImg=result.flyerDetail[i].flyer_img_path;
+                  }
+                }
+                 this.flyerDetails=arr;
+                 if(result.productFlag){
+                    this.products=result.products;
+                  }else{
+                    alert(result.productMessage);
+                  }
+              }
+          });
+    },
+    changeProduct(){
+      alert('a');
+      this.reRender();
+    },
     updateFlyer(){
       var defaultNum=0;
       if(document.getElementById('eventCheck').checked){
