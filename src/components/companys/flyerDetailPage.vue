@@ -149,14 +149,40 @@ export default {
       })
     },
     defaultFlyer(index){
-      this.defaultImg=this.imgPath[index];
+      this.defaultImg=this.flyerDetails[index].flyer_img_path;
+      alert('썸네일이 지정되었습니다 수정 버튼을 누르면 적용됩니다');
     },
     deleteFlyer(index){
+      if(this.flyerDetails[index].flyer_img_path==this.defaultImg){
+        if(confirm("썸네일로 지정되어 있습니다 삭제하겠습니까?")){
+          this.deleteFlyerRequest(index);
+        }
+        return;
+      }else{
+        this.deleteFlyerRequest(index);
+      }
+    },
+    deleteFlyerRequest(index){
       if(!checkNull(this.flyerDetails[index].id)){
-         requestAsyncToDelete(this.$serverDomain+'/flyerDetail/'+this.storeId+'/'+this.flyerDetails[index].id).then(result=>{
+         requestAsyncToDelete(this.$serverDomain+'/auth/store/flyerDetail/'+this.storeId+'/'+this.flyerDetails[index].id).then(result=>{
            alert(result.message);
            if(result.flag){
-             this.requestSelect();
+              requestAsyncToGet(this.$serverDomain+'/auth/store/get/flyer/'+getParam('flyerid')+'?storeId='+this.storeId).then(result=>{
+                  console.log(result);
+                  if(!result.flyerFlag){
+                    alert(result.flyerMessage);
+                  }else{
+                    var len=result.flyerDetail.length;
+                    var arr=[];
+                    for(var i=0;i<len;i++){
+                      arr[arr.length]=result.flyerDetail[i];
+                      if(result.flyerDetail[i].default){
+                        this.defaultImg=result.flyerDetail[i].flyer_img_path;
+                      }
+                    }
+                    this.flyerDetails=arr;
+                  }
+              });
             }
          })
           return;
@@ -164,12 +190,12 @@ export default {
       this.deleteSuc(index);
     },
     deleteSuc(index){
-        if(this.imgPath[index]==this.defaultImg){
-                this.defaultImg=null;
-              }
-              Vue.set(this.flyerDetails, index, null);
-              Vue.set(this.texts, index, null);
-              document.getElementById('deleteFlyer'+index).remove();
+      if(this.flyerDetails[index].flyer_img_path==this.defaultImg){
+        this.defaultImg=null;
+      }
+      Vue.set(this.flyerDetails, index, null);
+      Vue.set(this.texts, index, null);
+      document.getElementById('deleteFlyer'+index).remove();
     },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
