@@ -128,6 +128,7 @@ export default {
           }
           document.getElementById('imgArea').hidden=false;
           this.defaultText='';
+          //change일어 날 수있게 
           changeValueById('img',null);
           return;
         }

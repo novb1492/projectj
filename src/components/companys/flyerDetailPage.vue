@@ -2,20 +2,19 @@
     <div class="margintopNavSize marginLeftSideSize">
         <div>
          <h3>전단이미지</h3>
-          <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts">
+          <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadAndGetProducts" multiple>
           <br>
           <input type="button" value="전단상품 전체삭제" @click="deleteFlyerAll"/>
-          <input type="button" value="전단 수정" />
-            <br>
-            <span v-for="(flyerDetail,index) in flyerDetails " :key="index">
-                  <span v-if="flyerDetail!=null">
-                    <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(flyerDetail.id,index)"></button>
-                    <img :src="flyerDetail.flyer_img_path" id="flyerImg" >
-                </span>
-            </span>
+          <input type="button" value="전단 수정" @click="updateFlyer" />
+            <div id="imgArea" hidden>
+               <input type="checkbox" value="1" id="eventCheck" />기본전단으로 지정
+              <span v-for="(path,index) in imgPath" :key="index ">
+                <button type="button" class="btn-close deleteFlyerButton" aria-label="Close" :id="'deleteFlyer'+index" @click="deleteFlyer(index)"></button>
+                 <img :src="path" :id="'flyerImg'+index" @click="defaultFlyer(index)" >
+              </span>
+          </div>
             <br>
             <h5>전단고유번호</h5>
-            (업로드시 자동발급)
             <br>
             <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
             {{defaultText}}
@@ -40,6 +39,20 @@
          </ul>
           
       </div>
+       <div>
+         추출한 글자들
+         <br>
+         원래 이글자들로 전단이 클릭되면 반응 하게 하려했으나
+         <br>
+         말도안되는 기술이라는걸 깨닫고 포기하고.. 
+         <br>
+         맛보기 ocr 만 구축 해논 상태입니다
+       </div>
+        <div>
+          <span v-for="(text,index) in texts" :key="index ">
+                      {{text}}
+          </span>
+        </div>
     </div>
 </template>
 <style>
@@ -47,7 +60,7 @@
 </style>
 <script>
 import Vue from 'vue';
-import { getParam, requestAsyncToDelete, requestAsyncToGet, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, getParam, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
 export default {
   name: 'flyerDetailPage',
    data() {
@@ -55,12 +68,14 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
       products:0,
-      flyerImgPath:null,
+      imgPath:[],
+      texts:[],
       flyerId:0,
       len:0,
       text:'',
       defaultText:'',
       flyerDetails:[],
+      defaultImg:null,
     }
   },
   created(){
@@ -75,30 +90,54 @@ export default {
         if(!result.flyerFlag){
           alert(result.flyerMessage);
         }else{
-          this.flyerDetails=result.flyerDetail;
-          this.flyerId=result.flyer.flyer_id;
+          var len=result.flyerDetail.length;
+          for(var i=0;i<len;i++){
+            this.imgPath[this.imgPath.length]=result.flyerDetail[i].flyer_img_path;
+            if(result.flyerDetail[i].default){
+              this.defaultImg=result.flyerDetail[i].flyer_img_path;
+            }
+          }
+           document.getElementById('imgArea').hidden=false;
         }
+        this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
           this.products=result.products;
-        
         }else{
           alert(result.productMessage);
         }
     });
   },
   methods:{
+    updateFlyer(){
+      var defaultNum=0;
+      if(document.getElementById('eventCheck').checked){
+        defaultNum=1;
+      }
+      console.log(this.imgPath);
+      let data=JSON.stringify({
+        "flyerImgs":this.imgPath,
+        "defaultFlag":defaultNum,
+        "thumbNail":this.defaultImg
+      });
+      requestAsyncToPut(this.$serverDomain+'/auth/store/flyer/update/'+this.flyerId+'/'+this.storeId,data).then(result=>{
+        alert(result.message);
+      });
+    },
     deleteFlyerAll(){
       requestAsyncToDelete(this.$serverDomain+'/auth/store/flyer/'+this.storeId+'/'+this.flyerId).then(result=>{
         alert(result.message);
       })
     },
-    deleteFlyer(id,index){
-      requestAsyncToDelete(this.$serverDomain+'/auth/store/flyerDetail/'+this.storeId+'/'+id).then(result=>{
-        alert(result.message);
-        if(result.flag){
-          Vue.set(this.flyerDetails, index, null);
-        }
-      })
+    defaultFlyer(index){
+      this.defaultImg=this.imgPath[index];
+    },
+    deleteFlyer(index){
+      if(this.imgPath[index]==this.defaultImg){
+        this.defaultImg=null;
+      }
+      Vue.set(this.imgPath, index, null);
+      Vue.set(this.texts, index, null);
+      document.getElementById('deleteFlyer'+index).remove();
     },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
@@ -110,21 +149,27 @@ export default {
       return getParam('start');
     },
     uploadAndGetProducts(){
-      const frm = new FormData();
+     const frm = new FormData();
       console.log(document.getElementById('img').files[0]);
-      frm.append("upload",document.getElementById('img').files[0]);
+      var imgs=document.getElementById('img').files;
+      for(var i=0;i<imgs.length;i++){
+        frm.append("upload",imgs[i]);
+      }
       frm.append("storeId",this.storeId);
       console.log(frm);
      this.defaultText='글자를 추출중입니다 시간이 걸리니 페이지를 벗어나지 마세요';
       requestFormAsyncToPost(this.$serverDomain+'/auth/store/uploadAndGet/'+this.storeId,frm).then(result=>{
         console.log(result);
         if(result.flag){
-          document.getElementById('flyerImg').hidden=false;
-          this.imgPath=result.message;
+          var resultMessageArr=result.message;
+          for(var i=0;i<resultMessageArr.length;i++){
+            this.imgPath[this.imgPath.length]=result.message[i].message;
+            this.texts[this.texts.length]=result.message[i].ocr.message;
+          }
+          document.getElementById('imgArea').hidden=false;
           this.defaultText='';
-          this.text=result.ocr.message;
-          this.flyerId=result.id;
-          document.getElementById('insertProductArea').hidden=false;
+          //change일어 날 수있게 
+          changeValueById('img',null);
           return;
         }
         alert('파일 업로드에 실패했습니다');
