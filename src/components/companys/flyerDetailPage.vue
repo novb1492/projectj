@@ -96,8 +96,10 @@ export default {
             if(result.flyerDetail[i].default){
               this.defaultImg=result.flyerDetail[i].flyer_img_path;
             }
+            this.texts[this.texts.length]=null;
           }
-           document.getElementById('imgArea').hidden=false;
+          console.log(this.texts);
+          document.getElementById('imgArea').hidden=false;
         }
         this.flyerId=result.flyer.flyer_id;
         if(result.productFlag){
@@ -132,12 +134,15 @@ export default {
       this.defaultImg=this.imgPath[index];
     },
     deleteFlyer(index){
+      console.log(this.texts);
       if(this.imgPath[index]==this.defaultImg){
         this.defaultImg=null;
       }
       Vue.set(this.imgPath, index, null);
       Vue.set(this.texts, index, null);
       document.getElementById('deleteFlyer'+index).remove();
+            console.log(this.texts);
+
     },
     productDetail(id){
       this.$router.push("/companyPage/8?storeid="+this.storeId+"&page="+this.getPage()+"&keyword="+null+"&productid="+id+"&flyerid="+this.flyerId);
