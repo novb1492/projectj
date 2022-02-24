@@ -20,6 +20,7 @@
             <input type="text" placeholder="업로드시 자동 부여 됩니다" id="flyerId" :value="flyerId" disabled/>
             {{defaultText}}
             <br>
+            <product-componet />
             <ul style="float: left; text-align: center;">
             <span v-for="(product,index) in products" :key="index">
             <li style="float: left; margin-left: 10px;">
@@ -62,8 +63,10 @@
 <script>
 import Vue from 'vue';
 import { changeValueById, checkNull, getParam, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
+import ProductComponet from './productComponet.vue';
 export default {
   name: 'flyerDetailPage',
+  components: { ProductComponet },
    data() {
       return {
       subSideVarIds:['storeDetailSubSide'],
