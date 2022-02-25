@@ -135,7 +135,6 @@ export default {
           });
     },
     changeProduct(){
-      alert('a');
       this.reRender();
     },
     updateFlyer(){

@@ -182,6 +182,7 @@ methods:{
     },
 
     closeEvent(){
+      alert('close');
       document.getElementById("eventCheck").checked = false;
       this.eventFlag=false;
       document.getElementById('eventInfor').hidden=true;
