@@ -316,7 +316,7 @@ export default {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
          // console.log(x+" "+this.destinationX);
-          modules.requestAsyncToGet("http://localhost:8080/store/get/"+address+"/"+name).then(result=>{
+          modules.requestAsyncToGet(this.$serverDomain+"/store/get/"+address+"/"+name+'/1').then(result=>{
               console.log(result);
               if(result.flag==false){
                 alert(result.message)

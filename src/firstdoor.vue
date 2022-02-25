@@ -1,7 +1,8 @@
 <template>
     <div id="mapPage margintopNavSize">
       <side-bar id="side" ref="side_bar" hidden/>
-      <k-map :width=width :height=height :zoomLevel=9 :resizeFlag=true :dragEventFlag=true :dragEventNum=1 :positionEventFlag=true v-on:showStoreAndReview="showStoreAndReview" ref="k_map"  />
+      <k-map :width=width :height=height :zoomLevel=9 :resizeFlag=true :dragEventFlag=true :dragEventNum=1 :positionEventFlag=true 
+      v-on:showStoreAndReview="showStoreAndReview" ref="k_map"  />
     </div>
 </template>
 <style>
@@ -18,7 +19,6 @@ export default {
     return {
       width:window.innerWidth,
       height:window.innerHeight,
-     
     };
   },
   methods:{

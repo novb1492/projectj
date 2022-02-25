@@ -8,29 +8,11 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-          22
-        </button>
-        <div class="collapse show" id="home-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">Overview</a></li>
-            <li><a href="#" class="link-dark rounded">Updates</a></li>
-            <li><a href="#" class="link-dark rounded">Reports</a></li>
-          </ul>
-        </div>
+        <img :src="thumbNail" alt="" srcset="">
       </li>
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-          Dashboard
-        </button>
-        <div class="collapse" id="dashboard-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">Overview</a></li>
-            <li><a href="#" class="link-dark rounded">Weekly</a></li>
-            <li><a href="#" class="link-dark rounded">Monthly</a></li>
-            <li><a href="#" class="link-dark rounded">Annually</a></li>
-          </ul>
-        </div>
+        <h5>{{storeName}}</h5>
+        <div>{{storePhone}}</div>
       </li>
       <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
@@ -60,6 +42,7 @@
         </div>
       </li>
     </ul>
+    <input type="button" value="next" @click="changeFirstDoorPage(1)"/>
     </span>
     <span v-if="checkPage()==companyNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -135,12 +118,13 @@
     </ul>
     </span>
   </div>
+  {{storeInfor}}
   </div>
 </template>
 <style>
 </style>
 <script>
-import { getParam } from '../../jslib';
+import { getParam, requestAsyncToGet } from '../../jslib';
 export default {
   name: 'sideBar',
   data() {
@@ -152,6 +136,12 @@ export default {
       subSideNum:0,
       storeDetailNum:1,
       storeId:0,
+      //firstdoor
+      storePhone:null,
+      storeName:null,
+      thumbNail:null,
+      storeReviews:null,
+      firstDoorPage:0,
     }
   },
   created(){
@@ -161,8 +151,23 @@ export default {
     document.getElementById('storeDetailSubSide').hidden=true;
   },
   methods:{
+    changeFirstDoorPage(num){
+      requestAsyncToGet(this.$serverDomain+'/store/get/reviews/'+this.storeId+'/'+(this.firstDoorPage+num)).then(result=>{
+        console.log(result);
+        if(!result.flag){
+          alert(result.message);
+          return;
+        }
+      })
+    },
     showStoreAndReview(result){
       console.log(result);
+      this.firstDoorPage=1;
+      this.storeId=result.id;
+      this.storePhone=result.storePhone;
+      this.thumbNail=result.thumbNail;
+      this.storeName=result.storeName;
+      this.storeReviews=result.reviews;
     },
     checkPage(){
       if(this.uri=='/'){
