@@ -54,6 +54,18 @@ export async function requestAsyncToGet(url){
       return result;
    })
 }
+export async function requestAsyncToDelete(url){
+    return  await axios.delete(url,{withCredentials: true}).then(function(response){
+      var result=response.data;
+      console.log(result);
+      console.log('통신직후');
+      if(result.message=='new'){
+          console.log('새토큰으로 요청');
+          return requestAsyncToDelete(url);
+      }
+      return result;
+   })
+}
 export async function requestAsyncToPost(url,data){
     return  await axios.post(url,data,{
       headers: {

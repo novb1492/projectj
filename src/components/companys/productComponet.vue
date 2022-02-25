@@ -19,7 +19,12 @@
          <input type="text" id="productName" placeholder="상품이름을 입력해주세요">
          <div id="eventArea">
               <h5>행사 여부</h5>
-              진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
+              <span v-if="eventFlag">
+                진행함<input type="checkbox" value="1" id="eventCheck" class="eventCheck" @change="doEvent" checked>
+              </span>
+              <span v-else>
+                진행함<input type="checkbox" value="1" id="eventCheck" class="eventCheck" @change="doEvent">
+              </span>
               <div id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
                 <br>
@@ -51,7 +56,8 @@
               <br>
           </div>
           <span v-if="flag">
-            <input type="button" value="상품수정"  @click="insert" />
+            <input type="button" value="상품수정"  @click="update" />
+            <input type="button" value="상품삭제"  @click="deleteProduct" />
           </span>
           <span v-else>
             <input type="button" value="상품등록"  @click="insert" />
@@ -62,10 +68,10 @@
 #productImg{width: 300px;}
 </style>
 <script>
-import { changeValueById, getValueById, requestAsyncToPost, requestFormAsyncToPost } from '../../jslib'
+import { changeValueById, checkNull, getValueById, requestAsyncToDelete, requestAsyncToPost, requestAsyncToPut, requestFormAsyncToPost } from '../../jslib'
 import editor from '../editor.vue';
 export default {
-  props:['flyerId','storeId','flag','product','events'],
+  props:['flyerId','storeId','flag'],
   components: { editor },
   name: 'productComponet',
   data() {
@@ -78,19 +84,44 @@ export default {
       defaultText2:'',
       productImgPath:null,
       ids:['productName','price','origin','img2','eventDate'],
+      productId:0,
     }
   },
-  mounted(){
-    if(this.flag){
-      console.log(this.product);
-      this.productImgPath=this.product.productImgPath;
-      changeValueById('price',this.product.price);
-      changeValueById('productName',this.product.productName);
-    }
-    
+  
+methods:{
+  update(){
+    requestAsyncToPut(this.$serverDomain+'/auth/store/product/update/'+this.productId+'/'+this.storeId,this.getJson()).then(result=>{
+      console.log(result);
+      alert(result.message)
+    });
   },
-  methods:{
-    insert(){
+  deleteProduct(){
+    requestAsyncToDelete(this.$serverDomain+'/auth/store/product/'+this.storeId+'/'+this.productId).then(result=>{
+      alert(result.message);
+    });
+  },
+    detailPage(product,events,eventFlag){
+      this.productId=product.id;
+      this.productImgPath=product.product_img_path;
+      changeValueById('price',product.price);
+      changeValueById('productName',product.product_name);
+      changeValueById('origin',product.origin);
+      changeValueById('price',product.price);
+      changeValueById('category',product.category);
+      this.$refs.ck_editor.setText(product.text);
+      if(eventFlag){
+        console.log(events);
+        this.eventFlag=true;
+        this.$nextTick(()=>{
+          document.getElementById('eventInfor').hidden=false;
+          var len=events.length;
+          for(var i=0;i<len;i++){
+            this.saveDateCore(events[i].event_date,events[i].event_price);
+          }
+        });
+      }
+    },
+    getJson(){
       //이번트 날짜에 입력한 가격부여
       if(this.eventFlag){
         var events=document.getElementsByClassName('eventPrice');
@@ -110,7 +141,7 @@ export default {
         eFlag=1;
       }
       var category=document.getElementById("category");
-      let data=JSON.stringify({
+      return JSON.stringify({
         "productName":getValueById('productName'),
         "eventFlag":eFlag,
         "eventInfors":this.dateArr,
@@ -122,8 +153,9 @@ export default {
         "origin":getValueById('origin'),
         "storeId":this.storeId
       });
-      console.log(data);
-      requestAsyncToPost(this.$serverDomain+'/auth/store/flyer/insert',data).then(result=>{
+    },
+    insert(){
+      requestAsyncToPost(this.$serverDomain+'/auth/store/product/insert/'+this.storeId,this.getJson()).then(result=>{
         alert(result.message);
         if(result.flag){
           //다음 상품등록을 위해 전단 제외 비워주기
@@ -132,6 +164,7 @@ export default {
           this.dateArr=[];
           this.$refs.ck_editor.setText('');
           this.productImgPath=null;
+          this.$emit("changeProduct",null);
         }
       });
     },
@@ -149,7 +182,12 @@ export default {
     },
 
     closeEvent(){
-      document.getElementById("eventCheck").checked = false;
+      var checkboxs=document.getElementsByClassName('eventCheck');
+      for(var i=0;i<checkboxs.length;i++){
+        if(checkboxs[i].checked){
+          checkboxs[i].checked=false;
+        }
+      }
       this.eventFlag=false;
       document.getElementById('eventInfor').hidden=true;
     },
@@ -177,13 +215,16 @@ export default {
       });
     },
     saveDate(){
+      this.saveDateCore(getValueById('eventDate'),null);
+    },
+    saveDateCore(date,price){
       this.defaultText2='가격은 한글없이 입력해주세요 ex)1000';
       var dateAndPrice=new Object;
       //날짜 가져오기
-      var chooseDate=getValueById('eventDate');
+      var chooseDate=date;
       //날짜 연관배열에넣기
       dateAndPrice.date=chooseDate;
-      dateAndPrice.price=0;
+      dateAndPrice.price=price;
       //연관배열 일반배열에 넣기
       this.dateArr[this.dateArr.length]=dateAndPrice;
        console.log(this.dateArr);
@@ -191,7 +232,11 @@ export default {
       var eventPriceArea = document.getElementById('eventPriceArea');
       var p=document.createElement('p');
       var p2=document.createElement('p');
-      p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      if(!checkNull(price)){
+        p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' value='"+price+"' /></span>";
+      }else{
+        p.innerHTML="<span class='dateAndPriceArea'><span id='"+chooseDate+"text' >"+chooseDate+"날의 가격</span> <input type='text' placeholder='ex)1000' id='"+chooseDate+"' class='eventPrice' /></span>";
+      }
       p2.innerHTML="<span class='dateAndPriceAreaButton'><input type='button' id='"+chooseDate+"delete' value='삭제'  /></span>";
       //삭제버튼 이벤트 리스너 넣기
       p2.addEventListener("click",()=>{
