@@ -28,7 +28,8 @@
         </li>
        </span>
     </ul>
-    <input type="button" value="next" @click="changeFirstDoorPage(1)"/>
+    <input type="button" id="nextButton" value="next" @click="changeFirstDoorPage(1)"/>
+    <input type="button" id="beforeButton" value="before" @click="changeFirstDoorPage(-1)"/>
     </span>
     <span v-if="checkPage()==companyNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -104,7 +105,6 @@
     </ul>
     </span>
   </div>
-  {{storeInfor}}
   </div>
 </template>
 <style>
@@ -145,12 +145,14 @@ export default {
   },
   methods:{
     changeFirstDoorPage(num){
-      requestAsyncToGet(this.$serverDomain+'/store/get/reviews/'+this.storeId+'/'+(this.firstDoorPage+num)).then(result=>{
+      var page=(this.firstDoorPage+num);
+      requestAsyncToGet(this.$serverDomain+'/store/get/reviews/'+this.storeId+'/'+page).then(result=>{
         console.log(result);
         if(!result.flag){
           alert(result.message);
           return;
         }
+        this.checkTotalPage(page,result.message.totalPage);
         this.storeReviews=result.message.reviews;
       })
     },
@@ -169,8 +171,22 @@ export default {
       this.openTime=result.openTime;
       this.closeTime=result.closeTime;
       document.getElementById('storeIntroduceArea').innerHTML=result.text;
+      this.checkTotalPage(this.firstDoorPage,result.totalPage);
     },
+    checkTotalPage(page,totalPage){
+      if(page>=totalPage){
+        document.getElementById('nextButton').disabled=true;
 
+      }else{
+        document.getElementById('nextButton').disabled=false;
+      }
+      if(page<=1){
+        document.getElementById('beforeButton').disabled=true;
+      }else{
+        document.getElementById('beforeButton').disabled=false;
+      }
+      this.firstDoorPage=page;
+    },
     checkPage(){
       if(this.uri=='/'){
         this.choose=this.homeNum;
