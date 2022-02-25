@@ -20,10 +20,10 @@
          <div id="eventArea">
               <h5>행사 여부</h5>
               <span v-if="eventFlag">
-                진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent" checked>
+                진행함<input type="checkbox" value="1" id="eventCheck" class="eventCheck" @change="doEvent" checked>
               </span>
               <span v-else>
-                진행함<input type="checkbox" value="1" id="eventCheck" @change="doEvent">
+                진행함<input type="checkbox" value="1" id="eventCheck" class="eventCheck" @change="doEvent">
               </span>
               <div id="eventInfor" hidden>
                 이벤트일자<input type="date" id="eventDate" @change="saveDate"/>
@@ -182,8 +182,12 @@ methods:{
     },
 
     closeEvent(){
-      alert('close');
-      document.getElementById("eventCheck").checked = false;
+      var checkboxs=document.getElementsByClassName('eventCheck');
+      for(var i=0;i<checkboxs.length;i++){
+        if(checkboxs[i].checked){
+          checkboxs[i].checked=false;
+        }
+      }
       this.eventFlag=false;
       document.getElementById('eventInfor').hidden=true;
     },
