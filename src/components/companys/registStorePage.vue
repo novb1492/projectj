@@ -63,6 +63,14 @@
         disabled
       />
       <br>
+       <span>도로명주소</span><input
+        type="text"
+        class="ml135 mt-2"
+        id="address2"
+        placeholder="도로명주소"
+        disabled
+      />
+      <br>
       <span>상세주소</span><input
         type="text"
         class="ml105 mt-2"
@@ -137,6 +145,7 @@ export default {
       var deliverRadius=modules.getValueById('deliverRadius');
       var tel=modules.getValueById('tel');
       var phone=modules.getValueById('phone');
+      var roadAddress=modules.getValueById('address2');
       let data=JSON.stringify({
         "thumbNail":thumbNail,
         "text":text,
@@ -151,6 +160,7 @@ export default {
         "deliverRadius":deliverRadius,
         "tel":tel,
         "phone":phone,
+        "roadAddress":roadAddress,
       });
       modules.requestAsyncToPost(this.$serverDomain+"/auth/store/join",data).then(result=>{
         alert(result.message);
@@ -191,7 +201,8 @@ export default {
     onComplete(result) {
       console.log(result);
       document.getElementById("postcode").value = result.zonecode;
-      document.getElementById("address").value = result.address;
+      document.getElementById("address").value = result.jibunAddress;
+      document.getElementById('address2').value=result.address;
       var data=new Object();
       data.address=result.address;
       data.deliverRadiusFlag=this.deliverRadiusFlag;

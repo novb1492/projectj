@@ -309,14 +309,14 @@ export default {
         this.insertMarkerAndWindow(marker,infor);
         //배열에 상점별 위도경도 저장합니다
         //var obj = { name : 'jaehee', x : place.x,y:place.y };
-        var x=place.x;
-        var y=place.y;
+       // var x=place.x;
+       // var y=place.y;
         var address=place.address_name;
         var name=place.place_name;
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
-          console.log(x+" "+this.destinationX);
-          modules.requestAsyncToGet("http://localhost:8080/checkDestination?x="+this.destinationX+"&y="+this.destinationY+"&mx="+x+"&my="+y+"&ma="+address+"&mn="+name).catch(()=>{
+         // console.log(x+" "+this.destinationX);
+          modules.requestAsyncToGet("http://localhost:8080/store/get/"+address+"/"+name).catch(()=>{
               this.sideFlag=true;//테스트코드
               document.getElementById('map').style.marginLeft='250px';//테스트코드
               document.getElementById('side').hidden=false;//테스트코드
