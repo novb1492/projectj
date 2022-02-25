@@ -202,7 +202,7 @@ export default {
       console.log(result);
       document.getElementById("postcode").value = result.zonecode;
       document.getElementById("address").value = result.jibunAddress;
-      document.getElementById('address2').value=result.address;
+      document.getElementById('address2').value=result.roadAddress;
       var data=new Object();
       data.address=result.address;
       data.deliverRadiusFlag=this.deliverRadiusFlag;
