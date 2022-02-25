@@ -316,22 +316,16 @@ export default {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click',()=>{
          // console.log(x+" "+this.destinationX);
-          modules.requestAsyncToGet("http://localhost:8080/store/get/"+address+"/"+name).catch(()=>{
-              this.sideFlag=true;//테스트코드
-              document.getElementById('map').style.marginLeft='250px';//테스트코드
-              document.getElementById('side').hidden=false;//테스트코드
-          }).then(result=>{
+          modules.requestAsyncToGet("http://localhost:8080/store/get/"+address+"/"+name).then(result=>{
               console.log(result);
               if(result.flag==false){
                 alert(result.message)
                 return;
               }
-              //응답이 성공적이라면 사이드바 펼치키
-              this.sideFlag=true;
-              //마진부여후 사이드바 공간 확보
-              document.getElementById('map').style.marginLeft=this.$sideVarWidth+'px';
-              //히든 속성 꺼주기
-              document.getElementById('side').hidden=false;
+              this.sideFlag=true;//사이드바열기
+              document.getElementById('map').style.marginLeft='250px';//사이드바 사이즈만큼 밀리기
+              document.getElementById('side').hidden=false;//사이드바열기
+              this.$emit("showStoreAndReview",result.message);
           });          
         });
     },

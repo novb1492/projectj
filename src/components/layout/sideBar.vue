@@ -161,6 +161,9 @@ export default {
     document.getElementById('storeDetailSubSide').hidden=true;
   },
   methods:{
+    showStoreAndReview(result){
+      console.log(result);
+    },
     checkPage(){
       if(this.uri=='/'){
         this.choose=this.homeNum;
