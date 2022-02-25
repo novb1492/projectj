@@ -13,19 +13,16 @@
       <li class="mb-1">
         <h5>{{storeName}}</h5>
         <div>{{storePhone}}</div>
+         <div>{{tel}}</div>
+        <div>{{address}}</div>
+        <div>{{roadAddress}}</div>
+         <div>{{detailAddress}}</div>
+        <div>{{openTime}}~{{closeTime}}</div>
+        <h6>매장소개</h6>
+        <div id="storeIntroduceArea"></div>
       </li>
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-          Orders
-        </button>
-        <div class="collapse" id="orders-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">New</a></li>
-            <li><a href="#" class="link-dark rounded">Processed</a></li>
-            <li><a href="#" class="link-dark rounded">Shipped</a></li>
-            <li><a href="#" class="link-dark rounded">Returned</a></li>
-          </ul>
-        </div>
+       
       </li>
       <li class="border-top my-3"></li>
       <li class="mb-1">
@@ -142,6 +139,13 @@ export default {
       thumbNail:null,
       storeReviews:null,
       firstDoorPage:0,
+      tel:null,
+      address:null,
+      roadAddress:null,
+      detailAddress:null,
+      openTime:null,
+      closeTime:null,
+
     }
   },
   created(){
@@ -168,6 +172,13 @@ export default {
       this.thumbNail=result.thumbNail;
       this.storeName=result.storeName;
       this.storeReviews=result.reviews;
+      this.tel=result.storeTel;
+      this.address=result.storeAddress;
+      this.roadAddress=result.storeRoadAddress;
+      this.detailAddress=result.storeDetailAddress;
+      this.openTime=result.openTime;
+      this.closeTime=result.closeTime;
+      document.getElementById('storeIntroduceArea').innerHTML=result.text;
     },
     checkPage(){
       if(this.uri=='/'){
