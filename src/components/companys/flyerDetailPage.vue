@@ -24,7 +24,7 @@
             <ul style="float: left; text-align: center;">
             <span v-for="(product,index) in products" :key="index">
             <li style="float: left; margin-left: 10px;">
-              <a href="#" @click="productDetail(product.product_id)">
+              <a href="javascript:void();" @click="productDetail(product.product_id)">
                 <img id="productImg" :src=product.product_img_path alt="">
                 <br>
                 <div id="productName">{{product.product_name}}</div>

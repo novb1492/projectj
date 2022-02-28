@@ -10,27 +10,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-         <!-- <a class="nav-link active" aria-current="page" href="#" @click="test">배달시작</a>-->
+         <!-- <a class="nav-link active" aria-current="page" href="javascript:void();" @click="test">배달시작</a>-->
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">{{loginFlag}}</a>
+          <a class="nav-link" href="javascript:void();">{{loginFlag}}</a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="javascript:void();" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             User
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <div v-if="loginFlag">
-                <li><a class="dropdown-item" href="#" @click="logout">로그아웃</a></li>
+                <li><a class="dropdown-item" href="javascript:void();" @click="logout">로그아웃</a></li>
               <div v-if="role==this.$ROLE_USER">
                 <!--일반회원 목록-->
-                <li><a class="dropdown-item" href="#">장바구니가기</a></li>
-                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">받을 주소 불러오기</a></li>
-                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">마이페이지</a></li>
-                <li><a class="dropdown-item" href="#" @click="showHomeAddress()">주문내역 보기</a></li>
+                <li><a class="dropdown-item" href="javascript:void();">장바구니가기</a></li>
+                <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">받을 주소 불러오기</a></li>
+                <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">마이페이지</a></li>
+                <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">주문내역 보기</a></li>
                 <!--<li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                <li><a class="dropdown-item" href="javascript:void();">Something else here</a></li>-->
               </div>
               <div v-else>
                 <!--기업회원 목록-->
@@ -45,7 +45,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link disabled" href="javascript:void();" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
       <div v-if="searchflag">

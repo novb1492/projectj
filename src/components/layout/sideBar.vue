@@ -59,10 +59,10 @@
         </button>
         <div class="collapse" id="dashboard-collapse" style="">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">완료된주문</a></li>
-            <li><a href="#" class="link-dark rounded">배달이전주문</a></li>
-            <li><a href="#" class="link-dark rounded">배달중인주문</a></li>
-            <li><a href="#" class="link-dark rounded">환불된주문</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">완료된주문</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">배달이전주문</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">배달중인주문</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">환불된주문</a></li>
           </ul>
         </div>
       </li>-->
@@ -72,12 +72,66 @@
         </button>
         <div class="collapse" id="orders-collapse" style="">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark rounded">기간별</a></li>
-            <li><a href="#" class="link-dark rounded">매장별</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">기간별</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">매장별</a></li>
           </ul>
         </div>
       </li>
       <li class="border-top my-3"></li>
+      <span id="storeDetailSubSide" >
+         <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#deliver-collapse" aria-expanded="false">
+          배달조회
+        </button>
+        <div class="collapse" id="deliver-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.1)">완료된배달</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.2)">취소된배달</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.3)">배달중</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.4)">배달전</a></li>
+          </ul>
+        </div>
+      </li>
+        <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(4)">
+          매장정보 
+        </button>
+        </li>
+        <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(5)">
+          전단목록(상품목록) 
+        </button>
+        </li>
+        <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(6)">
+          전단등록(상품등록) 
+        </button>
+        </li>
+      </span>
+    </ul>
+    </span>
+     <span v-if="checkPage()==storeNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+        <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-5 fw-semibold">Actions</span>
+        </span>
+    <ul class="list-unstyled ps-0">
+         <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(7)">
+          전단보기
+        </button>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          매출차트보기
+        </button>
+        <div class="collapse" id="orders-collapse" style="">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="javascript:void();" class="link-dark rounded">기간별</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded">매장별</a></li>
+          </ul>
+        </div>
+      </li>
       <span id="storeDetailSubSide" >
          <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#deliver-collapse" aria-expanded="false">
@@ -124,6 +178,7 @@ export default {
   name: 'sideBar',
   data() {
     return {
+      //company
       uri:null,
       choose:0,
       homeNum:0,
@@ -145,6 +200,8 @@ export default {
       closeTime:null,
       userId:0,
       userRole:this.$ROLE_USER,
+      //store
+      storeNum:2,
 
     }
   },
@@ -234,6 +291,9 @@ export default {
         this.choose=this.homeNum;
       }else if(this.uri.indexOf('/company')!=-1){
         this.choose=this.companyNum;
+      }else if(this.uri.indexOf('/store')!=-1){
+        this.storeId=getParam('storeid');
+        this.choose=this.storeNum;
       }
       return this.choose;
     },
