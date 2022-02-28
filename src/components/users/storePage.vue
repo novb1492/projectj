@@ -4,8 +4,11 @@
       <span v-if="choose==0">
           <show-flyer-page  />
       </span>
-      <span v-if="choose==1">
+      <span v-else-if="choose==1">
         <show-products-page ref="product_page" />
+      </span>
+      <span v-else-if="choose==2"> 
+        <show-product-detail-page />
       </span>
   </div>
 </template>
@@ -16,9 +19,10 @@
 import { getParam } from '../../jslib';
 import sideBar from '../layout/sideBar.vue';
 import ShowFlyerPage from './showFlyerPage.vue';
+import ShowProductDetailPage from './showProductDetailPage.vue';
 import ShowProductsPage from './showProductsPage.vue';
 export default {
-  components: { sideBar, ShowFlyerPage, ShowProductsPage },
+  components: { sideBar, ShowFlyerPage, ShowProductsPage, ShowProductDetailPage },
   name: 'storePage',
   watch:{ 
     $route(to,from){

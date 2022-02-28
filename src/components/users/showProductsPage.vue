@@ -2,7 +2,7 @@
   <div class="marginLeftSideSize">
       <ul  style="float: left; text-align: center;">
           <li v-for="(product,index) in products" :key="index" style="float: left; margin-left: 10px;">
-              <a href="javascript:void();" @click="goDetail(product.product.id)">
+              <a href="javascript:void();" @click="goDetail(product.product.product_id)">
                 <img :src="product.product.product_img_path" alt="" srcset="" style="width:300px;">
                 <br>
                 {{product.product.product_name}}
@@ -45,7 +45,7 @@ export default {
             this.$router.push("/storePage/1?storeid="+this.storeId+"&page="+((getParam('page')*1+num)+"&keyword="+getParam('keyword'))+"&category="+getParam('category'));
         },
         goDetail(id){
-            alert(id);
+            this.$router.push("/storePage/2?storeid="+this.storeId+"&page="+((getParam('page'))+"&keyword="+getParam('keyword'))+"&category="+getParam('category')+"&productid="+id);
         },
         requestServer(page,keyword){
             var category=getParam('category');

@@ -11,7 +11,7 @@
 <script>
 import { getParam, requestAsyncToGet } from '../../jslib'
 export default {
-    name: 'foot',
+    name: 'showFlyerPage',
     data() {
         return {
             storeId:getParam('storeid'),
