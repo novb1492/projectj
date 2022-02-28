@@ -1,7 +1,7 @@
 <template>
   <div >
       
-
+    <textarea name="" id="editor" cols="30" rows="10"></textarea>
   </div>
 </template>
 <style>
