@@ -5,7 +5,7 @@
           <show-flyer-page  />
       </span>
       <span v-if="choose==1">
-        <show-products-page />
+        <show-products-page ref="product_page" />
       </span>
   </div>
 </template>
@@ -26,6 +26,9 @@ export default {
         console.log(to)
         console.log(from);
         this.choose=this.$route.params.id;
+        if(to.path=='/storePage/1'&&from.path=='/storePage/1'){
+          this.$refs.product_page.changeEvent();
+        }
     } 
   },
   data() {
