@@ -27,20 +27,13 @@
           <input type="button" value="리뷰등록" @click="insertReview"/>
           </li>
       </span>
-      <li class="border-top my-3" style="overflow:auto; height: 150px;">
-       <span v-for="(review,index) in storeReviews" :key="index">
-        <li class="mb-1" style="overflow:auto; height: 40px;">
-          {{review.text}}
-        </li>
-          <span v-if="review.writer==userId">
-            <input type="button" value="수정"/>
-            <input type="button" value="삭제"/>
-          </span>
-       </span>
-       </li>
+
+      <li class="mb-1 " id="reviewsArea" style="overflow:auto; height: 150px;">
+        <ul  id="reviewsArea">
+     
+        </ul>
+      </li>
     </ul>
-    <input type="button" id="nextButton" value="next" @click="changeFirstDoorPage(1)"/>
-    <input type="button" id="beforeButton" value="before" @click="changeFirstDoorPage(-1)"/>
     </span>
     <span v-if="checkPage()==companyNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -121,7 +114,7 @@
 <style>
 </style>
 <script>
-import { getParam, requestAsyncToGet, requestAsyncToPost } from '../../jslib';
+import { getParam, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib';
 import editor from '../editor.vue';
 export default {
   components: { editor },
@@ -160,12 +153,22 @@ export default {
     document.getElementById('storeDetailSubSide').hidden=true;
   },
   methods:{
+    updateReview(id){
+      let data=JSON.stringify({
+        "text":this.$refs.ck_editor.getText(),
+      });
+      requestAsyncToPut(this.$serverDomain+'/auth/user/review/update/'+id,data).then(result=>{
+        alert(result.message);
+        if(result.flag){
+          alert('a');
+        }
+      });
+    },
     insertReview(){
       let data=JSON.stringify({
         "text":this.$refs.ck_editor.getText(),
-        "storeId":this.storeId,
       });
-      requestAsyncToPost(this.$serverDomain+'/auth/user/review',data).then(result=>{
+      requestAsyncToPost(this.$serverDomain+'/auth/user/review/insert/'+this.storeId,data).then(result=>{
         alert(result.message);
         if(result.flag){
           this.$refs.ck_editor.setText('');
