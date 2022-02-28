@@ -8,9 +8,9 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
-        <img :src="thumbNail" alt="" srcset="">
+        <img :src="thumbNail" alt="" srcset="" style=" height: 200px; width:200px;" >
       </li>
-      <li class="mb-1">
+      <li class="mb-1" style="overflow:auto; height: 200px;"> 
         <h5>{{storeName}}</h5>
         <div>{{storePhone}}</div>
          <div>{{tel}}</div>
@@ -23,15 +23,21 @@
       </li>
       <span v-if="userRole==this.$ROLE_USER">
          <li class="mb-1">
-          <editor :placeHolder="'간단리뷰를 적어주세요'"/>
+          <editor :placeHolder="'간단리뷰를 적어주세요'"  ref="ck_editor" />
+          <input type="button" value="리뷰등록" @click="insertReview"/>
           </li>
       </span>
-      <li class="border-top my-3"></li>
+      <li class="border-top my-3" style="overflow:auto; height: 150px;">
        <span v-for="(review,index) in storeReviews" :key="index">
-        <li class="mb-1">
+        <li class="mb-1" style="overflow:auto; height: 40px;">
           {{review.text}}
         </li>
+          <span v-if="review.writer==userId">
+            <input type="button" value="수정"/>
+            <input type="button" value="삭제"/>
+          </span>
        </span>
+       </li>
     </ul>
     <input type="button" id="nextButton" value="next" @click="changeFirstDoorPage(1)"/>
     <input type="button" id="beforeButton" value="before" @click="changeFirstDoorPage(-1)"/>
@@ -115,7 +121,7 @@
 <style>
 </style>
 <script>
-import { getParam, requestAsyncToGet } from '../../jslib';
+import { getParam, requestAsyncToGet, requestAsyncToPost } from '../../jslib';
 import editor from '../editor.vue';
 export default {
   components: { editor },
@@ -154,6 +160,24 @@ export default {
     document.getElementById('storeDetailSubSide').hidden=true;
   },
   methods:{
+    insertReview(){
+      let data=JSON.stringify({
+        "text":this.$refs.ck_editor.getText(),
+        "storeId":this.storeId,
+      });
+      requestAsyncToPost(this.$serverDomain+'/auth/user/review',data).then(result=>{
+        alert(result.message);
+        if(result.flag){
+          this.$refs.ck_editor.setText('');
+          requestAsyncToGet(this.$serverDomain+'/store/get/reviews/'+this.storeId+'/1').then(result=>{
+            if(!result.flag){
+              return;
+            }
+            this.storeReviews=result.message.reviews;
+          })
+        }
+      });
+    },
     changeFirstDoorPage(num){
       var page=(this.firstDoorPage+num);
       requestAsyncToGet(this.$serverDomain+'/store/get/reviews/'+this.storeId+'/'+page).then(result=>{
