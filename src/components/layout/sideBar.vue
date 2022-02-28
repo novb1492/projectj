@@ -21,9 +21,11 @@
         <h6>매장소개</h6>
         <div id="storeIntroduceArea"></div>
       </li>
-       <li class="mb-1">
+      <span v-if="userRole==this.$ROLE_USER">
+         <li class="mb-1">
           <editor :placeHolder="'간단리뷰를 적어주세요'"/>
-      </li>
+          </li>
+      </span>
       <li class="border-top my-3"></li>
        <span v-for="(review,index) in storeReviews" :key="index">
         <li class="mb-1">
