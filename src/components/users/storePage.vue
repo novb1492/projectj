@@ -2,7 +2,10 @@
   <div id="container" class="margintopNavSize">
       <side-bar />
       <span v-if="choose==0">
-          <show-flyer-page :flyerImgPath="flyerImgPath" />
+          <show-flyer-page  />
+      </span>
+      <span v-if="choose==1">
+        <show-products-page />
       </span>
   </div>
 </template>
@@ -13,8 +16,9 @@
 import { getParam } from '../../jslib';
 import sideBar from '../layout/sideBar.vue';
 import ShowFlyerPage from './showFlyerPage.vue';
+import ShowProductsPage from './showProductsPage.vue';
 export default {
-  components: { sideBar, ShowFlyerPage },
+  components: { sideBar, ShowFlyerPage, ShowProductsPage },
   name: 'storePage',
   watch:{ 
     $route(to,from){
@@ -28,7 +32,6 @@ export default {
     return {
         choose:null,
         storeId:getParam('storeId'),
-        flyerImgPath:null,
     }
   },
   mounted(){

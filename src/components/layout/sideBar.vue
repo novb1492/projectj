@@ -110,7 +110,7 @@
       </span>
     </ul>
     </span>
-     <span v-if="checkPage()==storeNum"><!--회사 페이지 가게관리 사이드바---------------------------------------------------------->
+     <span v-if="checkPage()==storeNum"><!--유저 매장입장 페이지 가게관리 사이드바---------------------------------------------------------->
         <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-5 fw-semibold">Actions</span>
@@ -127,41 +127,16 @@
         </button>
         <div class="collapse" id="orders-collapse" style="">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="javascript:void();" class="link-dark rounded">기간별</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded">매장별</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded"  @click="changePage(8)">공산품</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.1)">청과/야채</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.2)">수산물</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.3)">축산물</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.4)">식품</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.5)">비식품</a></li>
+            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(8.6)">잡화</a></li>
           </ul>
         </div>
       </li>
-      <span id="storeDetailSubSide" >
-         <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#deliver-collapse" aria-expanded="false">
-          배달조회
-        </button>
-        <div class="collapse" id="deliver-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.1)">완료된배달</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.2)">취소된배달</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.3)">배달중</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.4)">배달전</a></li>
-          </ul>
-        </div>
-      </li>
-        <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage(4)">
-          매장정보 
-        </button>
-        </li>
-        <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage(5)">
-          전단목록(상품목록) 
-        </button>
-        </li>
-        <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded" @click="changePage(6)">
-          전단등록(상품등록) 
-        </button>
-        </li>
-      </span>
     </ul>
     </span>
   </div>
@@ -202,7 +177,7 @@ export default {
       userRole:this.$ROLE_USER,
       //store
       storeNum:2,
-
+      flyerId:0,
     }
   },
   created(){
@@ -212,6 +187,9 @@ export default {
     document.getElementById('storeDetailSubSide').hidden=true;
   },
   methods:{
+    setFlyerId(flyerId){
+      this.flyerId=flyerId;
+    },
     updateReview(id){
       let data=JSON.stringify({
         "text":this.$refs.ck_editor.getText(),
@@ -309,15 +287,19 @@ export default {
         }else if(pageNum==3.3){
           state=2
         }
-      this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+getParam('storeid')+'&state='+state);
+        this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+getParam('storeid')+'&state='+state);
       }else if(pageNum==4){
         this.$emit('clickStore',null);
       }else if(pageNum==5){
         this.$router.push('/companyPage/5?storeid='+getParam('storeid')+'&page=1&start=null&end=null');
       }else if(pageNum==6){
         this.$router.push('/companyPage/6?storeid='+getParam('storeid'));
+      }else if(pageNum==7){
+        this.$router.push('/storePage/0?storeid='+getParam('storeid'));
+      }else if(pageNum>=8&&pageNum<9){
+        this.$router.push('/storePage/1?storeid='+getParam('storeid')+'&page=1&keyword=null&category='+pageNum+'&flyerid='+this.flyerId);
       }else{
-        this.$router.push('/companyPage/'+pageNum);
+        alert('사이드바에 없는 요청');
       }
 
     },
