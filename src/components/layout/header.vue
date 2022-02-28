@@ -77,6 +77,7 @@ export default {
       role:"noLogin",
       email:null,
       roleFlag:false,
+      userId:0,
     }
   },
   mounted(){
@@ -91,7 +92,7 @@ export default {
         this.loginFlag=true;
         this.email=message[0];
         this.role=message[1];
-        // this.connect();
+        this.userId=message[2];
       }else{
         this.loginFlag=false;
       }
@@ -111,6 +112,7 @@ export default {
       logingInfor.loginFlag=this.loginFlag;
       logingInfor.email=this.email;
       logingInfor.role=this.role;
+      logingInfor.id=this.userId;
       return logingInfor;
     },
     logout(){

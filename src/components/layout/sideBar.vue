@@ -21,6 +21,9 @@
         <h6>매장소개</h6>
         <div id="storeIntroduceArea"></div>
       </li>
+       <li class="mb-1">
+          <editor :placeHolder="'간단리뷰를 적어주세요'"/>
+      </li>
       <li class="border-top my-3"></li>
        <span v-for="(review,index) in storeReviews" :key="index">
         <li class="mb-1">
@@ -111,7 +114,9 @@
 </style>
 <script>
 import { getParam, requestAsyncToGet } from '../../jslib';
+import editor from '../editor.vue';
 export default {
+  components: { editor },
   props:["loginInfors"],
   name: 'sideBar',
   data() {
@@ -135,6 +140,8 @@ export default {
       detailAddress:null,
       openTime:null,
       closeTime:null,
+      userId:0,
+      userRole:this.$ROLE_USER,
 
     }
   },
@@ -174,6 +181,8 @@ export default {
       document.getElementById('storeIntroduceArea').innerHTML=result.text;
       this.checkTotalPage(this.firstDoorPage,result.totalPage);
       console.log(this.loginInfors);
+      this.userId=this.loginInfors.id;
+      this.userRole=this.loginInfors.role;
     },
     checkTotalPage(page,totalPage){
       if(page>=totalPage){

@@ -45,7 +45,7 @@
             <input type="text" id="origin" placeholder="원산지"/>
             <br>
             간단한 상품설명을 입력해주세요(필수아님)
-            <editor  class="mt-2" :text="null" ref="ck_editor" />
+            <editor  class="mt-2" :text="null" :placeHolder="'간단한 제품설명'" ref="ck_editor" />
          </div>
          <br>
           <div id="productImgArea">

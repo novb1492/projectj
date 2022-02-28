@@ -11,12 +11,12 @@ import MyUploadAdapter from '../MyUploadAdapter';
 import { checkNull } from '../jslib';
 export default {
   name: 'editorComponent',
-  props:['text'],
+  props:['text','placeHolder'],
   data(){
     return  {
         editor:null,
         editorConfig: {
-            placeholder:'간단한 가게 설명을 적어주세요',
+            placeholder:this.placeHolder,
             extraPlugins: [this.MyCustomUploadAdapterPlugin],
         },
     }

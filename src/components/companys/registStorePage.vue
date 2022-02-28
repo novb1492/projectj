@@ -38,7 +38,7 @@
         />
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
-        <editor class="mt-2" :text="null" ref="ck_editor"/>
+        <editor class="mt-2" :text="null" :placeHolder="'간단한 가게 설명을 적어주세요'" ref="ck_editor"/>
       </div>
       <div id="registStorePage2" style="float: left;">
          <vue-daum-postcode
