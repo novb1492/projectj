@@ -112,6 +112,7 @@
 <script>
 import { getParam, requestAsyncToGet } from '../../jslib';
 export default {
+  props:["loginInfors"],
   name: 'sideBar',
   data() {
     return {
@@ -172,6 +173,7 @@ export default {
       this.closeTime=result.closeTime;
       document.getElementById('storeIntroduceArea').innerHTML=result.text;
       this.checkTotalPage(this.firstDoorPage,result.totalPage);
+      console.log(this.loginInfors);
     },
     checkTotalPage(page,totalPage){
       if(page>=totalPage){

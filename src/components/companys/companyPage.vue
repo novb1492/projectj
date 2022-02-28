@@ -46,6 +46,7 @@ import ShowStoreDetailPage from './showStoreDetailPage.vue';
 
 export default {
   name: 'companyPage',
+  props:["logingInfors"],
   data() {
     return {
         choose:null,
@@ -93,6 +94,14 @@ export default {
       return 'registStorePage';
     }
   },
+  created(){
+    console.log('company');
+    console.log(this.logingInfors);
+    if(this.logingInfors.loginFlag==false||this.logingInfors.role!=this.$ROLE_COMPANY){
+        alert('기업회원이 아닙니다');
+        location.href='/';
+    }
+  },
   mounted(){
     var num=this.$route.params.id;
     if(num==1){
@@ -126,13 +135,6 @@ export default {
     },
     openSubSide(ids){//storeDetailPage
       this.$refs.side_var.openSubSideVar(ids);
-    },
-    checkLoginAndRoll(logingInfor){//입장시 판별
-      console.log(logingInfor);
-      if(logingInfor.loginFlag==false||logingInfor.role!=this.$ROLE_COMPANY){
-        alert('기업회원이 아닙니다');
-        location.href='/';
-      }
     },
     changeStoreId(id){
       this.storeId=id;

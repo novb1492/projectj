@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <he v-on:searchStore="searchStore" v-on:loginInfor="loginInfor"/>
-    <router-view ref="router_view"></router-view>
+    <router-view ref="router_view" :loginInfors="loginInfors" ></router-view>
     <foot />
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
     he,
     foot
     //HelloWorld
+  },
+   data() {
+    return {
+      loginInfors:null,
+    };
   },
   created() {
     //부트스트랩
@@ -35,7 +40,9 @@ export default {
       this.$refs.router_view.callSearch(text);
     },
     loginInfor(loginInfor){
-      this.$refs.router_view.checkLoginAndRoll(loginInfor);
+      this.loginInfors=loginInfor;
+      console.log('app');
+      console.log(this.loginInfors);
     },
   }
 }
