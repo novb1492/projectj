@@ -1,6 +1,7 @@
 <template>
   <div >
-    <textarea id="editor"></textarea>
+      
+
   </div>
 </template>
 <style>
@@ -14,6 +15,7 @@ export default {
   props:['text','placeHolder'],
   data(){
     return  {
+        editorArr:[],
         editor:null,
         editorConfig: {
             placeholder:this.placeHolder,
@@ -32,6 +34,16 @@ export default {
     );
   },
   methods:{
+    createEditor(editorId,text){
+      ClassicEditor.create(document.querySelector("#"+editorId), this.editorConfig).then(
+              editor => {
+                this.editorArr[editorId]=editor;
+                if(!checkNull(text)){
+                   this.editorArr[editorId].setData(text);
+                }
+              }
+        );
+    },
     MyCustomUploadAdapterPlugin( editor ) {
             editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
             // Configure the URL to the upload script in your back-end here!

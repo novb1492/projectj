@@ -4,7 +4,7 @@
     <span v-if="checkPage()==homeNum"><!--firstdoor사이드바-->
     <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-5 fw-semibold">Collapsible</span>
+      <a :href="'/storePage/0?storeid='+storeId" class="fs-5 fw-semibold">방문하기</a>
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
@@ -23,14 +23,16 @@
       </li>
       <span v-if="userRole==this.$ROLE_USER">
          <li class="mb-1">
+          <textarea id="editor"></textarea>
           <editor :placeHolder="'간단리뷰를 적어주세요'"  ref="ck_editor" />
           <input type="button" value="리뷰등록" @click="insertReview"/>
           </li>
       </span>
-
-      <li class="mb-1 " id="reviewsArea" style="overflow:auto; height: 150px;">
+      <li class="mb-1 " id="reviewsArea" style="overflow:auto; height: 300px;">
         <ul  id="reviewsArea">
-     
+            <li v-for="(review,index) in storeReviews" :key="index" style="" @readystatechange="readyEditor">
+              <textarea name="" :id="index" cols="30" rows="10"></textarea>
+            </li>
         </ul>
       </li>
     </ul>
