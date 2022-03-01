@@ -7,7 +7,7 @@
         <th>가격</th>
         <th>담은날짜</th>
         <th>삭제</th>
-        <tr v-for="(basket,index) in baskets" :key="index"> 
+        <tr v-for="(basket,index) in baskets" :key="index" :id="basket.id+'area'"> 
           <td >{{basket.id}}</td>
             <td >
               <img src="" alt="상품이미지" >
@@ -31,7 +31,7 @@
 
 </style>
 <script>
-import { changeValueById, disabledById, getParam, getValueById, requestAsyncToGet, requestAsyncToPut } from '../../jslib'
+import { changeValueById, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut } from '../../jslib'
 export default {
   name: 'basketPage',
   data() {
@@ -47,7 +47,14 @@ export default {
       this.requestServer(getParam('page'));
     },
     deleteBasket(id){
-      alert(id);
+      requestAsyncToDelete(this.$serverDomain+'/auth/user/basket/'+id).then(result=>{
+        console.log(result);
+        if(!result.flag){
+          alert(result.message);
+          return;
+        }
+       this.requestServer(1);
+      });
     },
     changePage(num){
       this.$router.push("/userPage/0?page="+(getParam('page')*1+num));
