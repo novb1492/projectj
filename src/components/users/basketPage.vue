@@ -104,7 +104,7 @@ export default {
             "method": "card",
             "trdDt": "20220301",    
             "trdTm": "153500",
-            "mchtTrdNo": "12345",
+            "mchtTrdNo": "1234567",
             "mchtName": "WonderLand",
             "mchtEName": "WonderLand",
             "pmtPrdtNm": "result.itemName",
