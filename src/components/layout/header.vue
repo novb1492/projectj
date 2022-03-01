@@ -25,7 +25,7 @@
                 <li><a class="dropdown-item" href="javascript:void();" @click="logout">로그아웃</a></li>
               <div v-if="role==this.$ROLE_USER">
                 <!--일반회원 목록-->
-                <li><a class="dropdown-item" href="javascript:void();">장바구니가기</a></li>
+                <li><a class="dropdown-item" href="/userPage/0?page=1" >장바구니가기</a></li>
                 <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">받을 주소 불러오기</a></li>
                 <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">마이페이지</a></li>
                 <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">주문내역 보기</a></li>
