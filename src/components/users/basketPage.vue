@@ -26,12 +26,21 @@
             <td><input type="button" value="삭제" @click="deleteBasket(basket.id)"></td>
         </tr>
     </table>
-    <input type="button" id="nextButton" value="next" @click="changePage(1)">
-    <input type="button" id="beforeButton" value="before" @click="changePage(-1)">
+    <!--<input type="button" id="nextButton" value="next" @click="changePage(1)">
+    <input type="button" id="beforeButton" value="before" @click="changePage(-1)">-->
     <br>
+    <br>
+    <h6>결제방법 선택</h6>
     card:<input type="radio" name="payKind" class="payKind" value="card">
     vbank:<input type="radio" name="payKind" class="payKind" value="vbank">
     kpay:<input type="radio" name="payKind" class="payKind" value="kpay">
+    <br>
+    <br>
+    <h6>품절시 대체 선택</h6>
+    대체상품:<input type="radio" name="soldout" class="soldout" value="replace">
+    환불:<input type="radio" name="soldout" class="soldout" value="cancle">
+    전화:<input type="radio" name="soldout" class="soldout" value="contact">
+    <br>
     <br>
     <input type="button" value="선택 구매하기" @click="buySelect" />
     <br>
@@ -59,13 +68,13 @@ export default {
   },
   methods:{
     buyAll(){
-      var payCheckBox=document.getElementsByClassName('payKind');
+      var checkbox=document.getElementsByClassName('payKind');
       var flag=true;
       var payKind=null;
-      for(var ii in payCheckBox){
-        if(payCheckBox[ii].checked){
+      for(var ii in checkbox){
+        if(checkbox[ii].checked){
           flag=false;
-          payKind=payCheckBox[ii].value;
+          payKind=checkbox[ii].value;
           break;
         }
       }
@@ -73,8 +82,22 @@ export default {
         alert('결제수단을 선택해 주세요');
         return;
       }
+      flag=true;
+      var soldOut=null;
+      checkbox=document.getElementsByClassName('soldout');
+      for(var iii in checkbox){
+        if(checkbox[iii].checked){
+          flag=false;
+          soldOut=checkbox[iii].value;
+          break;
+        }
+      }
+      if(flag){
+        alert('품절시 요청사항을 선택해주세요');
+        return;
+      }
       var infor=[];
-      var checkbox=document.getElementsByClassName('checkBasket');
+      checkbox=document.getElementsByClassName('checkBasket');
       for(var i in checkbox){
           var id=checkbox[i].value;
           if(checkNull(id)){
@@ -91,6 +114,7 @@ export default {
       let data=JSON.stringify({
         "coupons":infor,
         "payKind":payKind,
+        "soldOut":soldOut,
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
@@ -127,13 +151,13 @@ export default {
       });
     },
     buySelect(){
-      var payCheckBox=document.getElementsByClassName('payKind');
+      var checkbox=document.getElementsByClassName('payKind');
       var flag=true;
       var payKind=null;
-      for(var ii in payCheckBox){
-        if(payCheckBox[ii].checked){
+      for(var ii in checkbox){
+        if(checkbox[ii].checked){
           flag=false;
-          payKind=payCheckBox[ii].value;
+          payKind=checkbox[ii].value;
           break;
         }
       }
@@ -142,8 +166,22 @@ export default {
         return;
       }
       flag=true;
+      var soldOut=null;
+      checkbox=document.getElementsByClassName('soldout');
+      for(var iii in checkbox){
+        if(checkbox[iii].checked){
+          flag=false;
+          soldOut=checkbox[iii].value;
+          break;
+        }
+      }
+      if(flag){
+        alert('품절시 요청사항을 선택해주세요');
+        return;
+      }
+      flag=true;
       var infor=[];
-      var checkbox=document.getElementsByClassName('checkBasket');
+      checkbox=document.getElementsByClassName('checkBasket');
       for(var i in checkbox){
         if(checkbox[i].checked){
           flag=false;
@@ -164,6 +202,7 @@ export default {
       let data=JSON.stringify({
         "coupons":infor,
         "payKind":payKind,
+        "soldOut":soldOut,
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
@@ -219,7 +258,7 @@ export default {
           return;
         }
         this.baskets=result.baskets;
-        var totalPage=result.totalPage;
+        /*var totalPage=result.totalPage;
         if(page==totalPage){
           disabledById('nextButton',true);
         }else{
@@ -229,7 +268,7 @@ export default {
           disabledById('beforeButton',true);
         }else{
           disabledById('beforeButton',false);
-        }
+        }*/
       });
     },
   },
