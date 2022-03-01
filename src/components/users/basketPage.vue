@@ -19,23 +19,26 @@
             <td><input type="text"  :id="basket.id+'price'" :value="basket.price+'원'" disabled></td>
             <td>{{basket.basket_created}}</td>
             <td><input type="checkbox" class="checkBasket" :value="basket.id"></td>
-            <td><input type="text" :id="basket.id+'coupon'" value="" @change="confrimCoupon(basket.id)"></td>
+            <td><input type="text" :id="basket.id+'coupon'" value="" @change="confrimCoupon(basket.id)">
+            <br>
+              <span :id="basket.id+'error'"></span>
+            </td>
             <td><input type="button" value="삭제" @click="deleteBasket(basket.id)"></td>
         </tr>
     </table>
     <input type="button" id="nextButton" value="next" @click="changePage(1)">
     <input type="button" id="beforeButton" value="before" @click="changePage(-1)">
     <br>
-    <input type="button" value="선택 구매하기" />
+    <input type="button" value="선택 구매하기" @click="buySelect" />
     <br>
-    <input type="button" value="전체구매하기" />
+    <input type="button" value="전체구매하기" @click="buyAll" />
   </div>
 </template>
 <style>
 
 </style>
 <script>
-import { changeValueById, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPut } from '../../jslib'
+import { changeValueById, checkNull, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
 export default {
   name: 'basketPage',
   data() {
@@ -47,13 +50,71 @@ export default {
     this.requestServer(getParam('page'));
   },
   methods:{
+    buyAll(){
+      var infor=[];
+      var checkbox=document.getElementsByClassName('checkBasket');
+      for(var i in checkbox){
+          var id=checkbox[i].value;
+          if(checkNull(id)){
+            continue;
+          }
+          var buyInfor=new Object;
+          buyInfor.id=id;
+          var value=getValueById(id+'coupon');
+          if(!checkNull(value)){
+            buyInfor.coupon=value;
+          }
+          infor[infor.length]=buyInfor;
+      }
+      let data=JSON.stringify({
+        "coupons":infor,
+      });
+      requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
+        if(!result.flag){
+          alert(result.message);
+          return;
+        }
+      });
+    },
+    buySelect(){
+      var infor=[];
+      var checkbox=document.getElementsByClassName('checkBasket');
+      var flag=true;
+      for(var i in checkbox){
+        if(checkbox[i].checked){
+          flag=false;
+          var id=checkbox[i].value;
+          var buyInfor=new Object;
+          buyInfor.id=id;
+          var value=getValueById(id+'coupon');
+          if(!checkNull(value)){
+            buyInfor.coupon=value;
+          }
+          infor[infor.length]=buyInfor;
+        }
+      }
+      if(flag){
+        alert('선택한 제품이 없습니다');
+        return;
+      }
+      let data=JSON.stringify({
+        "coupons":infor,
+      });
+      requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
+        if(!result.flag){
+          alert(result.message);
+          return;
+        }
+      });
+    },
     confrimCoupon(id){
-      var couponName=getValueById(id+'coupon');
-      requestAsyncToGet(this.$serverDomain+'/auth/payment/coupon/'+couponName).then(result=>{
+      requestAsyncToGet(this.$serverDomain+'/auth/payment/coupon/'+getValueById(id+'coupon')).then(result=>{
         if(result.flag){
           document.getElementById(id+'coupon').style.backgroundColor='blue';
+          document.getElementById(id+'error').innerHTML='';
         }else{
           document.getElementById(id+'coupon').style.backgroundColor='red';
+          document.getElementById(id+'error').innerHTML=result.message;
         }
       });
     },
