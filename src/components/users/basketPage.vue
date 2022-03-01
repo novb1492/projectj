@@ -29,6 +29,10 @@
     <input type="button" id="nextButton" value="next" @click="changePage(1)">
     <input type="button" id="beforeButton" value="before" @click="changePage(-1)">
     <br>
+    card:<input type="radio" name="payKind" class="payKind" value="card">
+    vbank:<input type="radio" name="payKind" class="payKind" value="vbank">
+    kpay:<input type="radio" name="payKind" class="payKind" value="kpay">
+    <br>
     <input type="button" value="선택 구매하기" @click="buySelect" />
     <br>
     <input type="button" value="전체구매하기" @click="buyAll" />
@@ -37,6 +41,7 @@
 <style>
 
 </style>
+<script src="https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js"></script>
 <script>
 import { changeValueById, checkNull, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
 export default {
@@ -48,9 +53,26 @@ export default {
   },
   mounted(){
     this.requestServer(getParam('page'));
+    var recaptchaScript = document.createElement('script');
+    recaptchaScript.setAttribute('src', 'https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js');
+    document.head.appendChild(recaptchaScript);
   },
   methods:{
     buyAll(){
+      var payCheckBox=document.getElementsByClassName('payKind');
+      var flag=true;
+      var payKind=null;
+      for(var ii in payCheckBox){
+        if(payCheckBox[ii].checked){
+          flag=false;
+          payKind=payCheckBox[ii].value;
+          break;
+        }
+      }
+      if(flag){
+        alert('결제수단을 선택해 주세요');
+        return;
+      }
       var infor=[];
       var checkbox=document.getElementsByClassName('checkBasket');
       for(var i in checkbox){
@@ -68,18 +90,60 @@ export default {
       }
       let data=JSON.stringify({
         "coupons":infor,
+        "payKind":payKind,
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
           alert(result.message);
           return;
         }
+        console.log(result);
+        SETTLE_PG.pay({
+            "env": "https://tbnpg.settlebank.co.kr",
+            "mchtId": "nxca_jt_il",
+            "method": "card",
+            "trdDt": "20220301",    
+            "trdTm": "153500",
+            "mchtTrdNo": "12345",
+            "mchtName": "WonderLand",
+            "mchtEName": "WonderLand",
+            "pmtPrdtNm": "result.itemName",
+            "trdAmt": result.price,
+            //"mchtCustId":result.mchtCustId,
+            "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
+            "nextUrl": "http://localhost:8080/settle/callback",
+            "cancUrl": "http://localhost:8080/settle/callback",
+            "pktHash": result.pktHash,
+            "ui": {
+                "type": "popup",
+                "width": "430",
+                "height": "660"
+            }
+            }, function(rsp){
+                //iframe인경우 온다고 한다
+                console.log('통신완료');
+                console.log(rsp);
+            });      
       });
     },
     buySelect(){
+      var payCheckBox=document.getElementsByClassName('payKind');
+      var flag=true;
+      var payKind=null;
+      for(var ii in payCheckBox){
+        if(payCheckBox[ii].checked){
+          flag=false;
+          payKind=payCheckBox[ii].value;
+          break;
+        }
+      }
+      if(flag){
+        alert('결제수단을 선택해 주세요');
+        return;
+      }
+      flag=true;
       var infor=[];
       var checkbox=document.getElementsByClassName('checkBasket');
-      var flag=true;
       for(var i in checkbox){
         if(checkbox[i].checked){
           flag=false;
@@ -99,6 +163,7 @@ export default {
       }
       let data=JSON.stringify({
         "coupons":infor,
+        "payKind":payKind,
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
