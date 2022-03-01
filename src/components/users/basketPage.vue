@@ -6,6 +6,7 @@
         <th>수량</th>
         <th>가격</th>
         <th>담은날짜</th>
+        <th>선택</th>
         <th>삭제</th>
         <tr v-for="(basket,index) in baskets" :key="index" :id="basket.id+'area'"> 
           <td >{{basket.id}}</td>
@@ -16,6 +17,7 @@
             <td><input type="number"  :id="basket.id+'count'" :value="basket.basket_count" @change="changeCount(basket.id)"></td>
             <td><input type="text"  :id="basket.id+'price'" :value="basket.price+'원'" disabled></td>
             <td>{{basket.basket_created}}</td>
+            <td><input type="checkbox" class="checkBasket" :value="basket.id"></td>
             <td><input type="button" value="삭제" @click="deleteBasket(basket.id)"></td>
         </tr>
     </table>
