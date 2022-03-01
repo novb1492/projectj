@@ -2,7 +2,7 @@
     <div id="container" class="margintopNavSize"> 
         <side-bar />
         <span v-if="choose==0">
-            <basket-page />
+            <basket-page ref="basket_page" />
         </span>
     </div>
 </template>
@@ -21,6 +21,9 @@ name: 'userPage',
         console.log(to)
         console.log(from);
         this.choose=this.$route.params.id;
+        if(to.path=='/userPage/0'&&from.path=='/userPage/0'){
+            this.$refs.basket_page.re();
+        }
     } 
     },
     data() {
