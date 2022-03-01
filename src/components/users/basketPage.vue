@@ -19,7 +19,7 @@
             <td><input type="text"  :id="basket.id+'price'" :value="basket.price+'원'" disabled></td>
             <td>{{basket.basket_created}}</td>
             <td><input type="checkbox" class="checkBasket" :value="basket.id"></td>
-            <td><input type="text" :id="basket.id+'coupon'" value=""></td>
+            <td><input type="text" :id="basket.id+'coupon'" value="" @change="confrimCoupon(basket.id)"></td>
             <td><input type="button" value="삭제" @click="deleteBasket(basket.id)"></td>
         </tr>
     </table>
@@ -47,6 +47,16 @@ export default {
     this.requestServer(getParam('page'));
   },
   methods:{
+    confrimCoupon(id){
+      var couponName=getValueById(id+'coupon');
+      requestAsyncToGet(this.$serverDomain+'/auth/payment/coupon/'+couponName).then(result=>{
+        if(result.flag){
+          document.getElementById(id+'coupon').style.backgroundColor='blue';
+        }else{
+          document.getElementById(id+'coupon').style.backgroundColor='red';
+        }
+      });
+    },
     re(){
       this.requestServer(getParam('page'));
     },
