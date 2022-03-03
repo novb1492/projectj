@@ -45,12 +45,14 @@
     전화:<input type="radio" name="soldout" class="soldout" value="contact">
     <br>
     <br>
-    <input type="button" value="선택 구매하기" @click="buySelect" />
-    <br>
-    <input type="button" value="전체구매하기" @click="buyAll" />
     <h6>받을 주소 선택</h6>
-    기본주소<input type="radio" name="destinationAddress"  class="destinationAddress" value="default" >
-    다른주소<input type="radio" name="destinationAddress" class="destinationAddress" value="other">
+    기본주소<input type="radio" name="destinationAddress"  class="destinationAddress" value="default" @click="showDefaultAddress" >
+    다른주소<input type="radio" name="destinationAddress" class="destinationAddress" value="other" @click="chooseOtherAddress">
+    <div id="defaultAddressArea" hidden>dd</div>
+    <br>
+    <br>
+    <input type="button" value="선택 구매하기" @click="buySelect" />  
+    <input type="button" value="전체구매하기" @click="buyAll" />
   </div>
 </template>
 <style>
@@ -73,6 +75,9 @@ export default {
     document.head.appendChild(recaptchaScript);
   },
   methods:{
+    chooseOtherAddress(){
+      
+    },
     buyAll(){
       var checkbox=document.getElementsByClassName('payKind');
       var flag=true;
