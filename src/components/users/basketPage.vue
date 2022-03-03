@@ -48,6 +48,9 @@
     <input type="button" value="선택 구매하기" @click="buySelect" />
     <br>
     <input type="button" value="전체구매하기" @click="buyAll" />
+    <h6>받을 주소 선택</h6>
+    기본주소<input type="radio" name="destinationAddress"  class="destinationAddress" value="default" >
+    다른주소<input type="radio" name="destinationAddress" class="destinationAddress" value="other">
   </div>
 </template>
 <style>
@@ -136,7 +139,7 @@ export default {
             "mchtEName": "WonderLand",
             "pmtPrdtNm": result.productNames,
             "trdAmt": result.price,
-            //"mchtCustId":result.mchtCustId,
+            "mchtCustId":result.mchtCustId,
             "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
             "nextUrl": "http://localhost:8080/settle/callback",
             "cancUrl": "http://localhost:8080/settle/callback",
