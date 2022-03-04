@@ -75,7 +75,6 @@
 </style>
 <script src="https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js"></script>
 <script>
-import Vue from 'vue';
 import { changeValueById, checkNull, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
 import PostCodeComponent from '../postCodeComponent.vue';
 export default {
@@ -96,15 +95,21 @@ export default {
   methods:{
     showDefaultAddress(){
       this.otherAddressFlag=false;
-    },
-     onComplete(result) {
-      console.log(result);
-      document.getElementById("postcode").value = result.zonecode;
-      document.getElementById("address").value = result.address;
-      alert("주소 선택 완료");
+      requestAsyncToGet(this.$serverDomain+'/auth/user/check?detail=address').then(result=>{
+        if(result.flag){
+          changeValueById('postcode',result.postcode);
+          changeValueById('address',result.address);
+          changeValueById('detailAddress',result.detailAddress);
+        }else{
+          alert(result.message);
+        }
+      });
     },
     chooseOtherAddress(){
-       this.otherAddressFlag=true;
+      changeValueById('postcode','');
+      changeValueById('address','');
+      changeValueById('detailAddress','');
+      this.otherAddressFlag=true;
     },
     buyAll(){
       var checkbox=document.getElementsByClassName('payKind');
