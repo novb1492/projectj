@@ -48,8 +48,23 @@
     <h6>받을 주소 선택</h6>
     기본주소<input type="radio" name="destinationAddress"  class="destinationAddress" value="default" @click="showDefaultAddress" >
     다른주소<input type="radio" name="destinationAddress" class="destinationAddress" value="other" @click="chooseOtherAddress">
-    <div id="defaultAddressArea" hidden>dd</div>
+    <span v-if="otherAddressFlag">
+         <post-code-component />
+    </span>
     <br>
+    <div id="showAddressArea">
+      우편번호
+      <br>
+      <input type="text" id="postcode" disabled>
+      <br>
+      주소
+      <br>
+      <input type="text" id="address" disabled>
+      <br>
+      상세주소
+      <br>
+      <input type="text" id="detailAddress">
+    </div>
     <br>
     <input type="button" value="선택 구매하기" @click="buySelect" />  
     <input type="button" value="전체구매하기" @click="buyAll" />
@@ -60,12 +75,16 @@
 </style>
 <script src="https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js"></script>
 <script>
+import Vue from 'vue';
 import { changeValueById, checkNull, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
+import PostCodeComponent from '../postCodeComponent.vue';
 export default {
   name: 'basketPage',
+    components: { PostCodeComponent },
   data() {
     return {
       baskets:[],
+      otherAddressFlag:false,
     }
   },
   mounted(){
@@ -75,8 +94,17 @@ export default {
     document.head.appendChild(recaptchaScript);
   },
   methods:{
+    showDefaultAddress(){
+      this.otherAddressFlag=false;
+    },
+     onComplete(result) {
+      console.log(result);
+      document.getElementById("postcode").value = result.zonecode;
+      document.getElementById("address").value = result.address;
+      alert("주소 선택 완료");
+    },
     chooseOtherAddress(){
-      
+       this.otherAddressFlag=true;
     },
     buyAll(){
       var checkbox=document.getElementsByClassName('payKind');
@@ -126,6 +154,9 @@ export default {
         "coupons":infor,
         "payKind":payKind,
         "soldOut":soldOut,
+        "postcode":getValueById('postcode'),
+        "address":getValueById('address'),
+        "detailAddress":getValueById("detailAddress"),
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
@@ -214,6 +245,9 @@ export default {
         "coupons":infor,
         "payKind":payKind,
         "soldOut":soldOut,
+        "postcode":getValueById('postcode'),
+        "address":getValueById('address'),
+        "detailAddress":getValueById("detailAddress"),
       });
       requestAsyncToPost(this.$serverDomain+'/auth/payment',data).then(result=>{
         if(!result.flag){
