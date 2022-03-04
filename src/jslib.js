@@ -181,3 +181,60 @@ export function getTodayDate(){
     var day = ('0' + today.getDate()).slice(-2);
     return  year + '-' + month  + '-' + day;
 }
+export function payForCard(SETTLE_PG,result){
+    SETTLE_PG.pay({
+        "env": "https://tbnpg.settlebank.co.kr",
+        "mchtId": result.mchtId,
+        "method": result.method,
+        "trdDt": result.date,    
+        "trdTm": result.time,
+        "mchtTrdNo": result.mchtTrdNo,
+        "mchtName": "WonderLand",
+        "mchtEName": "WonderLand",
+        "pmtPrdtNm": result.productNames,
+        "trdAmt": result.price,
+        "mchtCustId":result.mchtCustId,
+        "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
+        "nextUrl": "http://localhost:8080/settle/callback",
+        "cancUrl": "http://localhost:8080/settle/callback",
+        "pktHash": result.pktHash,
+        "ui": {
+            "type": "popup",
+            "width": "430",
+            "height": "660"
+        }
+        }, function(rsp){
+            //iframe인경우 온다고 한다
+            console.log('통신완료');
+            console.log(rsp);
+        });      
+}
+export function payForVbank(SETTLE_PG,result){
+    SETTLE_PG.pay({
+        "env": "https://tbnpg.settlebank.co.kr",
+        "mchtId": result.mchtId,
+        "method": result.method,
+        "trdDt": result.date,    
+        "trdTm": result.time,
+        "mchtTrdNo": result.mchtTrdNo,
+        "mchtName": "WonderLand",
+        "mchtEName": "WonderLand",
+        "pmtPrdtNm": result.productNames,
+        "expireDt": result.expireDt,
+        "trdAmt": result.price,
+        "mchtCustId":result.mchtCustId,
+        "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
+        "nextUrl": "http://localhost:8080/settle/callback",
+        "cancUrl": "http://localhost:8080/settle/callback",
+        "pktHash": result.pktHash,
+        "ui": {
+            "type": "popup",
+            "width": "430",
+            "height": "660"
+        }
+        }, function(rsp){
+            //iframe인경우 온다고 한다
+            console.log('통신완료');
+            console.log(rsp);
+        });      
+}

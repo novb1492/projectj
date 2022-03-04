@@ -75,7 +75,7 @@
 </style>
 <script src="https://tbnpg.settlebank.co.kr/resources/js/v1/SettlePG.js"></script>
 <script>
-import { changeValueById, checkNull, disabledById, getParam, getValueById, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
+import { changeValueById, checkNull, disabledById, getParam, getValueById, openPOPup, payForCard, payForVbank, requestAsyncToDelete, requestAsyncToGet, requestAsyncToPost, requestAsyncToPut } from '../../jslib'
 import PostCodeComponent from '../postCodeComponent.vue';
 export default {
   name: 'basketPage',
@@ -169,33 +169,15 @@ export default {
           return;
         }
         console.log(result);
-        SETTLE_PG.pay({
-            "env": "https://tbnpg.settlebank.co.kr",
-            "mchtId": "nxca_jt_il",
-            "method": "card",
-            "trdDt": result.date,    
-            "trdTm": result.time,
-            "mchtTrdNo": result.mchtTrdNo,
-            "mchtName": "WonderLand",
-            "mchtEName": "WonderLand",
-            "pmtPrdtNm": result.productNames,
-            "trdAmt": result.price,
-            "mchtCustId":result.mchtCustId,
-            "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
-            "nextUrl": "http://localhost:8080/settle/callback",
-            "cancUrl": "http://localhost:8080/settle/callback",
-            "pktHash": result.pktHash,
-            "ui": {
-                "type": "popup",
-                "width": "430",
-                "height": "660"
-            }
-            }, function(rsp){
-                //iframe인경우 온다고 한다
-                console.log('통신완료');
-                console.log(rsp);
-            });      
-      });
+        if(payKind=='card'){
+          payForCard(SETTLE_PG,result);
+        }else if(payKind=='vbank'){
+          payForVbank(SETTLE_PG,result);
+        }else if(payKind=='kpay'){
+          // 어플인지,모바일인지,피씨인지 판단 로직필요 일단 pc로 테스트
+          openPOPup(result.pc,500,500);
+        }
+      })
     },
     buySelect(){
       var checkbox=document.getElementsByClassName('payKind');
