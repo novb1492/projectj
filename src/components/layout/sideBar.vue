@@ -276,7 +276,10 @@ export default {
       return this.choose;
     },
     changePage(pageNum){
-      if(pageNum==1){
+      alert(pageNum);
+      if(pageNum==0){
+        this.$router.push('/companyPage/0');
+      }else if(pageNum==1){
         this.$router.push('/companyPage/1?page=1&keyword=null');
       }else if(pageNum>3&&pageNum<4){
         var state=0;

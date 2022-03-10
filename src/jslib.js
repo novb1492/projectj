@@ -69,7 +69,7 @@ export async function requestAsyncToDelete(url){
 export async function requestAsyncToPost(url,data){
     return  await axios.post(url,data,{
       headers: {
-          "Content-Type": `application/json`,
+        "Content-Type": `application/json`,
       },
       withCredentials: true ,
   }).then(function(response){

@@ -47,13 +47,12 @@ export default {
         "email":email,
         "pwd":pwd,
       });
-      modules.requestPost(this.$serverDomain+"/login",data).then(result=>{
+      modules.requestAsyncToPost(this.$serverDomain+"/login",data).then(result=>{
         console.log(result);
-        var res=result.data;
-        if(res.flag){
+        if(result.flag){
           location.href="/";
         }else{
-          alert(res.message);
+          alert(result.message);
         }
       });
     }
