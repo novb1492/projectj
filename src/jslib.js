@@ -195,8 +195,8 @@ export function payForCard(SETTLE_PG,result){
         "trdAmt": result.price,
         "mchtCustId":result.mchtCustId,
         "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
-        "nextUrl": "http://localhost:8080/settle/suc",
-        "cancUrl": "http://localhost:8080/settle/fail",
+        "nextUrl": "http://localhost:8080/settle/card/suc",
+        "cancUrl": "http://localhost:8080/settle/card/fail",
         "pktHash": result.pktHash,
         "ui": {
             "type": "popup",
@@ -224,8 +224,8 @@ export function payForVbank(SETTLE_PG,result){
         "trdAmt": result.price,
         "mchtCustId":result.mchtCustId,
         "notiUrl": "http://kim80800.iptime.org:8080/auth/settlebank",
-        "nextUrl": "http://localhost:8080/settle/suc",
-        "cancUrl": "http://localhost:8080/settle/fail",
+        "nextUrl": "http://localhost:8080/settle/vbank/suc",
+        "cancUrl": "http://localhost:8080/settle/vbank/fail",
         "pktHash": result.pktHash,
         "ui": {
             "type": "popup",
