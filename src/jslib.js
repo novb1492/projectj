@@ -191,6 +191,7 @@ export function payForCard(SETTLE_PG,result){
         "mchtTrdNo": result.mchtTrdNo,
         "mchtName": "WonderLand",
         "mchtEName": "WonderLand",
+        "expireDt": result.expireDt,
         "pmtPrdtNm": result.productNames,
         "trdAmt": result.price,
         "mchtCustId":result.mchtCustId,
@@ -209,6 +210,7 @@ export function payForCard(SETTLE_PG,result){
             console.log(rsp);
         });      
 }
+//하나로 대응가능 
 export function payForVbank(SETTLE_PG,result){
     SETTLE_PG.pay({
         "env": "https://tbnpg.settlebank.co.kr",
