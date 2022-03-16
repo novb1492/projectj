@@ -242,8 +242,10 @@ export default {
           return;
         }
         console.log(result);
-        if(payKind=='card'||payKind=='vbank'){
+        if(payKind=='card'){
           payForCard(SETTLE_PG,result);
+        }else if(payKind=='vbank'){
+          payForVbank(SETTLE_PG,result);
         }else if(payKind=='kpay'){
           // 어플인지,모바일인지,피씨인지 판단 로직필요 일단 pc로 테스트
           openPOPup(result.pc,500,500);
