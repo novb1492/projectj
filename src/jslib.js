@@ -191,7 +191,7 @@ export function payForCard(SETTLE_PG,result){
         "mchtTrdNo": result.mchtTrdNo,
         "mchtName": "WonderLand",
         "mchtEName": "WonderLand",
-        "expireDt": result.expireDt,
+        "expireDt": result.expireDt,//가상계좌시
         "pmtPrdtNm": result.productNames,
         "trdAmt": result.price,
         "mchtCustId":result.mchtCustId,
