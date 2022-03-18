@@ -4,6 +4,9 @@
         <span v-if="choose==0">
             <basket-page ref="basket_page" />
         </span>
+        <span v-if="choose==1">
+            <show-payment-list-page ref="paymentList"/>
+        </span>
     </div>
 </template>
 <style>
@@ -12,8 +15,9 @@
 <script>
 import SideBar from '../layout/sideBar.vue';
 import basketPage from './basketPage.vue';
+import ShowPaymentListPage from './showPaymentListPage.vue';
 export default {
-  components: { basketPage, SideBar },
+  components: { basketPage, SideBar, ShowPaymentListPage },
 name: 'userPage',
    watch:{ 
     $route(to,from){

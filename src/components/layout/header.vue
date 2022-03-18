@@ -28,7 +28,7 @@
                 <li><a class="dropdown-item" href="/userPage/0?page=1" >장바구니가기</a></li>
                 <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">받을 주소 불러오기</a></li>
                 <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">마이페이지</a></li>
-                <li><a class="dropdown-item" href="javascript:void();" @click="showHomeAddress()">주문내역 보기</a></li>
+                <li><a class="dropdown-item" href="javascript:void();" @click="goPaymnetListPage">주문내역 보기</a></li>
                 <!--<li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="javascript:void();">Something else here</a></li>-->
               </div>
@@ -107,6 +107,9 @@ export default {
     }
   },
   methods : {
+    goPaymnetListPage(){
+      location.href='/userPage/1?page=1';
+    },
     getUserInfor(){
       var logingInfor=new Object();
       logingInfor.loginFlag=this.loginFlag;
