@@ -11,12 +11,12 @@ import { requestAsyncToGet } from '../../jslib'
 export default {
   name: 'showPaymentListPage',
   created(){
-    requestAsyncToGet(this.$serverDomain+'/auth/user/payment').then(result=>{
+    requestAsyncToGet(this.$serverDomain+'/auth/user/payments/1/null/null').then(result=>{
         console.log(result);
     });
   },
   methods:{
-      
+
   },
 }
 </script>
