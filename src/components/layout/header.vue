@@ -138,7 +138,7 @@ export default {
     },
     useHeader(){
         var showOrNot=true;
-        if(this.uri=='/resultPage'||this.uri=='/joinPage'||this.uri=='/loginPage'||this.uri=='/myPage'||this.uri=='/findPwdPage'||this.uri=='/findEmailPage'||this.uri=='/changePhonePage'||this.uri=='/showItemPage'||this.uri=='/showSucBuyPage'||this.uri=='/popUpClose'||this.uri=='/beforeJoinPage'||this.uri=='/authPage'||this.uri=='/findAccountPage'){
+        if(this.uri=='/store/paymentDetailPage'||this.uri=='/resultPage'||this.uri=='/joinPage'||this.uri=='/loginPage'||this.uri=='/myPage'||this.uri=='/findPwdPage'||this.uri=='/findEmailPage'||this.uri=='/changePhonePage'||this.uri=='/showItemPage'||this.uri=='/showSucBuyPage'||this.uri=='/popUpClose'||this.uri=='/beforeJoinPage'||this.uri=='/authPage'||this.uri=='/findAccountPage'){
            showOrNot= false;
         }
         return showOrNot;
