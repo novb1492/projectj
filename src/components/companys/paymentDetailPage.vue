@@ -23,14 +23,16 @@
             </span>
         </div>
     </div>
-    <input type="button" value="장보기시작" @click="startPickUp">
+    <input type="button" value="장보기 시작" @click="changeState(2)">
+    <input type="button" value="장보기 취소" @click="changeState(3)">
+    <input type="button" value="장보기 완료" @click="changeState(4)">
   </div>
 </template>
 <style>
 #productImg{width: 300px;}
 </style>
 <script>
-import { getParam, requestAsyncToGet } from '../../jslib'
+import { getParam, requestAsyncToGet, requestAsyncToPut } from '../../jslib'
 import shortLogo from '../layout/shortLogo.vue';
 export default {
   components: { shortLogo },
@@ -53,8 +55,10 @@ export default {
     });
   },
   methods:{
-    startPickUp(){
-
+    changeState(state){
+        requestAsyncToPut(this.$serverDomain+'/auth/store/order/state/'+this.storeId+'/'+this.mcht_trd_no+'/'+state).then(result=>{
+            alert(result.message);
+        });
     }
   },
 }
