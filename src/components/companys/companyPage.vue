@@ -26,7 +26,7 @@
       <product-detail-page v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
     </span>
     <span v-else-if="choose==10">
-      <orders-page ref="orders"/>
+      <orders-page ref="orders" v-on:openSubSide="openSubSide" v-on:changeStoreId="changeStoreId"/>
     </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ref="childComponet" ></component>
