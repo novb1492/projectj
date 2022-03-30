@@ -25,6 +25,9 @@
     <span v-else-if="choose==8">
       <product-detail-page v-on:changeStoreId="changeStoreId" v-on:openSubSide="openSubSide" />
     </span>
+    <span v-else-if="choose==10">
+      <orders-page ref="orders"/>
+    </span>
     <span v-else>
       <component v-bind:is="chooseComponet" ref="childComponet" ></component>
     </span>
@@ -39,6 +42,7 @@ import DeliveryDetailPage from './deliveryDetailPage.vue';
 import DeliveryPage from './deliveryPage.vue';
 import FlyerDetailPage from './flyerDetailPage.vue';
 import FlyerStPage from './flyerStPage.vue';
+import OrdersPage from './ordersPage.vue';
 import ProductDetailPage from './productDetailPage.vue';
 import RegistFlyerPage from './registFlyerPage.vue';
 import ShowSt from './showSt.vue';
@@ -84,6 +88,7 @@ export default {
       FlyerStPage,
       FlyerDetailPage,
       ProductDetailPage,
+      OrdersPage,
   },
   computed:{
     chooseComponet(){

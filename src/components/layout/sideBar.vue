@@ -107,6 +107,11 @@
           전단등록(상품등록) 
         </button>
         </li>
+         <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded" @click="changePage(10)">
+          주문조회
+        </button>
+        </li>
       </span>
     </ul>
     </span>
@@ -276,7 +281,6 @@ export default {
       return this.choose;
     },
     changePage(pageNum){
-      alert(pageNum);
       if(pageNum==0){
         this.$router.push('/companyPage/0');
       }else if(pageNum==1){
@@ -301,6 +305,8 @@ export default {
         this.$router.push('/storePage/0?storeid='+getParam('storeid'));
       }else if(pageNum>=8&&pageNum<9){
         this.$router.push('/storePage/1?storeid='+getParam('storeid')+'&page=1&keyword=null&category='+pageNum+'&flyerid='+this.flyerId);
+      }else if(pageNum==10){
+        this.$router.push('/companyPage/10?storeid='+getParam('storeid')+'&page=1&keyword=null');
       }else{
         alert('사이드바에 없는 요청');
       }
