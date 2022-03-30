@@ -1,10 +1,9 @@
 <template>
   <div >
    <div id="showStorsPage" class="margintopNavSize marginLeftSideSize">
-      <ul style="float: left; text-align: center;">
-      <span v-for="(shop,index) in this.shops" :key="index">
-        <li style="float: left; margin-left: 10px;">
-          <a href="javascript:void();" @click="showStore(shop.store_id)">
+     <div class="row">
+        <div class="col" v-for="(shop,index) in this.shops" :key="index">
+           <a href="javascript:void();" @click="showStore(shop.store_id)">
             <img :src="shop.thumb_nail" id="shopImg" alt="">
             <br>
             {{shop.store_name}}
@@ -18,9 +17,9 @@
               영업중지중인 매장입니다
             </span>
           </a>
-        </li>
-      </span>
-    </ul> 
+        </div>
+     </div>
+    
    <div id="buttonArea">
     <input type="button" @click="changePage(1)"   id="nextbutton" value="다음">
     <span id="nowPage" ></span>/<span id="totalPage" ></span>
