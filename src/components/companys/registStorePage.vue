@@ -1,7 +1,8 @@
 <template>
   <div  class="margintopNavSize marginLeftSideSize" >
-      <div id="registStorePage" style="float: left;">
-        <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
+      <div class="row">
+        <div class="col">
+           <h5 class="mt-2">매장을 대표하는 사진을 업로드해주세요</h5>
         <img  :src="thumbnail"  id="thumbnail" class="storeThumbnail">
         <br>
         <input type="file" id="img" class="mt-2" name="img" accept=".gif, .jpg, .png" @change="uploadThumbNail">
@@ -39,74 +40,72 @@
         <br>
         <span >간단한 가게 설명을 적어주세요</span>
         <editor class="mt-2" :text="null" :placeHolder="'간단한 가게 설명을 적어주세요'" ref="ck_editor"/>
-      </div>
-      <div id="registStorePage2" style="float: left;">
-         <vue-daum-postcode
-        id="kpost"
-        @complete="onComplete"
-        style="overflow: scroll; width: 400px; height: 500px;"
-      />
-        <span>우편번호</span>
-        <input
-        type="text"
-        class="ml105 mt-2"
-        id="postcode"
-        placeholder="우편번호"
-        disabled
-      />
-      <br>
-      <span>주소</span><input
-        type="text"
-        class="ml135 mt-2"
-        id="address"
-        placeholder="주소"
-        disabled
-      />
-      <br>
-       <span>도로명주소</span><input
-        type="text"
-        class="ml135 mt-2"
-        id="address2"
-        placeholder="도로명주소"
-        disabled
-      />
-      <br>
-      <span>상세주소</span><input
-        type="text"
-        class="ml105 mt-2"
-        id="detailAddress"
-        placeholder="상세주소"
-      />
-      <br>
-      <span>최소배달금액(원)</span>
-      <input type="number"
-        class="ml105 mt-2"
-        id="minPrice"
-        placeholder="최소배달금액"
-      />
-      <br>
-      <span>최대배달반경(km)</span>
-      <input type="number"
-        class="ml80 mt-2"
-        id="deliverRadius"
-        placeholder="최대배달반경"
-        @keyup="showCircle"
-      />
-      <br>
-      </div>
-      <div id="registStorePage3" >
-        <k-map :width="400" :height="500" :zoomLevel=5 ref="k_map"/>
-      <br>
-      </div>
-      <div id="registStorePage4">
-      <span >휴대폰번호</span>
-      <input type="text" class="ml80" id="phone">
-      <br>
-      <span>매장전화번호</span>
-      <input type="text" class="ml80 mt-2" id="tel">
-      <br>
-      <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
-      <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+        </div>
+        <div class="col">
+                <vue-daum-postcode
+              id="kpost"
+              @complete="onComplete"
+              style="overflow: scroll; width: 400px; height: 500px;"
+            />
+              <span>우편번호</span>
+              <input
+              type="text"
+              class="ml105 mt-2"
+              id="postcode"
+              placeholder="우편번호"
+              disabled
+            />
+            <br>
+            <span>주소</span><input
+              type="text"
+              class="ml135 mt-2"
+              id="address"
+              placeholder="주소"
+              disabled
+            />
+            <br>
+            <span>도로명주소</span><input
+              type="text"
+              class="ml135 mt-2"
+              id="address2"
+              placeholder="도로명주소"
+              disabled
+            />
+            <br>
+            <span>상세주소</span><input
+              type="text"
+              class="ml105 mt-2"
+              id="detailAddress"
+              placeholder="상세주소"
+            />
+            <br>
+            <span>최소배달금액(원)</span>
+            <input type="number"
+              class="ml105 mt-2"
+              id="minPrice"
+              placeholder="최소배달금액"
+            />
+            <br>
+            <span>최대배달반경(km)</span>
+            <input type="number"
+              class="ml80 mt-2"
+              id="deliverRadius"
+              placeholder="최대배달반경"
+              @keyup="showCircle"
+            />
+            <br>
+        </div>
+        <div class="col">
+          <k-map :width="400" :height="500" :zoomLevel=5 ref="k_map"/>
+          <span >휴대폰번호</span>
+          <input type="text" class="ml80" id="phone">
+          <br>
+          <span>매장전화번호</span>
+          <input type="text" class="ml80 mt-2" id="tel">
+          <br>
+          <input type="button" @click="showAuthPage('phone')" id="check_phone_button" class="mt-2" value="전화인증" />
+          <input type="button" value="가맹점 등록" @click="tryInsertStore" >
+            </div>
       </div>
   </div>
 </template>
