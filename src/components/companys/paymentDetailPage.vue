@@ -19,7 +19,7 @@
                 환불된 제품입니다
             </span>
             <span>
-                <input type="button" value="환불하기">
+                <input type="button" value="환불하기" @click="cancle(order.order_id)">
             </span>
         </div>
     </div>
@@ -59,7 +59,12 @@ export default {
         requestAsyncToPut(this.$serverDomain+'/auth/store/order/state/'+this.storeId+'/'+this.mcht_trd_no+'/'+state).then(result=>{
             alert(result.message);
         });
-    }
+    },
+    cancle(orderId){
+      requestAsyncToPut(this.$serverDomain+'/auth/store/order/cancle/'+this.storeId+'/'+orderId).then(result=>{
+        alert(result.message);
+      });
+    },
   },
 }
 </script>
