@@ -35,13 +35,15 @@
       </div>
       <input type="button" value="다음" id="nextButton" @click="changePage(1)">
       <input type="button" value="이전" id="beforeButton" @click="changePage(-1)">
+      <br>
+      <input type="button" value="배달준비하기" @click="makeRoom">
   </div>
 </template>
 <style>
 
 </style>
 <script>
-import { disabledById, getParam, openPOPup, requestAsyncToGet } from '../../jslib'
+import { disabledById, getParam, openPOPup, requestAsyncToGet, requestAsyncToPost } from '../../jslib'
 export default {
   name: 'ordersPage',
     data() {
@@ -60,6 +62,14 @@ export default {
     this.requestTo(getParam('page'),null);
   },
   methods:{
+    makeRoom(){
+      let data=JSON.stringify({
+        "mchtTrdNos":this.checkedArr,
+      });
+      requestAsyncToPost(this.$serverDomain+'/auth/store/deliver/ready/'+this.storeId,data).then(result=>{
+        alert(result.message);
+      });
+    },
     clickCheck(mchtTrdNo){
       var num=this.checkcheckedArr(mchtTrdNo);
       if(num==-1){
