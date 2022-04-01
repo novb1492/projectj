@@ -80,17 +80,9 @@
       <li class="border-top my-3"></li>
       <span id="storeDetailSubSide" >
          <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#deliver-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed"  @click="changePage(3)">
           배달조회
         </button>
-        <div class="collapse" id="deliver-collapse" style="">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.1)">완료된배달</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.2)">취소된배달</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.3)">배달중</a></li>
-            <li><a href="javascript:void();" class="link-dark rounded" @click="changePage(3.4)">배달전</a></li>
-          </ul>
-        </div>
       </li>
         <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded" @click="changePage(4)">
@@ -285,16 +277,8 @@ export default {
         this.$router.push('/companyPage/0');
       }else if(pageNum==1){
         this.$router.push('/companyPage/1?page=1&keyword=null');
-      }else if(pageNum>3&&pageNum<4){
-        var state=0;
-        if(pageNum==3.1){
-          state=1
-        }else if(pageNum==3.2){
-          state=3
-        }else if(pageNum==3.3){
-          state=2
-        }
-        this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+getParam('storeid')+'&state='+state);
+      }else if(pageNum==3){
+        this.$router.push('/companyPage/3?&page=1&start=null&end=null&storeid='+getParam('storeid'));
       }else if(pageNum==4){
         this.$emit('clickStore',null);
       }else if(pageNum==5){

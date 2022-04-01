@@ -55,7 +55,7 @@ export default {
       this.requestServer(page,start,end);
     },
     requestServer(page,start,end){
-      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+start+','+end+'?state='+modules.getParam('state')+'&storeId='+this.storeId).then(result=>{
+      modules.requestAsyncToGet(this.$serverDomain+'/auth/store/gets/deliver/'+page+'/'+start+','+end+'?storeId='+this.storeId).then(result=>{
       console.log(result);
       if(!result.flag){
         alert(result.message);
