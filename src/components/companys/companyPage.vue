@@ -125,6 +125,8 @@ export default {
         this.$refs.delivery_page.backEvent(getParam('page'),getParam('start'),getParam('end'));
       }else if(to.path=='/companyPage/5'&&from.path=='/companyPage/5'){
         this.$refs.flyer_st.backEvent(getParam('page'),getParam('start'),getParam('end'));
+      }else if(to.path=='/companyPage/10'&&from.path=='/companyPage/10'){
+        this.$refs.orders.backEvent(getParam('page'),getParam('keyword'));
       }
     },
     subSideVarOnOff(to,from){

@@ -30,13 +30,15 @@
               </a>
           </div>
       </div>
+      <input type="button" value="다음" id="nextButton" @click="changePage(1)">
+      <input type="button" value="이전" id="beforeButton" @click="changePage(-1)">
   </div>
 </template>
 <style>
 
 </style>
 <script>
-import { getParam, openPOPup, requestAsyncToGet } from '../../jslib'
+import { disabledById, getParam, openPOPup, requestAsyncToGet } from '../../jslib'
 export default {
   name: 'ordersPage',
     data() {
@@ -54,6 +56,12 @@ export default {
     this.requestTo(getParam('page'),null);
   },
   methods:{
+    backEvent(page,keyword){
+      this.requestTo(page,keyword);
+    },
+    changePage(num){
+      this.$router.push("/companyPage/10?storeid="+this.storeId+"&page="+(getParam('page')*1+num)+"&keyword="+getParam("keyword"));
+    },
     showDetail(mcht_trd_no){
       openPOPup('/store/paymentDetailPage?storeid='+this.storeId+'&mcht_trd_no='+mcht_trd_no,'paymentDetailPage',window.innerWidth,window.innerHeight);
     },
@@ -65,7 +73,16 @@ export default {
                 return;
             }
             this.paymentArr=result.message;
-
+            if(page==1){
+              disabledById('beforeButton',true);
+            }else{
+              disabledById('beforeButton',false);
+            }
+            if(result.totalPage==page){
+              disabledById('nextButton',true);
+            }else{
+              disabledById('nextButton',false);
+            }
         });
     },
   },
