@@ -1,16 +1,18 @@
 <template>
   <div class="margintopNavSize marginLeftSideSize">
-    <span v-for="(room,index) in this.rooms" :key="index">
-      <span v-if="room.deliver_rooms_flag==1">
-        <input type="button" :value="room.room_id+'배달완료'" @click="goDetailPage(room.room_id)" >
-      </span>
-      <span v-else-if="room.deliver_rooms_flag==0">
-        <input type="button" :value="room.room_id+'배달'" @click="goDetailPage(room.room_id)">
-      </span>
-      <span v-else-if="room.deliver_rooms_flag==2">
-        <input type="button" :value="room.room_id+'배달중'" @click="goDetailPage(room.room_id)">
-      </span>
-    </span>
+    <div class="row">
+        <div class="col"  v-for="(room,index) in this.rooms" :key="index">
+            <span v-if="room.deliver_rooms_flag==1">
+            <input type="button" :value="room.room_id+'배달완료'" @click="goDetailPage(room.room_id)" >
+          </span>
+          <span v-else-if="room.deliver_rooms_flag==0">
+            <input type="button" :value="room.room_id+'배달'" @click="goDetailPage(room.room_id)">
+          </span>
+          <span v-else-if="room.deliver_rooms_flag==2">
+            <input type="button" :value="room.room_id+'배달중'" @click="goDetailPage(room.room_id)">
+          </span>
+        </div>
+    </div>  
     <br>
     <div>
       <input type="button" value="다음" id="nextButton" @click="changePage(1)">
@@ -19,6 +21,8 @@
       <input type="date" id="start">
       <input type="date" id="end">
       <input type="button" value="기간으로 검색하기" @click="changeDate">
+      <br>
+      <input type="button" value="배달방 만들기" @click="makeRoom">
     </div>
   </div>
 </template>
@@ -48,6 +52,9 @@ export default {
     this.requestServer(this.getPage(),this.getStart(),this.getEnd());
   },
   methods : {
+    makeRoom(){
+      modules.openPOPup('/makeDeliverRoomPage?storeid='+this.storeId,'makeDeliverRoomPage',window.innerWidth,window.innerHeight);
+    },
     changeDate(){
       this.$router.push("/companyPage/3?page=1&start="+modules.getValueById('start')+'&end='+modules.getValueById('end')+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
