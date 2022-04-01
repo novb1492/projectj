@@ -28,6 +28,9 @@
                     </span>
                 </ul>
               </a>
+              <input type="checkbox" :id="payment.mcht_trd_no+'checkbox'" @click="clickCheck(payment.mcht_trd_no)" >
+              <span v-if="checkState(payment.mcht_trd_no)">
+              </span>
           </div>
       </div>
       <input type="button" value="다음" id="nextButton" @click="changePage(1)">
@@ -46,6 +49,7 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       storeId:getParam('storeid'),
       paymentArr:[],
+      checkedArr:[],
     }
   },
   created(){
@@ -56,6 +60,28 @@ export default {
     this.requestTo(getParam('page'),null);
   },
   methods:{
+    clickCheck(mchtTrdNo){
+      var num=this.checkcheckedArr(mchtTrdNo);
+      if(num==-1){
+          this.checkedArr[this.checkedArr.length]=mchtTrdNo;
+      }else{
+        this.checkedArr.splice(num,num+1);
+      }
+      console.log(this.checkedArr);
+    },
+    checkState(mchtTrdNo){
+      this.$nextTick(()=>{
+        if(this.checkcheckedArr(mchtTrdNo)!=-1){
+          document.getElementById(mchtTrdNo+'checkbox').checked=true;
+        }else{
+          document.getElementById(mchtTrdNo+'checkbox').checked=false;
+        }
+      });
+      return true;
+    },
+    checkcheckedArr(mchtTrdNo){
+      return this.checkedArr.indexOf(mchtTrdNo);
+    },
     backEvent(page,keyword){
       this.requestTo(page,keyword);
     },
@@ -83,6 +109,7 @@ export default {
             }else{
               disabledById('nextButton',false);
             }
+  
         });
     },
   },

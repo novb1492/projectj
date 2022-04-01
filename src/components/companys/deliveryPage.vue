@@ -21,8 +21,6 @@
       <input type="date" id="start">
       <input type="date" id="end">
       <input type="button" value="기간으로 검색하기" @click="changeDate">
-      <br>
-      <input type="button" value="배달방 만들기" @click="makeRoom">
     </div>
   </div>
 </template>
@@ -52,9 +50,6 @@ export default {
     this.requestServer(this.getPage(),this.getStart(),this.getEnd());
   },
   methods : {
-    makeRoom(){
-      modules.openPOPup('/makeDeliverRoomPage?storeid='+this.storeId,'makeDeliverRoomPage',window.innerWidth,window.innerHeight);
-    },
     changeDate(){
       this.$router.push("/companyPage/3?page=1&start="+modules.getValueById('start')+'&end='+modules.getValueById('end')+'&storeid='+this.storeId+'&state='+modules.getParam('state'));
     },
