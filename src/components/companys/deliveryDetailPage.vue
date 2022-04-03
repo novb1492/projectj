@@ -1,12 +1,14 @@
 <template>
   <div class="margintopNavSize marginLeftSideSize">
-      <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map" style="float: left;" @canplay="showDestiantions"/>
-      <ul >
-        <li v-for="(address,index) in this.destinationAddress" :key="index">
-            목적지 주소:{{address}}
-        </li>
-      </ul>
-        <br>
+    <div class="row">
+      <div class="col"> 
+        <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map"  @canplay="showDestiantions"/>
+      </div>
+      <div class="col" v-for="(address,index) in this.destinationAddress" :key="index">
+         목적지 주소:{{address}}
+      </div>
+    </div>
+      <br>
       <input type="button" @click="connect" :value="roomId+'번배달 시작'">
   </div>
 </template>
@@ -43,11 +45,10 @@ export default {
       this.$emit('openSubSide',this.subSideVarIds);
        //새로고침 대응
     this.$emit('changeStoreId',this.storeId);
-     //첫사용 타겟 태그 or 컴포넌트가 다 랜더되면 작동 짱이다 
       this.$nextTick(()=>{
         var size=this.destinationAddress.length;
         for(var i=0;i<size;i++){
-            this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i]);
+          this.$refs.k_map.drawMarkerByAddress(this.destinationAddress[i].split('/')[1]);
         }
       });
     })
