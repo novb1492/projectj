@@ -5,11 +5,13 @@
         <k-map :width="500" :height="500" :zoomLevel="5" ref="k_map"  @canplay="showDestiantions"/>
       </div>
       <div class="col" v-for="(address,index) in this.destinationAddress" :key="index">
-         목적지 주소:{{address}}
+         목적지 주소:{{address.deliver_room_detail_address}}
+         <input type="button" value="배달완료" @click="chagneDeliverState('doneDeliver',address.deliver_room_detail_mcht_trd_no,address.user_id)">
+         <input type="button" value="배달취소" @click="chagneDeliverState('cancleDeliver',address.deliver_room_detail_mcht_trd_no,address.user_id)">
       </div>
     </div>
       <br>
-      <input type="button" @click="connect" :value="roomId+'번배달 시작'">
+      <input type="button" @click="connect" id="startButton" :value="roomId+'번배달 시작'">
   </div>
 </template>
 <style>
@@ -31,6 +33,7 @@ export default {
       subSideVarIds:['storeDetailSubSide'],
       storeId:modules.getParam('storeid'),
       destinationAddress:null,
+      connectFlag:false,
     }
   },
   mounted(){
@@ -62,7 +65,7 @@ export default {
         }
      },
     connect() {
-        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
+        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl+'?storeid='+this.storeId+'&roomid='+this.roomId);
         this.socketOpen();
         this.websocket.onerror = function(error) {
         console.log(error);
@@ -71,18 +74,20 @@ export default {
           this.reconnect(result.flag);
         })
         }.bind(this);
+        this.websocket.onclose = function (event) {
+          console.log(event);
+          modules.disabledById('startButton',false);
+        }.bind(this);
     },
     reconnect(flag){
       if(flag){
-        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl);
+        this.websocket = new WebSocket("ws://"+this.$shortServerDomain+this.$deliverSocketUrl+'?storeid='+this.storeId+'&roomid='+this.roomId);
         this.socketOpen();            
       }else{
         alert('소켓연결에 실패했습니다');
       }
     },
     socketOpen(){
-      this.deliveryFlag=true;
-      localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
       this.websocket.onopen = e=> {
         console.log(e);
         var options2 = {
@@ -91,7 +96,8 @@ export default {
           maximumAge: 0
         };
         navigator.geolocation.watchPosition(this.success,this.error,options2);
-        setInterval(this.test,1000);
+       // setInterval(this.test,1000);
+        modules.disabledById('startButton',true);
     };
     },
     test(){
@@ -109,14 +115,25 @@ export default {
       })
       this.websocket.send(data);
     },
-    close(){
-      this.deliveryFlag=false;
-      localStorage.setItem(this.deliveryFlagText,this.deliveryFlag);
+    chagneDeliverState(state,mchtTrdNo,userId){
+      let data=JSON.stringify({
+        "state":state,
+        'roomid':this.roomId,
+        'storeid':this.storeId,
+        "mchtTrdNo":mchtTrdNo,
+        "userid":userId,
+      });
+      this.websocket.send(data);
+     
+
+    },
+    closeSocket(){
       this.websocket.close();
     },
     success(position){
       var lat = position.coords.latitude;// 위도
       var lon = position.coords.longitude; // 경도
+      alert(position);
       let data=JSON.stringify({
         "latitude":lat,
         "longitude":lon,
@@ -126,7 +143,7 @@ export default {
       this.websocket.send(data);
     },
     error(){
-
+      alert('위치정보를 가져올 수 없습니다');
     }
   }
 }
